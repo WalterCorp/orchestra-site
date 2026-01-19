@@ -2,15 +2,15 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-zinc-900 px-10 py-12 text-sm text-zinc-300">
+    <footer className="bg-[#080d1a] px-10 py-12 text-sm text-zinc-300">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-3">
         {/* Présentation */}
         <div className="space-y-3">
           <div className="text-lg font-semibold text-white">ORCHESTRA</div>
           <p>
-            Cabinet de conseil en stratégie et organisation,
-            fondé sur une collaboration structurée entre expertise humaine
-            et intelligence artificielle.
+            Cabinet de conseil en stratégie et organisation, fondé sur une
+            collaboration structurée entre expertise humaine et intelligence
+            artificielle.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/contact" className="hover:text-white">
-                Nous contacter
+                Contact
               </Link>
             </li>
           </ul>

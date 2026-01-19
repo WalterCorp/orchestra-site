@@ -17,8 +17,8 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-zinc-800 bg-zinc-900 px-10 py-4 text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-10">
+    <header className="w-full border-b border-white/10 bg-[#080d1a] text-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-10 px-6 py-4 sm:px-10">
         <Link href="/" className="text-lg font-semibold">
           ORCHESTRA
         </Link>
@@ -34,7 +34,7 @@ export default function Header() {
                 className={
                   isActive
                     ? "font-semibold text-white underline underline-offset-8"
-                    : "text-zinc-300 hover:text-white"
+                    : "text-white/70 hover:text-white"
                 }
               >
                 {item.label}
