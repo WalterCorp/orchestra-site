@@ -8,28 +8,28 @@ export default function HomePage() {
   return (
     <div className="bg-[#0b1020] text-white">
       {/* HERO */}
-<section className="relative flex min-h-[calc(100vh-72px)] items-center overflow-hidden pt-24 pb-20">
+<section className="relative overflow-hidden">
   {/* Effets de fond */}
   <div className="pointer-events-none absolute inset-0">
     <div className="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-sky-500/20 blur-3xl" />
     <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent" />
   </div>
 
-  <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">
-    <div className="text-center">
-      {/* Badge */}
-      <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-        <span aria-hidden="true">🤖</span>
-        <span>Conseil augmenté par l&apos;IA</span>
-      </div>
+  {/* Contenu centré */}
+  <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-16 text-center sm:px-10">
+    {/* Badge */}
+    <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
+      <span aria-hidden="true">🤖</span>
+      <span>Conseil augmenté par l&apos;IA</span>
+    </div>
 
-      {/* H1 verrouillé sur 3 lignes */}
-        <h1 className="mx-auto mt-12 max-w-[900px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
-  <span className="whitespace-nowrap">
+    {/* H1 */}
+    <h1 className="mx-auto mt-12 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
+  <span>
     L&apos;<span className="text-sky-400">intelligence artificielle</span> comme
   </span>
   <br />
-  <span className="whitespace-nowrap">
+  <span>
     système de <span className="text-sky-400">collaborateurs</span>,
   </span>
   <br />
@@ -39,32 +39,34 @@ export default function HomePage() {
 </h1>
 
 
-      {/* Texte sur une ligne desktop */}
-     <p className="mx-auto mt-6 max-w-fit whitespace-nowrap text-sm text-white/80 sm:text-base">
+
+    {/* Texte */}
+    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8 lg:max-w-fit lg:whitespace-nowrap">
   Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec elle
   pour renforcer l&apos;analyse, la structuration et la prise de décision.
 </p>
 
 
-      {/* Boutons plus présents */}
-      <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
-        <a
-          href="/methode-orchestra"
-          className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
-        >
-          Découvrir la méthode ORCHESTRA
-        </a>
 
-        <a
-          href="/contact"
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
-        >
-          Nous contacter <span aria-hidden="true">›</span>
-        </a>
-      </div>
+    {/* Boutons */}
+    <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+      <a
+        href="/methode-orchestra"
+        className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+      >
+        Découvrir la méthode ORCHESTRA
+      </a>
+
+      <a
+        href="/contact"
+        className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+      >
+        Nous contacter <span aria-hidden="true">›</span>
+      </a>
     </div>
   </div>
 </section>
+
 
 
       {/* NOTRE APPROCHE */}
