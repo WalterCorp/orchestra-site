@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
+/* ORCHESTRA : fond global maîtrisé (pas dépendant du thème OS) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b1020;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -12,10 +13,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* On neutralise le changement automatique dark-mode du système */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1020;
+    --foreground: #ffffff;
   }
 }
 
