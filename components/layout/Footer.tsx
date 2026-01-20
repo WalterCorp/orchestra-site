@@ -2,16 +2,20 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#080d1a] px-10 py-12 text-sm text-zinc-300">
+    <footer className="relative bg-[#080d1a] px-10 pt-12 pb-24 text-sm text-zinc-300">
+      {/* Transition douce vers le fond global en bas */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0b1020]" />
+
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-3">
         {/* Présentation */}
         <div className="space-y-3">
           <div className="text-lg font-semibold text-white">ORCHESTRA</div>
-          <p>
-            Cabinet de conseil en stratégie et organisation, fondé sur une
-            collaboration structurée entre expertise humaine et intelligence
-            artificielle.
-          </p>
+          <p className="max-w-xs leading-6">
+  Cabinet de conseil en stratégie
+  et organisation, fondé sur une
+  collaboration structurée entre
+  expertise humaine et intelligence artificielle.
+</p>
         </div>
 
         {/* Navigation */}
@@ -58,7 +62,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-4 border-t border-zinc-700 pt-6 text-xs text-zinc-400 md:flex-row">
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-4 border-t border-white/10 pt-6 text-xs text-zinc-400 md:flex-row">
         <div>2026 ORCHESTRA – Tous droits réservés</div>
         <div>Mentions légales – Politiques de confidentialité</div>
       </div>
