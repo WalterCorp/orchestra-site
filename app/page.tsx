@@ -9,14 +9,8 @@ export default function HomePage() {
     <div className="bg-[#0b1020] text-white">
       {/* HERO */}
 <section className="relative overflow-hidden">
-  {/* Effets de fond */}
-  <div className="pointer-events-none absolute inset-0">
-    <div className="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-sky-500/20 blur-3xl" />
-    <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent" />
-  </div>
-
   {/* Contenu centré */}
-  <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-16 text-center sm:px-10">
+  <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
     {/* Badge */}
     <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
       <span aria-hidden="true">🤖</span>
@@ -24,48 +18,45 @@ export default function HomePage() {
     </div>
 
     {/* H1 */}
-    <h1 className="mx-auto mt-12 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
-  <span>
-    L&apos;<span className="text-sky-400">intelligence artificielle</span> comme
-  </span>
-  <br />
-  <span>
-    système de <span className="text-sky-400">collaborateurs</span>,
-  </span>
-  <br />
-  au service de la{" "}
-  <span className="text-sky-400">clarté</span> et de la{" "}
-  <span className="text-sky-400">performance</span>.
-</h1>
+    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+      <span>
+        L&apos;<span className="text-sky-400">intelligence artificielle</span> comme
+      </span>
+      <br />
+      <span>
+        système de <span className="text-sky-400">collaborateurs</span>,
+      </span>
+      <br />
+      au service de la{" "}
+      <span className="text-sky-400">clarté</span> et de la{" "}
+      <span className="text-sky-400">performance</span>.
+    </h1>
 
-
-
-    {/* Texte */}
+    {/* Texte d’accroche */}
     <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8 lg:max-w-fit lg:whitespace-nowrap">
-  Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec elle
-  pour renforcer l&apos;analyse, la structuration et la prise de décision.
-</p>
-
-
+      Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec elle
+      pour renforcer l&apos;analyse, la structuration et la prise de décision.
+    </p>
 
     {/* Boutons */}
-    <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+    <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
       <a
         href="/methode-orchestra"
-        className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+        className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
       >
         Découvrir la méthode ORCHESTRA
       </a>
 
       <a
         href="/contact"
-        className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+        className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
       >
         Nous contacter <span aria-hidden="true">›</span>
       </a>
     </div>
   </div>
 </section>
+
 
 
 
