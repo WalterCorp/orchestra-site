@@ -140,7 +140,7 @@ export default function CabinetPage() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-[#080d1a] py-24">
+      <section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="mx-auto max-w-5xl text-2xl font-semibold leading-snug tracking-tight sm:text-4xl">
