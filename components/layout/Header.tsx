@@ -10,22 +10,43 @@ const NAV_ITEMS = [
   { label: "Comment nous travaillons", href: "/fonctionnement" },
   { label: "Expertises", href: "/expertises" },
   { label: "FAQ", href: "/faq" },
-  { label: "Nous contacter", href: "/contact" },
+  { label: "Nous contacter", href: "/contact", cta: true },
 ];
 
 export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#080d1a]/85 text-white backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-10 px-6 py-4 sm:px-10">
-        <Link href="/" className="text-lg font-semibold tracking-tight">
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#080d1a] text-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-10 px-6 py-5 sm:px-10">
+        {/* Marque */}
+        <Link
+          href="/"
+          className="flex items-center gap-3 text-2xl font-semibold tracking-wide"
+        >
+          <span
+            className="h-5 w-5 rounded-full border-2 border-sky-400"
+            aria-hidden="true"
+          />
           ORCHESTRA
         </Link>
 
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+        {/* Navigation */}
+        <nav className="flex items-center gap-6 text-base">
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href;
+
+            if (item.cta) {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="inline-flex h-10 items-center justify-center rounded-lg bg-sky-600 px-4 font-semibold text-white transition hover:bg-sky-500"
+                >
+                  {item.label}
+                </Link>
+              );
+            }
 
             return (
               <Link
