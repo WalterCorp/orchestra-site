@@ -10,7 +10,7 @@ export default function HomePage() {
       {/* HERO */}
 <section className="relative overflow-hidden">
   {/* Contenu centré */}
-  <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
+  <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
     {/* Badge */}
     <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
       <span aria-hidden="true">🤖</span>
@@ -33,29 +33,30 @@ export default function HomePage() {
     </h1>
 
     {/* Texte d’accroche */}
-    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8 lg:max-w-fit lg:whitespace-nowrap">
+    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
       Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec elle
       pour renforcer l&apos;analyse, la structuration et la prise de décision.
     </p>
 
     {/* Boutons */}
     <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
-      <a
+      <Link
         href="/methode-orchestra"
         className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
       >
         Découvrir la méthode ORCHESTRA
-      </a>
+      </Link>
 
-      <a
+      <Link
         href="/contact"
         className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
       >
         Nous contacter <span aria-hidden="true">›</span>
-      </a>
+      </Link>
     </div>
   </div>
 </section>
+
 
 
 
@@ -202,35 +203,35 @@ export default function HomePage() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="py-24">
-        <Container>
-          <div className="text-center">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Vous souhaitez <span className="text-sky-400">clarifier</span> vos
-              enjeux, <br />
-              structurer vos décisions ou{" "}
-              <span className="text-sky-400">découvrir</span> notre méthode de
-              travail ?
-            </h2>
+<section className="py-24">
+  <Container>
+    <div className="text-center">
+      <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        Vous souhaitez <span className="text-sky-400">clarifier</span> vos enjeux,
+        <br />
+        structurer vos décisions ou{" "}
+        <span className="text-sky-400">découvrir</span> notre méthode de travail ?
+      </h2>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-sm font-semibold text-white shadow-sm hover:bg-sky-500"
-              >
-                Découvrir la méthode ORCHESTRA
-              </Link>
+      <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <Link
+          href="/methode-orchestra"
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500"
+        >
+          Découvrir la méthode ORCHESTRA
+        </Link>
 
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
-              >
-                Nous contacter <span aria-hidden="true">›</span>
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </section>
+        <Link
+          href="/contact"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10"
+        >
+          Nous contacter <span aria-hidden="true">›</span>
+        </Link>
+      </div>
+    </div>
+  </Container>
+</section>
+
     </div>
   );
 }
