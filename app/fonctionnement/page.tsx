@@ -24,7 +24,7 @@ function Card({
   children,
   align = "left",
 }: {
-  title: string;
+  title: React.ReactNode;
   icon?: React.ReactNode;
   children?: React.ReactNode;
   align?: "left" | "center";
@@ -38,7 +38,9 @@ function Card({
     >
       {icon ? <div className="text-3xl text-sky-400">{icon}</div> : null}
       <h3 className="mt-4 text-lg font-semibold text-white">{title}</h3>
-      {children ? <div className="mt-4 text-sm leading-7 text-white/80">{children}</div> : null}
+      {children ? (
+        <div className="mt-4 text-sm leading-7 text-white/80">{children}</div>
+      ) : null}
     </div>
   );
 }
@@ -48,7 +50,7 @@ export default function FonctionnementPage() {
     <div className="bg-[#0b1020] text-white">
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-16 text-center sm:px-10">
+        <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
           {/* Badge */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
@@ -57,30 +59,33 @@ export default function FonctionnementPage() {
 
           {/* H1 */}
           <h1 className="mx-auto mt-12 max-w-[1100px] text-center text-5xl font-semibold leading-[1.12] tracking-tight sm:text-6xl">
-            Une <span className="text-sky-400">méthode</span> claire, structurée et{" "}
-            <span className="text-sky-400">pilotée</span> par l&apos;
+            Une <span className="text-sky-400">méthode</span> claire, structurée
+            et <span className="text-sky-400">pilotée</span> par l&apos;
             <span className="text-sky-400">humain</span>
           </h1>
 
           {/* Texte */}
           <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-8 text-white/85 sm:text-lg">
-            Chaque mission suit un <span className="text-sky-400">processus lisible</span>, construit autour de la{" "}
-            <span className="text-sky-400">collaboration</span> entre experts humains et <br className="hidden sm:block" />
-            le noyau d&apos;intelligences artificielles <span className="text-sky-400">ORCHESTRA</span>.
-          </p>
+  Chaque mission suit un <span className="text-sky-400">processus lisible</span>, construit autour de la{" "}
+  <span className="text-sky-400">collaboration</span>
+  <br />
+  entre experts humains et le noyau d&apos;intelligences artificielles{" "}
+  <span className="text-sky-400">ORCHESTRA</span>.
+</p>
+
 
           {/* Boutons */}
           <div className="mt-14 flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Link
               href="/methode-orchestra"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
             >
               Découvrir la Méthode ORCHESTRA
             </Link>
 
             <Link
               href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               Nous contacter <span aria-hidden="true">›</span>
             </Link>
@@ -101,13 +106,37 @@ export default function FonctionnementPage() {
 
           <div className="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-3">
             <Card title="La clarté avant la complexité" icon="☑" align="center" />
-            <Card title={"L'humain avant\nl'automatisation"} icon="👥" align="center" />
-            <Card title={"La méthode avant la\ntechnologie"} icon="☑" align="center" />
+            <Card
+              title={
+                <>
+                  L&apos;humain avant
+                  <br />
+                  l&apos;automatisation
+                </>
+              }
+              icon="👥"
+              align="center"
+            />
+            <Card
+              title={
+                <>
+                  La méthode avant la
+                  <br />
+                  technologie
+                </>
+              }
+              icon="☑"
+              align="center"
+            />
           </div>
 
           <p className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-            L&apos;intelligence artificielle n&apos;est jamais utilisée pour accélérer sans réfléchir, mais pour{" "}
-            structurer, éclairer et <span className="text-sky-400">renforcer la prise de décision</span>.
+            L&apos;intelligence artificielle n&apos;est jamais utilisée pour
+            accélérer sans réfléchir, mais pour structurer, éclairer et{" "}
+            <span className="text-sky-400">
+              renforcer la prise de décision
+            </span>
+            .
           </p>
         </div>
       </Section>
@@ -116,7 +145,8 @@ export default function FonctionnementPage() {
       <Section>
         <div className="text-center">
           <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-            Déroulement d&apos;un <span className="text-sky-400">accompagnement</span>
+            Déroulement d&apos;un{" "}
+            <span className="text-sky-400">accompagnement</span>
           </h2>
 
           <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
@@ -129,7 +159,9 @@ export default function FonctionnementPage() {
           <div className="mt-16 grid gap-6 lg:grid-cols-4">
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">↪</div>
-              <h3 className="mt-4 text-lg font-semibold">Compréhension &amp; cadrage</h3>
+              <h3 className="mt-4 text-lg font-semibold">
+                Compréhension &amp; cadrage
+              </h3>
               <div className="mt-4 text-sm leading-7 text-white/85">
                 <ul className="space-y-2">
                   <li>- Echange initial avec le client</li>
@@ -137,7 +169,9 @@ export default function FonctionnementPage() {
                   <li>- Clarification des attentes et des contraintes</li>
                 </ul>
 
-                <div className="mt-6 font-semibold text-white">ORCHESTRA intervient pour :</div>
+                <div className="mt-6 font-semibold text-white">
+                  ORCHESTRA intervient pour :
+                </div>
                 <ul className="mt-3 space-y-2">
                   <li>- Structurer les informations</li>
                   <li>- Identifier les zones d&apos;incertitude</li>
@@ -148,7 +182,9 @@ export default function FonctionnementPage() {
 
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">🧠</div>
-              <h3 className="mt-4 text-lg font-semibold">Analyse augmentée &amp; structuration</h3>
+              <h3 className="mt-4 text-lg font-semibold">
+                Analyse augmentée &amp; structuration
+              </h3>
               <div className="mt-4 text-sm leading-7 text-white/85">
                 <ul className="space-y-2">
                   <li>- Analyse approfondie des problématiques</li>
@@ -156,7 +192,9 @@ export default function FonctionnementPage() {
                   <li>- Identification des leviers d&apos;action</li>
                 </ul>
 
-                <div className="mt-6 font-semibold text-white">ORCHESTRA soutient :</div>
+                <div className="mt-6 font-semibold text-white">
+                  ORCHESTRA soutient :
+                </div>
                 <ul className="mt-3 space-y-2">
                   <li>- L&apos;analyse stratégique</li>
                   <li>- La veille sectorielle</li>
@@ -167,7 +205,9 @@ export default function FonctionnementPage() {
 
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">☑</div>
-              <h3 className="mt-4 text-lg font-semibold">Scénarios &amp; arbitrages</h3>
+              <h3 className="mt-4 text-lg font-semibold">
+                Scénarios &amp; arbitrages
+              </h3>
               <div className="mt-4 text-sm leading-7 text-white/85">
                 <ul className="space-y-2">
                   <li>- Construction de scénarios possibles</li>
@@ -175,7 +215,9 @@ export default function FonctionnementPage() {
                   <li>- Evaluation des risques et opportunités</li>
                 </ul>
 
-                <div className="mt-6 font-semibold text-white">Les experts humains sont là pour :</div>
+                <div className="mt-6 font-semibold text-white">
+                  Les experts humains sont là pour :
+                </div>
                 <ul className="mt-3 space-y-2">
                   <li>- Arbitrer les propositions</li>
                   <li>- Sélectionner les options pertinentes</li>
@@ -186,7 +228,9 @@ export default function FonctionnementPage() {
 
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">🚀</div>
-              <h3 className="mt-4 text-lg font-semibold">Mise en œuvre &amp; accompagnement</h3>
+              <h3 className="mt-4 text-lg font-semibold">
+                Mise en œuvre &amp; accompagnement
+              </h3>
               <div className="mt-4 text-sm leading-7 text-white/85">
                 <ul className="space-y-2">
                   <li>- Traduction des décisions en actions concrètes</li>
@@ -195,7 +239,8 @@ export default function FonctionnementPage() {
                 </ul>
 
                 <div className="mt-8 text-center font-semibold text-white">
-                  ORCHESTRA reste un support permanent, sans jamais se substituer à l&apos;humain.
+                  ORCHESTRA reste un support permanent, sans jamais se substituer
+                  à l&apos;humain.
                 </div>
               </div>
             </div>
@@ -212,19 +257,34 @@ export default function FonctionnementPage() {
           </h2>
 
           <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-            ORCHESTRA agit comme un <span className="text-sky-400">copilote</span> structurant. Il aide à voir plus clair, plus loin et plus vite
+            ORCHESTRA agit comme un <span className="text-sky-400">copilote</span>{" "}
+            structurant. Il aide à voir plus clair, plus loin et plus vite
             <br className="hidden sm:block" />
-            <span className="text-sky-400">sans jamais décider à la place de l&apos;humain</span>.
+            <span className="text-sky-400">
+              sans jamais décider à la place de l&apos;humain
+            </span>
+            .
           </p>
 
           <p className="mx-auto mt-16 max-w-2xl text-base font-semibold leading-8 text-white/90 sm:text-lg">
-            Chaque production issue d&apos;<span className="text-sky-400">ORCHESTRA</span> est :
+            Chaque production issue d&apos;<span className="text-sky-400">ORCHESTRA</span>{" "}
+            est :
           </p>
 
           <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-3">
             <Card title="Analysée" icon="🧠" align="center" />
             <Card title="Contextualisée" icon="🧩" align="center" />
-            <Card title={"Validée par un\nexpert humain"} icon="✅" align="center" />
+            <Card
+              title={
+                <>
+                  Validée par un
+                  <br />
+                  expert humain
+                </>
+              }
+              icon="✅"
+              align="center"
+            />
           </div>
         </div>
       </Section>
@@ -241,35 +301,36 @@ export default function FonctionnementPage() {
           </p>
 
           <div className="mx-auto mt-14 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <Card title={"D'un cadre clair et rassurant"} icon="📄" align="center" />
-            <Card title={"D'analyses structurées et lisibles"} icon="🧱" align="center" />
-            <Card title={"D'une prise de décision plus sereine"} icon="☑" align="center" />
-            <Card title={"D'un accompagnement humain renforcé par l'IA"} icon="👥" align="center" />
+            <Card title="D&apos;un cadre clair et rassurant" icon="📄" align="center" />
+            <Card title="D&apos;analyses structurées et lisibles" icon="🧱" align="center" />
+            <Card title="D&apos;une prise de décision plus sereine" icon="☑" align="center" />
+            <Card title="D&apos;un accompagnement humain renforcé par l&apos;IA" icon="👥" align="center" />
           </div>
         </div>
       </Section>
 
       {/* CTA */}
-      <section className="py-24">
+      <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
             <h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight sm:text-4xl">
-              Vous souhaitez <span className="text-sky-400">découvrir</span> comment cette méthode peut
-              <br />
-              <span className="text-sky-400">s&apos;appliquer</span> à votre contexte ?
-            </h2>
+  Vous souhaitez <span className="text-sky-400">découvrir</span> comment
+  <br />
+  cette méthode peut <span className="text-sky-400">s&apos;appliquer</span> à votre contexte ?
+</h2>
+
 
             <div className="mt-14 flex flex-col items-center justify-center gap-5 sm:flex-row">
               <Link
                 href="/methode-orchestra"
-                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
               >
                 Découvrir la Méthode ORCHESTRA
               </Link>
 
               <Link
                 href="/contact"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
                 Nous contacter <span aria-hidden="true">›</span>
               </Link>
