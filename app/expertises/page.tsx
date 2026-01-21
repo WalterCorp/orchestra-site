@@ -24,6 +24,7 @@ function SectionTitle({
           title
         )}
       </h2>
+
       {subtitle ? (
         <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
           {subtitle}
@@ -74,8 +75,12 @@ function BigCard({
       <p className="mt-4 text-sm leading-7 text-white/80">{intro}</p>
 
       <p className="mt-6 text-sm font-semibold text-white">
-        <span className="text-sky-400">ORCHESTRA</span> {label} :
-      </p>
+  <span className="text-sky-400">ORCHESTRA</span>{" "}
+  <span className="whitespace-nowrap">
+    {label}&nbsp;:
+  </span>
+</p>
+
 
       <ul className="mt-3 space-y-2 text-sm leading-7 text-white/80">
         {bullets.map((b) => (
@@ -83,9 +88,7 @@ function BigCard({
         ))}
       </ul>
 
-      {outro ? (
-        <p className="mt-5 text-sm leading-7 text-white/80">{outro}</p>
-      ) : null}
+      {outro ? <p className="mt-5 text-sm leading-7 text-white/80">{outro}</p> : null}
     </div>
   );
 }
@@ -93,12 +96,12 @@ function BigCard({
 export default function ExpertisesPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO (plein écran seulement en LG) */}
+      {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:min-h-[calc(100vh-72px)] lg:py-24">
-          {/* Badge */}
+          {/* Badge (icône identique aux autres pages) */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-            <span aria-hidden="true">🧠</span>
+            <span aria-hidden="true">🤖</span>
             <span>Conseil augmenté par l&apos;IA</span>
           </div>
 
@@ -108,8 +111,8 @@ export default function ExpertisesPage() {
             par <span className="text-sky-400">ORCHESTRA</span>
           </h1>
 
-          {/* Texte */}
-          <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+          {/* Texte (un peu plus resserré) */}
+          <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
             Chaque domaine d&apos;intervention s&apos;appuie sur une{" "}
             <span className="text-sky-400">expertise humaine augmentée</span> par une
             architecture d&apos;intelligences artificielles{" "}
@@ -137,8 +140,8 @@ export default function ExpertisesPage() {
         </div>
       </section>
 
-      {/* SECTION 2 : Approche (fond sombre + bandeau) */}
-      <section className="border-y border-white/10 bg-[#080d1a] py-24">
+      {/* SECTION 2 : Approche (fond sombre, sans border-y pour éviter la fine ligne) */}
+      <section className="bg-[#080d1a] py-24">
         <Container>
           <SectionTitle
             title="Notre approche des"
@@ -231,8 +234,8 @@ export default function ExpertisesPage() {
         </Container>
       </section>
 
-      {/* SECTION 4 : ORCHESTRA soutient (fond sombre + bandeau) */}
-      <section className="border-y border-white/10 bg-[#080d1a] py-24">
+      {/* SECTION 4 : ORCHESTRA soutient (fond sombre, sans border-y pour éviter la fine ligne) */}
+      <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -298,8 +301,8 @@ export default function ExpertisesPage() {
         </Container>
       </section>
 
-      {/* CTA FINAL */}
-      <section className="py-24">
+      {/* CTA FINAL (fond sombre + boutons harmonisés) */}
+      <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
             <h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -307,17 +310,17 @@ export default function ExpertisesPage() {
               <span className="text-sky-400">s&apos;appliquer</span> à votre organisation ?
             </h2>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
               <Link
                 href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-sm font-semibold text-white shadow-sm hover:bg-sky-500"
+                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
               >
                 Découvrir la Méthode ORCHESTRA
               </Link>
 
               <Link
                 href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
               >
                 Nous contacter <span aria-hidden="true">›</span>
               </Link>
