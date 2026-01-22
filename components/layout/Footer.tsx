@@ -12,7 +12,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#080d1a] px-6 pt-12 pb-24 text-sm text-zinc-300 sm:px-10">
+    <footer className="relative bg-[#080d1a] border-t border-white/10 px-6 pt-12 pb-24 text-sm text-zinc-300 sm:px-10">
       {/* Transition douce vers le fond global */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0b1020]" />
 
