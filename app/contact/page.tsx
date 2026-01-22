@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+/**
+ * Container
+ * - Contrainte de largeur + padding (référence UI sur tout le site)
+ */
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
@@ -7,7 +11,9 @@ function Container({ children }: { children: React.ReactNode }) {
 export default function ContactPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO (court, form-first, aligné Accueil) */}
+      {/* =========================================================
+          HERO — court / form-first (aligné Accueil)
+      ========================================================== */}
       <section className="relative overflow-hidden">
         <div className="relative mx-auto w-full max-w-6xl px-6 pb-10 pt-14 text-center sm:px-10 lg:pb-12 lg:pt-16">
           {/* Badge */}
@@ -21,15 +27,16 @@ export default function ContactPage() {
             Nous <span className="text-sky-400">contacter</span>
           </h1>
 
-          {/* Intro (court, utile) */}
+          {/* Intro */}
           <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
-            Un <span className="text-sky-400">échange humain</span>, sans engagement. ORCHESTRA soutient
-            l&apos;analyse, mais un <span className="text-sky-400">expert</span> vous répond.
+            Un <span className="text-sky-400">échange humain</span>, sans
+            engagement. ORCHESTRA soutient l&apos;analyse, mais un{" "}
+            <span className="text-sky-400">expert</span> vous répond.
             <br className="hidden sm:block" />
             Réponse sous <span className="text-sky-400">24–48h</span> ouvrées.
           </p>
 
-          {/* CTA ancre (optionnel mais utile) */}
+          {/* CTA (ancre + découverte) */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="#formulaire"
@@ -42,13 +49,15 @@ export default function ContactPage() {
               href="/methode-orchestra"
               className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
             >
-              Découvrir la méthode <span aria-hidden="true">›</span>
+              Découvrir la méthode ORCHESTRA <span aria-hidden="true">›</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* FORMULAIRE (immédiat, bloc principal) */}
+      {/* =========================================================
+          FORMULAIRE — bloc principal (fond alterné + card)
+      ========================================================== */}
       <section id="formulaire" className="bg-[#080d1a] py-24">
         <Container>
           <div className="mx-auto max-w-5xl text-center">
@@ -59,13 +68,14 @@ export default function ContactPage() {
 
             <p className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               Nous ne proposons jamais de solution standardisée sans{" "}
-              <span className="text-sky-400">compréhension préalable</span>. ORCHESTRA intervient ensuite{" "}
-              <span className="text-sky-400">en soutien</span> de l’analyse menée par nos{" "}
-              <span className="text-sky-400">experts humains</span>.
+              <span className="text-sky-400">compréhension préalable</span>.
+              ORCHESTRA intervient ensuite{" "}
+              <span className="text-sky-400">en soutien</span> de l’analyse menée
+              par nos <span className="text-sky-400">experts humains</span>.
             </p>
           </div>
 
-          {/* Form card (pattern cartes Accueil) */}
+          {/* Form card — pattern “cartes” ORCHESTRA */}
           <div className="mx-auto mt-14 max-w-5xl rounded-2xl bg-[#0f1a2b] p-8 ring-1 ring-white/10 sm:p-10">
             <form className="space-y-6">
               <div>
@@ -94,7 +104,8 @@ export default function ContactPage() {
 
               <div>
                 <label className="mb-2 block text-sm font-semibold text-white/90">
-                  Organisation <span className="text-white/50">(optionnel)</span>
+                  Organisation{" "}
+                  <span className="text-white/50">(optionnel)</span>
                 </label>
                 <input
                   type="text"
@@ -126,14 +137,17 @@ export default function ContactPage() {
               </div>
 
               <p className="text-center text-xs text-white/50">
-                En envoyant ce message, vous acceptez d’être recontacté par ORCHESTRA.
+                En envoyant ce message, vous acceptez d’être recontacté par
+                ORCHESTRA.
               </p>
             </form>
           </div>
         </Container>
       </section>
 
-      {/* RÉASSURANCE (courte, après le formulaire) */}
+      {/* =========================================================
+          RÉASSURANCE — après formulaire (fond global)
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="mx-auto max-w-5xl text-center">
@@ -162,7 +176,10 @@ export default function ContactPage() {
 
             <div className="mt-12 text-sm text-white/60">
               Vous préférez découvrir notre approche ?{" "}
-              <Link href="/methode-orchestra" className="text-sky-400 hover:text-sky-300">
+              <Link
+                href="/methode-orchestra"
+                className="text-sky-400 transition-colors hover:text-sky-300"
+              >
                 Découvrir la Méthode ORCHESTRA
               </Link>
             </div>

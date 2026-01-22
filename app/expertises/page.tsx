@@ -1,9 +1,17 @@
 import Link from "next/link";
 
+/**
+ * Container
+ * - Contrainte de largeur + padding (référence UI sur tout le site)
+ */
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
 
+/**
+ * SectionTitle
+ * - Titre de section réutilisable (avec mot mis en avant)
+ */
 function SectionTitle({
   title,
   highlight,
@@ -34,6 +42,11 @@ function SectionTitle({
   );
 }
 
+/**
+ * Card
+ * - Petite carte (icône + titre + contenu)
+ * - Ici le contenu est optionnel (certaines cartes affichent juste un titre)
+ */
 function Card({
   title,
   icon,
@@ -41,17 +54,25 @@ function Card({
 }: {
   title: React.ReactNode;
   icon?: React.ReactNode;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <div className="rounded-2xl bg-[#0f1a2b] p-7 ring-1 ring-white/10">
-      <div className="mx-auto w-fit text-3xl text-sky-400">{icon}</div>
-      <div className="mt-5 text-center text-base font-semibold leading-6">{title}</div>
-      <div className="mt-4 text-sm leading-7 text-white/80">{children}</div>
+      {icon ? <div className="mx-auto w-fit text-3xl text-sky-400">{icon}</div> : null}
+      <div className="mt-5 text-center text-base font-semibold leading-6">
+        {title}
+      </div>
+      {children ? (
+        <div className="mt-4 text-sm leading-7 text-white/80">{children}</div>
+      ) : null}
     </div>
   );
 }
 
+/**
+ * BigCard
+ * - Carte “expertise” (intro + label ORCHESTRA + bullets)
+ */
 function BigCard({
   title,
   icon,
@@ -75,12 +96,9 @@ function BigCard({
       <p className="mt-4 text-sm leading-7 text-white/80">{intro}</p>
 
       <p className="mt-6 text-sm font-semibold text-white">
-  <span className="text-sky-400">ORCHESTRA</span>{" "}
-  <span className="whitespace-nowrap">
-    {label}&nbsp;:
-  </span>
-</p>
-
+        <span className="text-sky-400">ORCHESTRA</span>{" "}
+        <span className="whitespace-nowrap">{label}&nbsp;:</span>
+      </p>
 
       <ul className="mt-3 space-y-2 text-sm leading-7 text-white/80">
         {bullets.map((b) => (
@@ -88,7 +106,9 @@ function BigCard({
         ))}
       </ul>
 
-      {outro ? <p className="mt-5 text-sm leading-7 text-white/80">{outro}</p> : null}
+      {outro ? (
+        <p className="mt-5 text-sm leading-7 text-white/80">{outro}</p>
+      ) : null}
     </div>
   );
 }
@@ -96,43 +116,45 @@ function BigCard({
 export default function ExpertisesPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO */}
+      {/* =========================================================
+          HERO — Expertises (cohérent avec Accueil)
+      ========================================================== */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:min-h-[calc(100vh-72px)] lg:py-24">
-          {/* Badge (icône identique aux autres pages) */}
+        <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:min-h-[calc(100vh-88px)] lg:py-20">
+          {/* Badge */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
             <span>Conseil augmenté par l&apos;IA</span>
           </div>
 
           {/* H1 */}
-          <h1 className="mx-auto mt-12 max-w-[980px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
-            Des <span className="text-sky-400">expertises humaines</span>, renforcées
-            par <span className="text-sky-400">ORCHESTRA</span>
+          <h1 className="mx-auto mt-10 max-w-[980px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+            Des <span className="text-sky-400">expertises humaines</span>,
+            renforcées par <span className="text-sky-400">ORCHESTRA</span>
           </h1>
 
-          {/* Texte (un peu plus resserré) */}
+          {/* Intro */}
           <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
             Chaque domaine d&apos;intervention s&apos;appuie sur une{" "}
-            <span className="text-sky-400">expertise humaine augmentée</span> par une
-            architecture d&apos;intelligences artificielles{" "}
+            <span className="text-sky-400">expertise humaine augmentée</span> par
+            une architecture d&apos;intelligences artificielles{" "}
             <span className="text-sky-400">spécialisées</span>, au service de la{" "}
             <span className="text-sky-400">clarté</span> et de la{" "}
             <span className="text-sky-400">performance</span>.
           </p>
 
-          {/* Boutons */}
+          {/* CTA Hero */}
           <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Link
               href="/methode-orchestra"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
             >
               Découvrir la méthode ORCHESTRA
             </Link>
 
             <Link
               href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               Nous contacter <span aria-hidden="true">›</span>
             </Link>
@@ -140,7 +162,9 @@ export default function ExpertisesPage() {
         </div>
       </section>
 
-      {/* SECTION 2 : Approche (fond sombre, sans border-y pour éviter la fine ligne) */}
+      {/* =========================================================
+          SECTION 2 — Approche (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <SectionTitle
@@ -148,24 +172,29 @@ export default function ExpertisesPage() {
             highlight="expertises"
             subtitle={
               <>
-                Nous n&apos;appliquons pas une solution unique à tous les contextes.
+                Nous n&apos;appliquons pas une solution unique à tous les
+                contextes.
                 <br />
                 Chaque mission mobilise des{" "}
-                <span className="text-sky-400">expertises spécifiques</span> soutenues
-                par <span className="text-sky-400">ORCHESTRA</span> pour analyser,
-                structurer et projeter.
+                <span className="text-sky-400">expertises spécifiques</span>{" "}
+                soutenues par <span className="text-sky-400">ORCHESTRA</span>{" "}
+                pour analyser, structurer et projeter.
                 <br />
                 <br />
                 L&apos;intelligence artificielle permet{" "}
-                <span className="text-sky-400">d&apos;élargir la capacité d&apos;analyse</span>,
-                mais les choix restent humains, contextualisés et responsables.
+                <span className="text-sky-400">
+                  d&apos;élargir la capacité d&apos;analyse
+                </span>
+                , mais les choix restent humains, contextualisés et responsables.
               </>
             }
           />
         </Container>
       </section>
 
-      {/* SECTION 3 : Domaines d'expertise */}
+      {/* =========================================================
+          SECTION 3 — Domaines d’expertise (fond global)
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <SectionTitle title="Nos domaines d’" highlight="expertise" />
@@ -221,20 +250,25 @@ export default function ExpertisesPage() {
             />
           </div>
 
-          {/* Bandeau "Accompagnement au changement" */}
+          {/* Bandeau — Changement */}
           <div className="mt-8 rounded-2xl bg-[#0f1a2b] p-8 text-center ring-1 ring-white/10">
-            <div className="text-base font-semibold">Accompagnement au changement</div>
+            <div className="text-base font-semibold">
+              Accompagnement au changement
+            </div>
             <p className="mx-auto mt-4 max-w-4xl text-sm leading-7 text-white/80">
-              Nous accompagnons les équipes dans l&apos;appropriation des décisions et des
-              évolutions organisationnelles.{" "}
-              <span className="text-sky-400">ORCHESTRA</span> soutient la pédagogie,
-              mais l&apos;accompagnement reste humain, progressif et contextualisé.
+              Nous accompagnons les équipes dans l&apos;appropriation des
+              décisions et des évolutions organisationnelles.{" "}
+              <span className="text-sky-400">ORCHESTRA</span> soutient la
+              pédagogie, mais l&apos;accompagnement reste humain, progressif et
+              contextualisé.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* SECTION 4 : ORCHESTRA soutient (fond sombre, sans border-y pour éviter la fine ligne) */}
+      {/* =========================================================
+          SECTION 4 — ORCHESTRA soutient (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
@@ -244,39 +278,38 @@ export default function ExpertisesPage() {
             </h2>
 
             <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <span className="text-sky-400">ORCHESTRA</span> n&apos;est pas une expertise en soi.
-              Il agit comme un socle transversal qui soutient l&apos;ensemble de nos domaines
-              d&apos;intervention.
+              <span className="text-sky-400">ORCHESTRA</span> n&apos;est pas une
+              expertise en soi. Il agit comme un socle transversal qui soutient
+              l&apos;ensemble de nos domaines d&apos;intervention.
             </p>
 
-            <div className="mt-10 text-base font-semibold text-white/90">Il permet :</div>
+            <div className="mt-10 text-base font-semibold text-white/90">
+              Il permet :
+            </div>
 
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              <Card icon="⌁" title="D’enrichir l’analyse">
-                &nbsp;
-              </Card>
-              <Card icon="⎇" title="De structurer les réflexions">
-                &nbsp;
-              </Card>
-              <Card icon="≡" title="De gagner en clarté">
-                &nbsp;
-              </Card>
+              <Card icon="⌁" title="D’enrichir l’analyse" />
+              <Card icon="⎇" title="De structurer les réflexions" />
+              <Card icon="≡" title="De gagner en clarté" />
             </div>
 
             <p className="mx-auto mt-10 max-w-4xl text-sm text-white/75">
-              <span className="text-sky-400">sans jamais</span> se substituer à l&apos;expertise
-              humaine.
+              <span className="text-sky-400">sans jamais</span> se substituer à
+              l&apos;expertise humaine.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* SECTION 5 : Pour qui */}
+      {/* =========================================================
+          SECTION 5 — Pour qui (fond global)
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Pour qui sont ces <span className="text-sky-400">expertises</span> ?
+              Pour qui sont ces{" "}
+              <span className="text-sky-400">expertises</span> ?
             </h2>
 
             <div className="mt-10 text-base font-semibold text-white/90">
@@ -284,45 +317,51 @@ export default function ExpertisesPage() {
             </div>
 
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card icon="👤" title="Aux dirigeants et décideurs">
-                &nbsp;
-              </Card>
-              <Card icon="🏛️" title="Aux PME et organisations en croissance">
-                &nbsp;
-              </Card>
-              <Card icon="≡" title="Aux équipes confrontées à des enjeux de structuration">
-                &nbsp;
-              </Card>
-              <Card icon="⇄" title="Aux projets nécessitant clarté et méthode">
-                &nbsp;
-              </Card>
+              <Card icon="👤" title="Aux dirigeants et décideurs" />
+              <Card icon="🏛️" title="Aux PME et organisations en croissance" />
+              <Card
+                icon="≡"
+                title="Aux équipes confrontées à des enjeux de structuration"
+              />
+              <Card icon="⇄" title="Aux projets nécessitant clarté et méthode" />
             </div>
           </div>
         </Container>
       </section>
 
-      {/* CTA FINAL (fond sombre + boutons harmonisés) */}
+      {/* =========================================================
+          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
+          (Texte spécifique à la page Expertises)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
-          <div className="text-center">
-            <h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight sm:text-4xl">
-              Vous souhaitez <span className="text-sky-400">savoir</span> comment ces expertises peuvent{" "}
-              <span className="text-sky-400">s&apos;appliquer</span> à votre organisation ?
+          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Vous souhaitez <span className="text-sky-400">savoir</span> comment
+              ces expertises peuvent{" "}
+              <span className="text-sky-400">s&apos;appliquer</span> à votre
+              organisation ?
             </h2>
 
-            <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+              Un échange humain, sans engagement, pour clarifier votre contexte
+              et identifier les expertises les plus pertinentes.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/methode-orchestra"
-                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+                href="/contact"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
               >
-                Découvrir la Méthode ORCHESTRA
+                Nous contacter
               </Link>
 
               <Link
-                href="/contact"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+                href="/methode-orchestra"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
-                Nous contacter <span aria-hidden="true">›</span>
+                Découvrir la méthode ORCHESTRA{" "}
+                <span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>

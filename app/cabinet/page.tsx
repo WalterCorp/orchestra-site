@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+/**
+ * Container
+ * - Contrainte de largeur + padding (référence UI sur tout le site)
+ */
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
@@ -7,20 +11,25 @@ function Container({ children }: { children: React.ReactNode }) {
 export default function CabinetPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO */}
+      {/* =========================================================
+          HERO — Présentation du cabinet (cohérent avec Accueil)
+      ========================================================== */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
+        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
+          {/* Badge */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
             <span>Conseil augmenté par l&apos;IA</span>
           </div>
 
-          <h1 className="mx-auto mt-12 max-w-[980px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
+          {/* H1 */}
+          <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
             Une <span className="text-sky-400">expertise humaine</span> renforcée
             par l&apos;
             <span className="text-sky-400">intelligence artificielle</span>
           </h1>
 
+          {/* Texte d’intro */}
           <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
             Des experts au coeur des décisions, soutenus par une{" "}
             <span className="text-sky-400">architecture</span>{" "}
@@ -30,17 +39,18 @@ export default function CabinetPage() {
             pour clarifier, structurer et éclairer les choix stratégiques.
           </p>
 
-          <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+          {/* CTA Hero */}
+          <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
             <Link
               href="/methode-orchestra"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
             >
               Découvrir la méthode ORCHESTRA
             </Link>
 
             <Link
               href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               Nous contacter <span aria-hidden="true">›</span>
             </Link>
@@ -48,7 +58,9 @@ export default function CabinetPage() {
         </div>
       </section>
 
-      {/* LA VISION DU CABINET */}
+      {/* =========================================================
+          LA VISION DU CABINET — Bloc structurant (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
@@ -63,7 +75,7 @@ export default function CabinetPage() {
                 Notre cabinet est né d&apos;un{" "}
                 <span className="text-sky-400">constat</span> simple : les
                 organisations évoluent dans des environnements de plus en plus
-                complexes.  
+                complexes.
                 <br />
                 Nous avons fait le choix de ne pas opposer l&apos;humain et
                 l&apos;intelligence artificielle, mais de les faire{" "}
@@ -82,7 +94,9 @@ export default function CabinetPage() {
         </Container>
       </section>
 
-      {/* LA PLACE DE L'HUMAIN */}
+      {/* =========================================================
+          LA PLACE DE L’HUMAIN — Fond global
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="text-center">
@@ -94,7 +108,7 @@ export default function CabinetPage() {
 
             <div className="mx-auto mt-10 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
               <p>
-                L&apos;humain reste au centre de chaque accompagnement.  
+                L&apos;humain reste au centre de chaque accompagnement.
                 <br />
                 Nos experts définissent les{" "}
                 <span className="text-sky-400">orientations</span>, posent les{" "}
@@ -111,7 +125,9 @@ export default function CabinetPage() {
         </Container>
       </section>
 
-      {/* L'USAGE ENCADRÉ DE L'IA */}
+      {/* =========================================================
+          USAGE ENCADRÉ DE L’IA — Bloc structurant (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
@@ -131,38 +147,46 @@ export default function CabinetPage() {
                 pilotée et validée par l&apos;humain.
                 <br />
                 Chaque production fait l&apos;objet d&apos;une{" "}
-                <span className="text-sky-400">validation humaine</span>, garantissant
-                fiabilité, cohérence et responsabilité.
+                <span className="text-sky-400">validation humaine</span>,
+                garantissant fiabilité, cohérence et responsabilité.
               </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* CTA FINAL */}
+      {/* =========================================================
+          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
+          (Texte spécifique à la page Cabinet)
+      ========================================================== */}
       <section className="py-24">
         <Container>
-          <div className="text-center">
-            <h2 className="mx-auto max-w-5xl text-2xl font-semibold leading-snug tracking-tight sm:text-4xl">
-              Vous souhaitez <span className="text-sky-400">comprendre</span>{" "}
-              notre méthode, découvrir comment nous travaillons ou{" "}
-              <span className="text-sky-400">échanger</span> sur vos enjeux
-              organisationnels ?
+          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Vous souhaitez{" "}
+              <span className="text-sky-400">comprendre</span> notre approche
+              <br className="hidden sm:block" />
+              et <span className="text-sky-400">échanger</span> sur vos enjeux ?
             </h2>
 
-            <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+              Un échange humain, sans engagement, pour clarifier votre contexte
+              et vérifier l’adéquation avec notre méthode.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/methode-orchestra"
-                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+                href="/contact"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
               >
-                Découvrir la Méthode ORCHESTRA
+                Nous contacter
               </Link>
 
               <Link
-                href="/contact"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+                href="/methode-orchestra"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
-                Nous contacter <span aria-hidden="true">›</span>
+                Découvrir la méthode ORCHESTRA<span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>

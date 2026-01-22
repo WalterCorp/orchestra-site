@@ -1,11 +1,18 @@
 import Link from "next/link";
 
+/**
+ * Container
+ * - Contrainte de largeur + padding (référence UI sur tout le site)
+ */
 function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>
-  );
+  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
 
+/**
+ * Card
+ * - Carte simple (icône + titre)
+ * - Utilisée pour les grilles de bénéfices / rôles / étapes
+ */
 function Card({
   icon,
   title,
@@ -33,47 +40,52 @@ function Card({
 export default function MethodeOrchestraPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO */}
+      {/* =========================================================
+          HERO — Présentation de la méthode ORCHESTRA
+      ========================================================== */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
+        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
           {/* Badge */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
             <span>Conseil augmenté par l&apos;IA</span>
           </div>
 
+          {/* Label ORCHESTRA */}
           <div className="mt-7 text-4xl font-semibold tracking-tight text-sky-400 sm:text-5xl">
             ORCHESTRA
           </div>
 
+          {/* H1 */}
           <h1 className="mx-auto mt-6 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
             Une équipe de{" "}
             <span className="text-sky-400">collaborateurs intelligents</span> au
             service de la <span className="text-sky-400">décision</span>
           </h1>
 
-          {/* ✅ FIX 1: paragraphe sur 2 lignes en desktop */}
+          {/* Intro (ligne forcée en desktop large) */}
           <p className="mx-auto mt-8 max-w-4xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
             <span className="text-sky-400">ORCHESTRA</span> n&apos;est pas une
             intelligence artificielle unique,
             <br className="hidden lg:block" />
             mais une architecture coordonnée{" "}
-            <span className="text-sky-400">d&apos;intelligences spécialisées</span>
-            , pilotée et validée par des{" "}
+            <span className="text-sky-400">d&apos;intelligences spécialisées</span>,
+            pilotée et validée par des{" "}
             <span className="text-sky-400">experts humains</span>.
           </p>
 
+          {/* CTA Hero */}
           <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Link
               href="/fonctionnement"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
             >
               Comment nous travaillons
             </Link>
 
             <Link
               href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               Nous contacter <span aria-hidden="true">›</span>
             </Link>
@@ -81,7 +93,9 @@ export default function MethodeOrchestraPage() {
         </div>
       </section>
 
-      {/* UNE NOUVELLE FAÇON DE TRAVAILLER */}
+      {/* =========================================================
+          UNE NOUVELLE FAÇON DE TRAVAILLER — Bloc structurant (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
@@ -90,10 +104,7 @@ export default function MethodeOrchestraPage() {
               travailler avec l&apos;<span className="text-sky-400">IA</span>
             </h2>
 
-            <div
-              className="mx-auto mt-6 w-fit text-3xl text-sky-400"
-              aria-hidden="true"
-            >
+            <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
               🧩
             </div>
 
@@ -106,8 +117,7 @@ export default function MethodeOrchestraPage() {
                 <span className="text-sky-400">
                   une équipe de consultants numériques spécialisés
                 </span>
-                ,
-                <br />
+                ,<br />
                 organisés, coordonnés et encadrés par l&apos;humain.
                 <br />
                 Contrairement aux usages classiques de l&apos;IA,{" "}
@@ -128,7 +138,9 @@ export default function MethodeOrchestraPage() {
         </Container>
       </section>
 
-      {/* POURQUOI ORCHESTRA */}
+      {/* =========================================================
+          POURQUOI ORCHESTRA — Fond global
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="text-center">
@@ -175,20 +187,22 @@ export default function MethodeOrchestraPage() {
         </Container>
       </section>
 
-      {/* COMPOSITION DU NOYAU ORCHESTRA */}
+      {/* =========================================================
+          COMPOSITION DU NOYAU ORCHESTRA — Bloc structurant (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Composition du noyau <span className="text-sky-400">ORCHESTRA</span>
+              Composition du noyau{" "}
+              <span className="text-sky-400">ORCHESTRA</span>
             </h2>
 
             <p className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
               ORCHESTRA repose sur une architecture d&apos;intelligences
               artificielles spécialisées,
               <br />
-              chacune dédiée à <span className="text-sky-400">un rôle précis</span>
-              .
+              chacune dédiée à <span className="text-sky-400">un rôle précis</span>.
             </p>
 
             <p className="mt-10 font-semibold text-white">
@@ -196,85 +210,91 @@ export default function MethodeOrchestraPage() {
             </p>
 
             {/* Bulles (2 lignes pour un alignement parfait) */}
-<div className="mx-auto mt-14 max-w-6xl space-y-6">
-  {/* Ligne 1 : 3 bulles */}
-  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    <div className="aspect-square rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 flex flex-col items-center justify-center">
-      <div className="mx-auto w-fit text-3xl text-sky-400">🧮</div>
-      <div className="mt-5 text-lg font-semibold">IA d&apos;analyse stratégique</div>
-      <p className="mt-3 text-sm leading-6 text-white/80">
-        Analyse des contextes,
-        <br />
-        problématiques et Objectifs
-      </p>
-    </div>
+            <div className="mx-auto mt-14 max-w-6xl space-y-6">
+              {/* Ligne 1 : 3 bulles */}
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10">
+                  <div className="mx-auto w-fit text-3xl text-sky-400">🧮</div>
+                  <div className="mt-5 text-lg font-semibold">
+                    IA d&apos;analyse stratégique
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-white/80">
+                    Analyse des contextes,
+                    <br />
+                    problématiques et objectifs
+                  </p>
+                </div>
 
-    <div className="aspect-square rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 flex flex-col items-center justify-center">
-      <div className="mx-auto w-fit text-3xl text-sky-400">🧾</div>
-      <div className="mt-5 text-lg font-semibold">IA de veille et de synthèse</div>
-      <p className="mt-3 text-sm leading-6 text-white/80">
-        Collecte d&apos;informations,
-        <br />
-        tendances, benchmarks et
-        <br />
-        synthèses claires
-      </p>
-    </div>
+                <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10">
+                  <div className="mx-auto w-fit text-3xl text-sky-400">🧾</div>
+                  <div className="mt-5 text-lg font-semibold">
+                    IA de veille et de synthèse
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-white/80">
+                    Collecte d&apos;informations,
+                    <br />
+                    tendances, benchmarks et
+                    <br />
+                    synthèses claires
+                  </p>
+                </div>
 
-    <div className="aspect-square rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 flex flex-col items-center justify-center">
-      <div className="mx-auto w-fit text-3xl text-sky-400">🧩</div>
-      <div className="mt-5 text-lg font-semibold">IA de structuration</div>
-      <p className="mt-3 text-sm leading-6 text-white/80">
-        Organisation des idées,
-        <br />
-        méthodes, plans d&apos;action et
-        <br />
-        processus
-      </p>
-    </div>
-  </div>
+                <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10">
+                  <div className="mx-auto w-fit text-3xl text-sky-400">🧩</div>
+                  <div className="mt-5 text-lg font-semibold">
+                    IA de structuration
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-white/80">
+                    Organisation des idées,
+                    <br />
+                    méthodes, plans d&apos;action et
+                    <br />
+                    processus
+                  </p>
+                </div>
+              </div>
 
-  {/* Ligne 2 : 2 bulles positionnées sous (1-2) et (2-3) */}
-<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:justify-items-center">
-  {/* Spacer col 1 (desktop) */}
-  <div className="hidden lg:block" />
+              {/* Ligne 2 : 2 bulles positionnées sous (1-2) et (2-3) */}
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:justify-items-center">
+                {/* Spacer col 1 (desktop) */}
+                <div className="hidden lg:block" />
 
-  {/* 4 : sous 1-2 (col 2-3) */}
-  <div className="lg:col-span-2 aspect-square rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 flex flex-col items-center justify-center">
-    <div className="mx-auto w-fit text-3xl text-sky-400">🧭</div>
-    <div className="mt-5 text-lg font-semibold">IA de projection et scénarios</div>
-    <p className="mt-3 text-sm leading-6 text-white/80">
-      Simulation de scénarios,
-      <br />
-      hypothèses et impacts
-      <br />
-      potentiels
-    </p>
-  </div>
+                {/* 4 : sous 1-2 (col 2-3) */}
+                <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2">
+                  <div className="mx-auto w-fit text-3xl text-sky-400">🧭</div>
+                  <div className="mt-5 text-lg font-semibold">
+                    IA de projection et scénarios
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-white/80">
+                    Simulation de scénarios,
+                    <br />
+                    hypothèses et impacts
+                    <br />
+                    potentiels
+                  </p>
+                </div>
 
-  {/* 5 : sous 2-3 (col 4-5) */}
-  <div className="lg:col-span-2 aspect-square rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 flex flex-col items-center justify-center">
-    <div className="mx-auto w-fit text-3xl text-sky-400">🎓</div>
-    <div className="mt-5 text-lg font-semibold">IA de reformulation et pédagogie</div>
-    <p className="mt-3 text-sm leading-6 text-white/80">
-      Chaque composant agit
-      <br />
-      comme un expert spécialisé,
-      <br />
-      intégré dans une logique
-      <br />
-      globale et cohérente
-    </p>
-  </div>
+                {/* 5 : sous 2-3 (col 4-5) */}
+                <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2">
+                  <div className="mx-auto w-fit text-3xl text-sky-400">🎓</div>
+                  <div className="mt-5 text-lg font-semibold">
+                    IA de reformulation et pédagogie
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-white/80">
+                    Chaque composant agit
+                    <br />
+                    comme un expert spécialisé,
+                    <br />
+                    intégré dans une logique
+                    <br />
+                    globale et cohérente
+                  </p>
+                </div>
 
-  {/* Spacer col 6 (desktop) */}
-  <div className="hidden lg:block" />
-</div>
-
-</div>
-
-
-
+                {/* Spacer col 6 (desktop) */}
+                <div className="hidden lg:block" />
+              </div>
+            </div>
 
             <p className="mx-auto mt-14 max-w-4xl text-sm text-white/85 sm:text-base">
               Chaque composant agit comme{" "}
@@ -285,12 +305,15 @@ export default function MethodeOrchestraPage() {
         </Container>
       </section>
 
-      {/* LE RÔLE CENTRAL DE L'HUMAIN */}
+      {/* =========================================================
+          RÔLE CENTRAL DE L’HUMAIN — Fond global
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Le rôle central de l&apos;<span className="text-sky-400">humain</span>
+              Le rôle central de l&apos;
+              <span className="text-sky-400">humain</span>
             </h2>
 
             <p className="mx-auto mt-4 max-w-4xl text-sm text-white/85 sm:text-base">
@@ -299,7 +322,7 @@ export default function MethodeOrchestraPage() {
             </p>
 
             <p className="mt-10 font-semibold text-white">
-              Les experts humains sont là pour:
+              Les experts humains sont là pour :
             </p>
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -335,12 +358,15 @@ export default function MethodeOrchestraPage() {
               <span className="text-sky-400">
                 Il l&apos;amplifie, la structure et la rend plus lisible
               </span>
+              .
             </p>
           </div>
         </Container>
       </section>
 
-      {/* FONCTIONNEMENT GLOBAL */}
+      {/* =========================================================
+          FONCTIONNEMENT GLOBAL — Bloc structurant (fond alterné)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
           <div className="text-center">
@@ -374,12 +400,30 @@ export default function MethodeOrchestraPage() {
                     Appui d&apos;<span className="text-sky-400">ORCHESTRA</span>{" "}
                     pour
                     <br />
-                    enrichir l&apos;analyser
+                    enrichir l&apos;analyse
                   </>
                 }
               />
-              <Card icon="✅" title={<>Arbitrage et validation<br />humaine</>} />
-              <Card icon="📊" title={<>Mise en oeuvre et<br />accompagnement</>} />
+              <Card
+                icon="✅"
+                title={
+                  <>
+                    Arbitrage et validation
+                    <br />
+                    humaine
+                  </>
+                }
+              />
+              <Card
+                icon="📊"
+                title={
+                  <>
+                    Mise en oeuvre et
+                    <br />
+                    accompagnement
+                  </>
+                }
+              />
             </div>
 
             <p className="mx-auto mt-12 max-w-5xl text-sm text-white/85 sm:text-base">
@@ -387,13 +431,15 @@ export default function MethodeOrchestraPage() {
               <span className="text-sky-400">
                 une prise de décision plus éclairée
               </span>
-              , sans jamais perdre la maîtrise humaine
+              , sans jamais perdre la maîtrise humaine.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* BÉNÉFICES POUR LE CLIENT */}
+      {/* =========================================================
+          BÉNÉFICES POUR LE CLIENT — Fond global
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="text-center">
@@ -407,41 +453,84 @@ export default function MethodeOrchestraPage() {
             </p>
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card icon="↪" title={<>Une meilleure clarté dans<br />ses décisions</>} />
-              <Card icon="🧠" title={<>Une expertise renforcée<br />mais ancrée dans le réel</>} />
-              <Card icon="✅" title={<>Une méthode lisible et<br />expliquée</>} />
-              <Card icon="📊" title={<>Un accompagnement<br />structuré et responsable</>} />
+              <Card
+                icon="↪"
+                title={
+                  <>
+                    Une meilleure clarté dans
+                    <br />
+                    ses décisions
+                  </>
+                }
+              />
+              <Card
+                icon="🧠"
+                title={
+                  <>
+                    Une expertise renforcée
+                    <br />
+                    mais ancrée dans le réel
+                  </>
+                }
+              />
+              <Card
+                icon="✅"
+                title={
+                  <>
+                    Une méthode lisible et
+                    <br />
+                    expliquée
+                  </>
+                }
+              />
+              <Card
+                icon="📊"
+                title={
+                  <>
+                    Un accompagnement
+                    <br />
+                    structuré et responsable
+                  </>
+                }
+              />
             </div>
           </div>
         </Container>
       </section>
 
-      {/* CTA FINAL */}
+      {/* =========================================================
+          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
+          (Texte spécifique à la page Méthode)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
-          <div className="text-center">
-            <h2 className="mx-auto max-w-5xl text-2xl font-semibold leading-snug tracking-tight sm:text-4xl">
-              Vous souhaitez <span className="text-sky-400">comprendre</span>{" "}
-              comment <span className="text-sky-400">ORCHESTRA</span> peut
-              clarifier
+          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Vous souhaitez <span className="text-sky-400">découvrir</span>{" "}
+              notre manière de travailler
               <br className="hidden sm:block" />
-              vos enjeux et <span className="text-sky-400">structurer</span> vos
-              décisions ?
+              ou <span className="text-sky-400">échanger</span> sur votre contexte
+              ?
             </h2>
 
-            <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+              Un échange humain, sans engagement, pour clarifier vos enjeux et
+              envisager les prochaines étapes.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/fonctionnement"
-                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+                href="/contact"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
               >
-                Comment nous travaillons
+                Nous contacter
               </Link>
 
               <Link
-                href="/contact"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+                href="/fonctionnement"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
-                Nous contacter <span aria-hidden="true">›</span>
+                Comment nous travaillons <span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>

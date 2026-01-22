@@ -1,9 +1,17 @@
 import Link from "next/link";
 
+/**
+ * Container
+ * - Contrainte de largeur + padding (référence UI sur tout le site)
+ */
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
 
+/**
+ * Section
+ * - Wrapper de section avec alternance de fond (dark / darker)
+ */
 function Section({
   children,
   variant = "dark",
@@ -18,6 +26,11 @@ function Section({
   );
 }
 
+/**
+ * Card
+ * - Carte simple (titre + icône + contenu)
+ * - Utilisée en grilles (align left/center)
+ */
 function Card({
   title,
   icon,
@@ -48,9 +61,11 @@ function Card({
 export default function FonctionnementPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO */}
+      {/* =========================================================
+          HERO — Présentation (cohérent avec Accueil)
+      ========================================================== */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
+        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
           {/* Badge */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
@@ -58,23 +73,23 @@ export default function FonctionnementPage() {
           </div>
 
           {/* H1 */}
-          <h1 className="mx-auto mt-12 max-w-[1100px] text-center text-5xl font-semibold leading-[1.12] tracking-tight sm:text-6xl">
+          <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.12] tracking-tight sm:text-6xl lg:mt-12">
             Une <span className="text-sky-400">méthode</span> claire, structurée
             et <span className="text-sky-400">pilotée</span> par l&apos;
             <span className="text-sky-400">humain</span>
           </h1>
 
-          {/* Texte */}
+          {/* Texte d’intro */}
           <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-8 text-white/85 sm:text-lg">
-  Chaque mission suit un <span className="text-sky-400">processus lisible</span>, construit autour de la{" "}
-  <span className="text-sky-400">collaboration</span>
-  <br />
-  entre experts humains et le noyau d&apos;intelligences artificielles{" "}
-  <span className="text-sky-400">ORCHESTRA</span>.
-</p>
+            Chaque mission suit un{" "}
+            <span className="text-sky-400">processus lisible</span>, construit
+            autour de la <span className="text-sky-400">collaboration</span>
+            <br />
+            entre experts humains et le noyau d&apos;intelligences artificielles{" "}
+            <span className="text-sky-400">ORCHESTRA</span>.
+          </p>
 
-
-          {/* Boutons */}
+          {/* CTA Hero */}
           <div className="mt-14 flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Link
               href="/methode-orchestra"
@@ -93,7 +108,9 @@ export default function FonctionnementPage() {
         </div>
       </section>
 
-      {/* PRINCIPES */}
+      {/* =========================================================
+          PRINCIPES — Bloc structurant (fond alterné)
+      ========================================================== */}
       <Section variant="darker">
         <div className="text-center">
           <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -133,15 +150,14 @@ export default function FonctionnementPage() {
           <p className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
             L&apos;intelligence artificielle n&apos;est jamais utilisée pour
             accélérer sans réfléchir, mais pour structurer, éclairer et{" "}
-            <span className="text-sky-400">
-              renforcer la prise de décision
-            </span>
-            .
+            <span className="text-sky-400">renforcer la prise de décision</span>.
           </p>
         </div>
       </Section>
 
-      {/* DEROULEMENT */}
+      {/* =========================================================
+          DÉROULEMENT — Fond global
+      ========================================================== */}
       <Section>
         <div className="text-center">
           <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -157,6 +173,7 @@ export default function FonctionnementPage() {
           </p>
 
           <div className="mt-16 grid gap-6 lg:grid-cols-4">
+            {/* 1 — Cadrage */}
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">↪</div>
               <h3 className="mt-4 text-lg font-semibold">
@@ -180,6 +197,7 @@ export default function FonctionnementPage() {
               </div>
             </div>
 
+            {/* 2 — Analyse augmentée */}
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">🧠</div>
               <h3 className="mt-4 text-lg font-semibold">
@@ -203,6 +221,7 @@ export default function FonctionnementPage() {
               </div>
             </div>
 
+            {/* 3 — Scénarios */}
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">☑</div>
               <h3 className="mt-4 text-lg font-semibold">
@@ -226,6 +245,7 @@ export default function FonctionnementPage() {
               </div>
             </div>
 
+            {/* 4 — Mise en œuvre */}
             <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
               <div className="text-3xl text-sky-400">🚀</div>
               <h3 className="mt-4 text-lg font-semibold">
@@ -248,17 +268,20 @@ export default function FonctionnementPage() {
         </div>
       </Section>
 
-      {/* PLACE D'ORCHESTRA */}
+      {/* =========================================================
+          PLACE D’ORCHESTRA — Bloc structurant (fond alterné)
+      ========================================================== */}
       <Section variant="darker">
         <div className="text-center">
           <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-            La place d&apos;<span className="text-sky-400">ORCHESTRA</span> dans le{" "}
-            <span className="text-sky-400">processus</span>
+            La place d&apos;<span className="text-sky-400">ORCHESTRA</span> dans
+            le <span className="text-sky-400">processus</span>
           </h2>
 
           <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-            ORCHESTRA agit comme un <span className="text-sky-400">copilote</span>{" "}
-            structurant. Il aide à voir plus clair, plus loin et plus vite
+            ORCHESTRA agit comme un{" "}
+            <span className="text-sky-400">copilote</span> structurant. Il aide à
+            voir plus clair, plus loin et plus vite
             <br className="hidden sm:block" />
             <span className="text-sky-400">
               sans jamais décider à la place de l&apos;humain
@@ -267,8 +290,8 @@ export default function FonctionnementPage() {
           </p>
 
           <p className="mx-auto mt-16 max-w-2xl text-base font-semibold leading-8 text-white/90 sm:text-lg">
-            Chaque production issue d&apos;<span className="text-sky-400">ORCHESTRA</span>{" "}
-            est :
+            Chaque production issue d&apos;
+            <span className="text-sky-400">ORCHESTRA</span> est :
           </p>
 
           <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-3">
@@ -289,11 +312,14 @@ export default function FonctionnementPage() {
         </div>
       </Section>
 
-      {/* CE QUE CA CHANGE */}
+      {/* =========================================================
+          CE QUE ÇA CHANGE — Fond global
+      ========================================================== */}
       <Section>
         <div className="text-center">
           <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-            Ce que cela change pour le <span className="text-sky-400">client</span>
+            Ce que cela change pour le{" "}
+            <span className="text-sky-400">client</span>
           </h2>
 
           <p className="mx-auto mt-10 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
@@ -304,35 +330,47 @@ export default function FonctionnementPage() {
             <Card title="D&apos;un cadre clair et rassurant" icon="📄" align="center" />
             <Card title="D&apos;analyses structurées et lisibles" icon="🧱" align="center" />
             <Card title="D&apos;une prise de décision plus sereine" icon="☑" align="center" />
-            <Card title="D&apos;un accompagnement humain renforcé par l&apos;IA" icon="👥" align="center" />
+            <Card
+              title="D&apos;un accompagnement humain renforcé par l&apos;IA"
+              icon="👥"
+              align="center"
+            />
           </div>
         </div>
       </Section>
 
-      {/* CTA */}
+      {/* =========================================================
+          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
+          (Texte spécifique à la page Fonctionnement)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
-          <div className="text-center">
-            <h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight sm:text-4xl">
-  Vous souhaitez <span className="text-sky-400">découvrir</span> comment
-  <br />
-  cette méthode peut <span className="text-sky-400">s&apos;appliquer</span> à votre contexte ?
-</h2>
+          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Vous souhaitez <span className="text-sky-400">découvrir</span>{" "}
+              comment cette méthode peut{" "}
+              <span className="text-sky-400">s&apos;appliquer</span> à votre
+              contexte ?
+            </h2>
 
+            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+              Un échange humain, sans engagement, pour clarifier vos enjeux et
+              envisager les prochaines étapes.
+            </p>
 
-            <div className="mt-14 flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/methode-orchestra"
-                className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
+                href="/contact"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
               >
-                Découvrir la Méthode ORCHESTRA
+                Nous contacter
               </Link>
 
               <Link
-                href="/contact"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                href="/methode-orchestra"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
-                Nous contacter <span aria-hidden="true">›</span>
+                Découvrir la Méthode ORCHESTRA <span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>

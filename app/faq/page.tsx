@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+/**
+ * Container
+ * - Contrainte de largeur + padding (référence UI sur tout le site)
+ */
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
@@ -35,7 +39,16 @@ const FAQ_ITEMS = [
   },
 ];
 
-function PrimaryCta({ href, children }: { href: string; children: React.ReactNode }) {
+/**
+ * CTA styles (cohérents avec Accueil)
+ */
+function PrimaryCta({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
@@ -46,7 +59,13 @@ function PrimaryCta({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
-function SecondaryCta({ href, children }: { href: string; children: React.ReactNode }) {
+function SecondaryCta({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
@@ -60,18 +79,23 @@ function SecondaryCta({ href, children }: { href: string; children: React.ReactN
 export default function FaqPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO */}
+      {/* =========================================================
+          HERO — FAQ (cohérent avec Accueil)
+      ========================================================== */}
       <section className="relative overflow-hidden">
         <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
+          {/* Badge */}
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
             <span>Conseil augmenté par l&apos;IA</span>
           </div>
 
+          {/* H1 */}
           <h1 className="mx-auto mt-10 max-w-[900px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
             Questions fréquentes
           </h1>
 
+          {/* Intro */}
           <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
             Nous avons regroupé ici les{" "}
             <span className="text-sky-400">questions les plus fréquentes</span>{" "}
@@ -79,6 +103,7 @@ export default function FaqPage() {
             notre manière de travailler.
           </p>
 
+          {/* CTA Hero */}
           <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
             <PrimaryCta href="/methode-orchestra">
               Découvrir la méthode ORCHESTRA
@@ -88,7 +113,9 @@ export default function FaqPage() {
         </div>
       </section>
 
-      {/* QUESTIONS / RÉPONSES */}
+      {/* =========================================================
+          QUESTIONS / RÉPONSES (fond global)
+      ========================================================== */}
       <section className="py-24">
         <Container>
           <h2 className="text-center text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -104,6 +131,7 @@ export default function FaqPage() {
                 <div className="text-sm font-semibold text-white/95 sm:text-base">
                   {item.q}
                 </div>
+
                 <div className="mt-4 text-sm leading-7 text-white/85 sm:text-base">
                   <span className="font-semibold text-white">Réponse :</span>
                   <br />
@@ -112,6 +140,7 @@ export default function FaqPage() {
               </div>
             ))}
 
+            {/* Bandeau conviction */}
             <div className="rounded-2xl bg-[#0f1a2b] p-8 text-center ring-1 ring-white/10">
               <div className="mx-auto mb-4 w-fit rounded-full bg-white/5 px-3 py-2 text-sm">
                 🤖
@@ -126,28 +155,37 @@ export default function FaqPage() {
         </Container>
       </section>
 
-      {/* CTA FINAL — fond alterné */}
+      {/* =========================================================
+          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
+          (Texte spécifique à la FAQ)
+      ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
-          <div className="text-center">
-            <h3 className="mx-auto max-w-4xl text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl">
+          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Vous avez d&apos;autres questions ou souhaitez{" "}
               <span className="text-sky-400">échanger</span> sur votre contexte ?
-            </h3>
+            </h2>
+
+            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+              Un échange humain, sans engagement, pour clarifier votre situation
+              et voir comment ORCHESTRA peut soutenir votre réflexion.
+            </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500"
+                href="/contact"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
               >
-                Découvrir la méthode ORCHESTRA
+                Nous contacter
               </Link>
 
               <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10"
+                href="/methode-orchestra"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
-                Nous contacter <span aria-hidden="true">›</span>
+                Découvrir la méthode ORCHESTRA{" "}
+                <span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>
