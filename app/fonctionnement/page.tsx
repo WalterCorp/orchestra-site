@@ -156,117 +156,119 @@ export default function FonctionnementPage() {
       </Section>
 
       {/* =========================================================
-          DÉROULEMENT — Fond global
+          DÉROULEMENT — Fond global (✅ largeur augmentée)
       ========================================================== */}
-      <Section>
-        <div className="text-center">
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-            Déroulement d&apos;un{" "}
-            <span className="text-sky-400">accompagnement</span>
-          </h2>
+      <section className="py-24">
+        <div className="mx-auto w-full max-w-[74rem] px-6 sm:px-10">
+          <div className="text-center">
+            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              Déroulement d&apos;un{" "}
+              <span className="text-sky-400">accompagnement</span>
+            </h2>
 
-          <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-            Chaque accompagnement suit une progression logique et maitrisée,{" "}
-            <span className="text-sky-400">adaptée au contexte</span>
-            <br className="hidden sm:block" />
-            du client.
-          </p>
+            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              Chaque accompagnement suit une progression logique et maitrisée,{" "}
+              <span className="text-sky-400">adaptée au contexte</span>
+              <br className="hidden sm:block" />
+              du client.
+            </p>
 
-          <div className="mt-16 grid gap-6 lg:grid-cols-4">
-            {/* 1 — Cadrage */}
-            <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-              <div className="text-3xl text-sky-400">↪</div>
-              <h3 className="mt-4 text-lg font-semibold">
-                Compréhension &amp; cadrage
-              </h3>
-              <div className="mt-4 text-sm leading-7 text-white/85">
-                <ul className="space-y-2">
-                  <li>- Echange initial avec le client</li>
-                  <li>- Analyse du contexte, des enjeux et des objectifs</li>
-                  <li>- Clarification des attentes et des contraintes</li>
-                </ul>
+            <div className="mt-16 grid gap-6 lg:grid-cols-4">
+              {/* 1 — Cadrage */}
+              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
+                <div className="text-3xl text-sky-400">↪</div>
+                <h3 className="mt-4 text-lg font-semibold">
+                  Compréhension &amp; cadrage
+                </h3>
+                <div className="mt-4 text-sm leading-7 text-white/85">
+                  <ul className="space-y-2">
+                    <li>- Echange initial avec le client</li>
+                    <li>- Analyse du contexte, des enjeux et des objectifs</li>
+                    <li>- Clarification des attentes et des contraintes</li>
+                  </ul>
 
-                <div className="mt-6 font-semibold text-white">
-                  ORCHESTRA intervient pour :
+                  <div className="mt-6 font-semibold text-white">
+                    <span className="text-sky-400">ORCHESTRA</span> intervient pour :
+                  </div>
+                  <ul className="mt-3 space-y-2">
+                    <li>- Structurer les informations</li>
+                    <li>- Identifier les zones d&apos;incertitude</li>
+                    <li>- Enrichir la réflexion initiale</li>
+                  </ul>
                 </div>
-                <ul className="mt-3 space-y-2">
-                  <li>- Structurer les informations</li>
-                  <li>- Identifier les zones d&apos;incertitude</li>
-                  <li>- Enrichir la réflexion initiale</li>
-                </ul>
               </div>
-            </div>
 
-            {/* 2 — Analyse augmentée */}
-            <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-              <div className="text-3xl text-sky-400">🧠</div>
-              <h3 className="mt-4 text-lg font-semibold">
-                Analyse augmentée &amp; structuration
-              </h3>
-              <div className="mt-4 text-sm leading-7 text-white/85">
-                <ul className="space-y-2">
-                  <li>- Analyse approfondie des problématiques</li>
-                  <li>- Mise en perspective des données et informations</li>
-                  <li>- Identification des leviers d&apos;action</li>
-                </ul>
+              {/* 2 — Analyse augmentée */}
+              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
+                <div className="text-3xl text-sky-400">🧠</div>
+                <h3 className="mt-4 text-lg font-semibold">
+                  Analyse augmentée &amp; structuration
+                </h3>
+                <div className="mt-4 text-sm leading-7 text-white/85">
+                  <ul className="space-y-2">
+                    <li>- Analyse approfondie des problématiques</li>
+                    <li>- Mise en perspective des données et informations</li>
+                    <li>- Identification des leviers d&apos;action</li>
+                  </ul>
 
-                <div className="mt-6 font-semibold text-white">
-                  ORCHESTRA soutient :
+                  <div className="mt-6 font-semibold text-white">
+                    <span className="text-sky-400">ORCHESTRA</span> soutient :
+                  </div>
+                  <ul className="mt-3 space-y-2">
+                    <li>- L&apos;analyse stratégique</li>
+                    <li>- La veille sectorielle</li>
+                    <li>- La structuration des options possibles</li>
+                  </ul>
                 </div>
-                <ul className="mt-3 space-y-2">
-                  <li>- L&apos;analyse stratégique</li>
-                  <li>- La veille sectorielle</li>
-                  <li>- La structuration des options possibles</li>
-                </ul>
               </div>
-            </div>
 
-            {/* 3 — Scénarios */}
-            <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-              <div className="text-3xl text-sky-400">☑</div>
-              <h3 className="mt-4 text-lg font-semibold">
-                Scénarios &amp; arbitrages
-              </h3>
-              <div className="mt-4 text-sm leading-7 text-white/85">
-                <ul className="space-y-2">
-                  <li>- Construction de scénarios possibles</li>
-                  <li>- Projection des impacts et conséquences</li>
-                  <li>- Evaluation des risques et opportunités</li>
-                </ul>
+              {/* 3 — Scénarios */}
+              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
+                <div className="text-3xl text-sky-400">☑</div>
+                <h3 className="mt-4 text-lg font-semibold">
+                  Scénarios &amp; arbitrages
+                </h3>
+                <div className="mt-4 text-sm leading-7 text-white/85">
+                  <ul className="space-y-2">
+                    <li>- Construction de scénarios possibles</li>
+                    <li>- Projection des impacts et conséquences</li>
+                    <li>- Evaluation des risques et opportunités</li>
+                  </ul>
 
-                <div className="mt-6 font-semibold text-white">
-                  Les experts humains sont là pour :
+                  <div className="mt-6 font-semibold text-white">
+                    Les experts humains sont là pour :
+                  </div>
+                  <ul className="mt-3 space-y-2">
+                    <li>- Arbitrer les propositions</li>
+                    <li>- Sélectionner les options pertinentes</li>
+                    <li>- Prendre les décisions finales</li>
+                  </ul>
                 </div>
-                <ul className="mt-3 space-y-2">
-                  <li>- Arbitrer les propositions</li>
-                  <li>- Sélectionner les options pertinentes</li>
-                  <li>- Prendre les décisions finales</li>
-                </ul>
               </div>
-            </div>
 
-            {/* 4 — Mise en œuvre */}
-            <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-              <div className="text-3xl text-sky-400">🚀</div>
-              <h3 className="mt-4 text-lg font-semibold">
-                Mise en œuvre &amp; accompagnement
-              </h3>
-              <div className="mt-4 text-sm leading-7 text-white/85">
-                <ul className="space-y-2">
-                  <li>- Traduction des décisions en actions concrètes</li>
-                  <li>- Accompagnement dans la mise en œuvre</li>
-                  <li>- Ajustements en fonction du terrain et des retours</li>
-                </ul>
+              {/* 4 — Mise en œuvre */}
+              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
+                <div className="text-3xl text-sky-400">🚀</div>
+                <h3 className="mt-4 text-lg font-semibold">
+                  Mise en œuvre &amp; accompagnement
+                </h3>
+                <div className="mt-4 text-sm leading-7 text-white/85">
+                  <ul className="space-y-2">
+                    <li>- Traduction des décisions en actions concrètes</li>
+                    <li>- Accompagnement dans la mise en œuvre</li>
+                    <li>- Ajustements en fonction du terrain et des retours</li>
+                  </ul>
 
-                <div className="mt-8 text-center font-semibold text-white">
-                  ORCHESTRA reste un support permanent, sans jamais se substituer
-                  à l&apos;humain.
+                  <div className="mt-8 text-center font-semibold text-white">
+                    <span className="text-sky-400">ORCHESTRA</span> reste un support permanent,
+                    sans jamais se substituer à l&apos;humain.
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* =========================================================
           PLACE D’ORCHESTRA — Bloc structurant (fond alterné)
@@ -279,7 +281,7 @@ export default function FonctionnementPage() {
           </h2>
 
           <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-            ORCHESTRA agit comme un{" "}
+            <span className="text-sky-400">ORCHESTRA</span> agit comme un{" "}
             <span className="text-sky-400">copilote</span> structurant. Il aide à
             voir plus clair, plus loin et plus vite
             <br className="hidden sm:block" />
@@ -341,7 +343,6 @@ export default function FonctionnementPage() {
 
       {/* =========================================================
           CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
-          (Texte spécifique à la page Fonctionnement)
       ========================================================== */}
       <section className="bg-[#080d1a] py-24">
         <Container>
