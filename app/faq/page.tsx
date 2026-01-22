@@ -1,9 +1,7 @@
 import Link from "next/link";
 
 function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>
-  );
+  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
 }
 
 const FAQ_ITEMS = [
@@ -32,7 +30,7 @@ const FAQ_ITEMS = [
     a: "Toutes les productions issues d'ORCHESTRA sont systématiquement analysées, contextualisées et validées par un expert humain. L'IA n'est jamais considérée comme une source de vérité, mais comme un support à la réflexion.",
   },
   {
-    q: "Question 7 -- Travaillez-vous uniquement avec des outils d'intelligence artificielle",
+    q: "Question 7 -- Travaillez-vous uniquement avec des outils d'intelligence artificielle ?",
     a: "Non. L'intelligence artificielle est un levier parmi d'autres. Notre méthode repose sur l'expertise humaine, l'analyse métier, la structuration des problématiques et l'utilisation raisonnée des technologies.",
   },
 ];
@@ -41,7 +39,7 @@ function PrimaryCta({ href, children }: { href: string; children: React.ReactNod
   return (
     <Link
       href={href}
-      className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm hover:bg-sky-500"
+      className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
     >
       {children}
     </Link>
@@ -52,7 +50,7 @@ function SecondaryCta({ href, children }: { href: string; children: React.ReactN
   return (
     <Link
       href={href}
-      className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+      className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
     >
       {children} <span aria-hidden="true">›</span>
     </Link>
@@ -62,70 +60,32 @@ function SecondaryCta({ href, children }: { href: string; children: React.ReactN
 export default function FaqPage() {
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* HERO (visible surtout en grand écran, comme vos autres pages) */}
-      <section className="relative hidden overflow-hidden lg:block">
-        <div className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
-          {/* Badge */}
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
             <span aria-hidden="true">🤖</span>
             <span>Conseil augmenté par l&apos;IA</span>
           </div>
 
-          <h1 className="mx-auto mt-12 max-w-[980px] text-6xl font-semibold leading-[1.1] tracking-tight">
-            ***Questions fréquentes***
+          <h1 className="mx-auto mt-10 max-w-[900px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+            Questions fréquentes
           </h1>
 
-          <p className="mx-auto mt-10 max-w-3xl text-lg leading-8 text-white/85">
+          <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
             Nous avons regroupé ici les{" "}
             <span className="text-sky-400">questions les plus fréquentes</span>{" "}
-            concernant notre approche, l&apos;usage de l&apos;intelligence artificielle et{" "}
+            concernant notre approche, l&apos;usage de l&apos;intelligence artificielle et
             notre manière de travailler.
           </p>
 
-          <div className="mt-12 flex items-center justify-center gap-5">
-            <PrimaryCta href="/methode-orchestra">Découvrir la méthode ORCHESTRA</PrimaryCta>
+          <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
+            <PrimaryCta href="/methode-orchestra">
+              Découvrir la méthode ORCHESTRA
+            </PrimaryCta>
             <SecondaryCta href="/contact">Nous contacter</SecondaryCta>
           </div>
         </div>
-      </section>
-
-      {/* Intro mobile/tablette (quand le hero est caché) */}
-      <section className="py-16 lg:hidden">
-        <Container>
-          <div className="text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-              <span aria-hidden="true">🤖</span>
-              <span>Conseil augmenté par l&apos;IA</span>
-            </div>
-
-            <h1 className="mt-10 text-4xl font-semibold tracking-tight">
-              Questions fréquentes
-            </h1>
-
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-white/85">
-              Nous avons regroupé ici les{" "}
-              <span className="text-sky-400">questions les plus fréquentes</span>{" "}
-              concernant notre approche, l&apos;usage de l&apos;intelligence artificielle et
-              notre manière de travailler.
-            </p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-sm font-semibold text-white shadow-sm hover:bg-sky-500"
-              >
-                Découvrir la méthode ORCHESTRA
-              </Link>
-
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
-              >
-                Nous contacter <span aria-hidden="true">›</span>
-              </Link>
-            </div>
-          </div>
-        </Container>
       </section>
 
       {/* QUESTIONS / RÉPONSES */}
@@ -136,25 +96,7 @@ export default function FaqPage() {
           </h2>
 
           <div className="mt-14 space-y-8">
-            {FAQ_ITEMS.slice(0, 4).map((item) => (
-              <div
-                key={item.q}
-                className="rounded-2xl bg-[#0f1a2b] p-8 ring-1 ring-white/10"
-              >
-                <div className="text-sm font-semibold text-white/95 sm:text-base">
-                  {item.q}
-                </div>
-                <div className="mt-4 text-sm leading-7 text-white/85 sm:text-base">
-                  <span className="font-semibold text-white">Réponse :</span>
-                  <br />
-                  {item.a}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 space-y-8">
-            {FAQ_ITEMS.slice(4, 7).map((item) => (
+            {FAQ_ITEMS.map((item) => (
               <div
                 key={item.q}
                 className="rounded-2xl bg-[#0f1a2b] p-8 ring-1 ring-white/10"
@@ -170,7 +112,6 @@ export default function FaqPage() {
               </div>
             ))}
 
-            {/* Bandeau conviction (avec petit robot au centre) */}
             <div className="rounded-2xl bg-[#0f1a2b] p-8 text-center ring-1 ring-white/10">
               <div className="mx-auto mb-4 w-fit rounded-full bg-white/5 px-3 py-2 text-sm">
                 🤖
@@ -182,9 +123,13 @@ export default function FaqPage() {
               </p>
             </div>
           </div>
+        </Container>
+      </section>
 
-          {/* CTA bas de page */}
-          <div className="mt-20 text-center">
+      {/* CTA FINAL — fond alterné */}
+      <section className="bg-[#080d1a] py-24">
+        <Container>
+          <div className="text-center">
             <h3 className="mx-auto max-w-4xl text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl">
               Vous avez d&apos;autres questions ou souhaitez{" "}
               <span className="text-sky-400">échanger</span> sur votre contexte ?
@@ -193,14 +138,14 @@ export default function FaqPage() {
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-sm font-semibold text-white shadow-sm hover:bg-sky-500"
+                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500"
               >
-                Découvrir la Méthode ORCHESTRA
+                Découvrir la méthode ORCHESTRA
               </Link>
 
               <Link
                 href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10"
               >
                 Nous contacter <span aria-hidden="true">›</span>
               </Link>
