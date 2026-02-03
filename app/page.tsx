@@ -1,12 +1,9 @@
 import Link from "next/link";
 
-/**
- * Container
- * - Contrainte de largeur + padding (référence UI sur tout le site)
- */
-function Container({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
-}
+// Container global — référence de largeur et de padding pour toutes les pages
+// Centralisé pour rendre le site réplicable et maintenable
+import { Container } from "@/components/layout/Container";
+
 
 export default function HomePage() {
   return (
