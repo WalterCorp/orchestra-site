@@ -10,11 +10,14 @@ type BaseProps = {
 };
 
 type ButtonAsLinkProps = BaseProps & {
+  // Quand href est présent, le composant se comporte comme un <Link>
   href: string;
   onClick?: never;
+  type?: never;
 };
 
 type ButtonAsButtonProps = BaseProps & {
+  // Quand href n'est pas présent, le composant se comporte comme un <button>
   href?: never;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
@@ -29,9 +32,14 @@ type ButtonProps = ButtonAsLinkProps | ButtonAsButtonProps;
  * - Centraliser les styles de CTA (primary / secondary)
  * - Garantir une cohérence visuelle sur tout le site
  *
- * Règle :
- * - Les tailles (height, padding) sont volontairement laissées au contexte
- * - Ce composant ne doit pas contenir de logique métier
+ * Règles d’usage :
+ * - Les tailles (height, padding) restent au contexte via className
+ *   (ex: h-14 px-10 pour Hero, h-12 px-7 pour CTA Premium)
+ * - Aucun comportement métier : uniquement de la présentation (UI)
+ *
+ * Convention :
+ * - Si `href` est fourni => rendu <Link>
+ * - Sinon => rendu <button>
  */
 export function Button({
   children,
@@ -39,9 +47,11 @@ export function Button({
   className = "",
   ...props
 }: ButtonProps) {
+  // Base commune (ne contient pas de height/padding volontairement)
   const base =
     "inline-flex items-center justify-center rounded-xl text-base font-semibold transition-colors focus:outline-none focus:ring-2";
 
+  // Styles par variante (strictement alignés sur la V1)
   const variants: Record<ButtonVariant, string> = {
     primary:
       "bg-sky-600 text-white shadow-sm hover:bg-sky-500 focus:ring-sky-400/60",
@@ -51,18 +61,23 @@ export function Button({
 
   const classes = `${base} ${variants[variant]} ${className}`.trim();
 
-  if ("href" in props) {
+  // Branch 1: Link (si href est fourni)
+  const href = (props as ButtonAsLinkProps).href;
+  if (typeof href === "string") {
     return (
-      <Link href={props.href} className={classes}>
+      <Link href={href} className={classes}>
         {children}
       </Link>
     );
   }
 
+  // Branch 2: Button (sinon)
+  const buttonProps = props as ButtonAsButtonProps;
+
   return (
     <button
-      type={props.type ?? "button"}
-      onClick={props.onClick}
+      type={buttonProps.type ?? "button"}
+      onClick={buttonProps.onClick}
       className={classes}
     >
       {children}
