@@ -8,6 +8,9 @@ import { Section } from "@/components/layout/Section";
 // Centralisé pour rendre le site réplicable et maintenable
 import { Container } from "@/components/layout/Container";
 
+// Button global — centralisation des styles CTA (primary / secondary)
+import { Button } from "@/components/ui/Button";
+
 
 
 export default function HomePage() {
@@ -49,19 +52,13 @@ export default function HomePage() {
 
           {/* CTA Hero */}
           <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
-            <Link
-              href="/methode-orchestra"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-            >
+            <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
               Découvrir la méthode ORCHESTRA
-            </Link>
+            </Button>
 
-            <Link
-              href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-            >
+            <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
               Nous contacter <span aria-hidden="true">›</span>
-            </Link>
+            </Button>
           </div>
         </div>
       </section>
