@@ -1,8 +1,13 @@
 import Link from "next/link";
 
+// Section globale — gestion des blocs de page et des fonds alternés
+// Permet de sortir la logique de layout des pages
+import { Section } from "@/components/layout/Section";
+
 // Container global — référence de largeur et de padding pour toutes les pages
 // Centralisé pour rendre le site réplicable et maintenable
 import { Container } from "@/components/layout/Container";
+
 
 
 export default function HomePage() {
@@ -64,7 +69,7 @@ export default function HomePage() {
       {/* =========================================================
           NOTRE APPROCHE — Bloc structurant (fond alterné)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -92,7 +97,7 @@ export default function HomePage() {
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           ORCHESTRA — Noyau de collaboration IA
@@ -154,7 +159,7 @@ export default function HomePage() {
       {/* =========================================================
           LA PLACE DE L’HUMAIN — Bloc structurant (fond alterné)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -211,7 +216,7 @@ export default function HomePage() {
             </p>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           CTA PREMIUM — Bloc final (style “carte” ORCHESTRA)
