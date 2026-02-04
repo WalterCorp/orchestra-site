@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 // Section globale — gestion des blocs de page et des fonds alternés
 // Permet de sortir la logique de layout des pages
 import { Section } from "@/components/layout/Section";
@@ -11,57 +9,73 @@ import { Container } from "@/components/layout/Container";
 // Button global — centralisation des styles CTA (primary / secondary)
 import { Button } from "@/components/ui/Button";
 
-
+// Hero — section réutilisable (extrait du code inline pour rendre le site réplicable)
+import { Hero } from "@/components/sections/Hero";
 
 export default function HomePage() {
+  // --------------------------------------------------
+  // HERO — contenu injecté (ReactNode) pour garder
+  // une liberté totale de mise en forme sans régression
+  // --------------------------------------------------
+
+  const heroBadge = (
+    <>
+      <span aria-hidden="true">🤖</span>
+      <span>Conseil augmenté par l&apos;IA</span>
+    </>
+  );
+
+  const heroTitle = (
+    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+      <span>
+        L&apos;<span className="text-sky-400">intelligence artificielle</span>{" "}
+        comme
+      </span>
+      <br />
+      <span>
+        système de <span className="text-sky-400">collaborateurs</span>,
+      </span>
+      <br />
+      au service de la{" "}
+      <span className="text-sky-400">clarté</span> et de la{" "}
+      <span className="text-sky-400">performance</span>.
+    </h1>
+  );
+
+  const heroDescription = (
+    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+      Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec
+      elle pour renforcer l&apos;analyse, la structuration et la prise de
+      décision.
+    </p>
+  );
+
+  const heroPrimaryCta = (
+    <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
+      Découvrir la méthode ORCHESTRA
+    </Button>
+  );
+
+  const heroSecondaryCta = (
+    <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
+      Nous contacter <span aria-hidden="true">›</span>
+    </Button>
+  );
+
   return (
     <div className="bg-[#0b1020] text-white">
       {/* =========================================================
           HERO — Référence UI (typographie + CTA + centrage)
+          Refactor : extraction en composant réutilisable
       ========================================================== */}
-      <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
-          {/* Badge */}
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-            <span aria-hidden="true">🤖</span>
-            <span>Conseil augmenté par l&apos;IA</span>
-          </div>
-
-          {/* Titre principal (H1 volontairement en 4 lignes) */}
-          <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-            <span>
-              L&apos;<span className="text-sky-400">intelligence artificielle</span>{" "}
-              comme
-            </span>
-            <br />
-            <span>
-              système de <span className="text-sky-400">collaborateurs</span>,
-            </span>
-            <br />
-            au service de la{" "}
-            <span className="text-sky-400">clarté</span> et de la{" "}
-            <span className="text-sky-400">performance</span>.
-          </h1>
-
-          {/* Texte d’accroche */}
-          <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
-            Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec
-            elle pour renforcer l&apos;analyse, la structuration et la prise de
-            décision.
-          </p>
-
-          {/* CTA Hero */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
-            <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
-              Découvrir la méthode ORCHESTRA
-            </Button>
-
-            <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
-              Nous contacter <span aria-hidden="true">›</span>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <Hero
+        badge={heroBadge}
+        title={heroTitle}
+        description={heroDescription}
+        primaryCta={heroPrimaryCta}
+        secondaryCta={heroSecondaryCta}
+        fullHeight
+      />
 
       {/* =========================================================
           NOTRE APPROCHE — Bloc structurant (fond alterné)
@@ -238,7 +252,11 @@ export default function HomePage() {
                 Nous contacter
               </Button>
 
-              <Button href="/methode-orchestra" variant="secondary" className="h-12 px-7 gap-2">
+              <Button
+                href="/methode-orchestra"
+                variant="secondary"
+                className="h-12 px-7 gap-2"
+              >
                 Découvrir la méthode ORCHESTRA<span aria-hidden="true">›</span>
               </Button>
             </div>
