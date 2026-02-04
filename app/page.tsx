@@ -9,6 +9,10 @@ import { Container } from "@/components/layout/Container";
 // Button global — centralisation des styles CTA (primary / secondary)
 import { Button } from "@/components/ui/Button";
 
+// Card globale — centralisation des styles de cartes (piliers, contenus, etc.)
+// Permet d’éviter la duplication de classes Tailwind dans les pages
+import { Card } from "@/components/ui/Card";
+
 // Hero — section réutilisable (extrait du code inline pour rendre le site réplicable)
 import { Hero } from "@/components/sections/Hero";
 
@@ -137,31 +141,47 @@ export default function HomePage() {
               plus claire et ancrée dans le réel.
             </p>
 
-            {/* Grille 4 piliers */}
+            {/* Grille 4 piliers — refactor : remplacement des cartes inline par Card */}
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">📊</div>
-                <div className="mt-4 text-lg font-semibold">Collecter</div>
-                <div className="text-lg font-semibold">&amp; Analyser</div>
-              </div>
+              <Card
+                icon="📊"
+                title={
+                  <>
+                    <div className="mt-4 text-lg font-semibold">Collecter</div>
+                    <div className="text-lg font-semibold">&amp; Analyser</div>
+                  </>
+                }
+              />
 
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">🧩</div>
-                <div className="mt-4 text-lg font-semibold">Structurer</div>
-                <div className="text-lg font-semibold">&amp; Expliquer</div>
-              </div>
+              <Card
+                icon="🧩"
+                title={
+                  <>
+                    <div className="mt-4 text-lg font-semibold">Structurer</div>
+                    <div className="text-lg font-semibold">&amp; Expliquer</div>
+                  </>
+                }
+              />
 
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">🗺️</div>
-                <div className="mt-4 text-lg font-semibold">Explorer</div>
-                <div className="text-lg font-semibold">&amp; Scénariser</div>
-              </div>
+              <Card
+                icon="🗺️"
+                title={
+                  <>
+                    <div className="mt-4 text-lg font-semibold">Explorer</div>
+                    <div className="text-lg font-semibold">&amp; Scénariser</div>
+                  </>
+                }
+              />
 
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">✅</div>
-                <div className="mt-4 text-lg font-semibold">Superviser</div>
-                <div className="text-lg font-semibold">&amp; Valider</div>
-              </div>
+              <Card
+                icon="✅"
+                title={
+                  <>
+                    <div className="mt-4 text-lg font-semibold">Superviser</div>
+                    <div className="text-lg font-semibold">&amp; Valider</div>
+                  </>
+                }
+              />
             </div>
           </div>
         </Container>
