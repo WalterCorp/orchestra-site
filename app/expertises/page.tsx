@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 // Section globale — gestion des blocs de page et des fonds alternés
 // Permet de sortir la logique de layout des pages
 import { Section } from "@/components/layout/Section";
@@ -12,6 +14,9 @@ import { Button } from "@/components/ui/Button";
 // Card globale — centralisation des styles de cartes (piliers, contenus, etc.)
 // Permet d’éviter la duplication de classes Tailwind dans les pages
 import { Card } from "@/components/ui/Card";
+
+// BigCard globale — cartes “expertise” (intro + label ORCHESTRA + bullets)
+import { BigCard } from "@/components/ui/BigCard";
 
 // Hero — section réutilisable (extrait du code inline pour rendre le site réplicable)
 import { Hero } from "@/components/sections/Hero";
@@ -49,54 +54,6 @@ function SectionTitle({
         <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
           {subtitle}
         </div>
-      ) : null}
-    </div>
-  );
-}
-
-/**
- * BigCard
- * - Carte “expertise” (intro + label ORCHESTRA + bullets)
- *
- * Note :
- * - Conservée localement pour éviter une refonte trop large d’un coup
- * - On refactorera ensuite vers un composant global si besoin
- */
-function BigCard({
-  title,
-  icon,
-  intro,
-  label,
-  bullets,
-  outro,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  intro: string;
-  label: string;
-  bullets: string[];
-  outro?: string;
-}) {
-  return (
-    <div className="rounded-2xl bg-[#0f1a2b] p-7 ring-1 ring-white/10">
-      <div className="mx-auto w-fit text-3xl text-sky-400">{icon}</div>
-      <h3 className="mt-5 text-center text-base font-semibold">{title}</h3>
-
-      <p className="mt-4 text-sm leading-7 text-white/80">{intro}</p>
-
-      <p className="mt-6 text-sm font-semibold text-white">
-        <span className="text-sky-400">ORCHESTRA</span>{" "}
-        <span className="whitespace-nowrap">{label}&nbsp;:</span>
-      </p>
-
-      <ul className="mt-3 space-y-2 text-sm leading-7 text-white/80">
-        {bullets.map((b) => (
-          <li key={b}>- {b}</li>
-        ))}
-      </ul>
-
-      {outro ? (
-        <p className="mt-5 text-sm leading-7 text-white/80">{outro}</p>
       ) : null}
     </div>
   );
@@ -251,7 +208,9 @@ export default function ExpertisesPage() {
 
           {/* Bandeau — Changement */}
           <div className="mt-8 rounded-2xl bg-[#0f1a2b] p-8 text-center ring-1 ring-white/10">
-            <div className="text-base font-semibold">Accompagnement au changement</div>
+            <div className="text-base font-semibold">
+              Accompagnement au changement
+            </div>
             <p className="mx-auto mt-4 max-w-4xl text-sm leading-7 text-white/80">
               Nous accompagnons les équipes dans l&apos;appropriation des
               décisions et des évolutions organisationnelles.{" "}
@@ -291,7 +250,8 @@ export default function ExpertisesPage() {
               <Card icon="≡" title="De gagner en clarté" />
             </div>
 
-            <p className="mx-auto mt-10 max-w-4xl text-sm text-white/75">
+            {/* Phrase “signature” — ajustée pour correspondre à la hiérarchie typographique */}
+            <p className="mx-auto mt-10 max-w-4xl text-base font-medium text-white/85 sm:text-lg">
               <span className="text-sky-400">sans jamais</span> se substituer à
               l&apos;expertise humaine.
             </p>
