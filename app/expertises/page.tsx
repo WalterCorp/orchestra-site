@@ -1,16 +1,28 @@
-import Link from "next/link";
+// Section globale — gestion des blocs de page et des fonds alternés
+// Permet de sortir la logique de layout des pages
+import { Section } from "@/components/layout/Section";
 
-/**
- * Container
- * - Contrainte de largeur + padding (référence UI sur tout le site)
- */
-function Container({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
-}
+// Container global — référence de largeur et de padding pour toutes les pages
+// Centralisé pour rendre le site réplicable et maintenable
+import { Container } from "@/components/layout/Container";
+
+// Button global — centralisation des styles CTA (primary / secondary)
+import { Button } from "@/components/ui/Button";
+
+// Card globale — centralisation des styles de cartes (piliers, contenus, etc.)
+// Permet d’éviter la duplication de classes Tailwind dans les pages
+import { Card } from "@/components/ui/Card";
+
+// Hero — section réutilisable (extrait du code inline pour rendre le site réplicable)
+import { Hero } from "@/components/sections/Hero";
 
 /**
  * SectionTitle
  * - Titre de section réutilisable (avec mot mis en avant)
+ *
+ * Note :
+ * - Conservé temporairement pendant le refactor
+ * - Sera remplacé plus tard par un composant global si nécessaire
  */
 function SectionTitle({
   title,
@@ -43,35 +55,12 @@ function SectionTitle({
 }
 
 /**
- * Card
- * - Petite carte (icône + titre + contenu)
- * - Ici le contenu est optionnel (certaines cartes affichent juste un titre)
- */
-function Card({
-  title,
-  icon,
-  children,
-}: {
-  title: React.ReactNode;
-  icon?: React.ReactNode;
-  children?: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl bg-[#0f1a2b] p-7 ring-1 ring-white/10">
-      {icon ? <div className="mx-auto w-fit text-3xl text-sky-400">{icon}</div> : null}
-      <div className="mt-5 text-center text-base font-semibold leading-6">
-        {title}
-      </div>
-      {children ? (
-        <div className="mt-4 text-sm leading-7 text-white/80">{children}</div>
-      ) : null}
-    </div>
-  );
-}
-
-/**
  * BigCard
  * - Carte “expertise” (intro + label ORCHESTRA + bullets)
+ *
+ * Note :
+ * - Conservée localement pour éviter une refonte trop large d’un coup
+ * - On refactorera ensuite vers un composant global si besoin
  */
 function BigCard({
   title,
@@ -114,58 +103,68 @@ function BigCard({
 }
 
 export default function ExpertisesPage() {
+  // --------------------------------------------------
+  // HERO — contenu injecté pour conserver la liberté
+  // de mise en forme sans modifier le rendu
+  // --------------------------------------------------
+
+  const heroBadge = (
+    <>
+      <span aria-hidden="true">🤖</span>
+      <span>Conseil augmenté par l&apos;IA</span>
+    </>
+  );
+
+  const heroTitle = (
+    <h1 className="mx-auto mt-10 max-w-[980px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+      Des <span className="text-sky-400">expertises humaines</span>, renforcées
+      par <span className="text-sky-400">ORCHESTRA</span>
+    </h1>
+  );
+
+  const heroDescription = (
+    <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+      Chaque domaine d&apos;intervention s&apos;appuie sur une{" "}
+      <span className="text-sky-400">expertise humaine augmentée</span> par une
+      architecture d&apos;intelligences artificielles{" "}
+      <span className="text-sky-400">spécialisées</span>, au service de la{" "}
+      <span className="text-sky-400">clarté</span> et de la{" "}
+      <span className="text-sky-400">performance</span>.
+    </p>
+  );
+
+  const heroPrimaryCta = (
+    <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
+      Découvrir la méthode ORCHESTRA
+    </Button>
+  );
+
+  const heroSecondaryCta = (
+    <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
+      Nous contacter <span aria-hidden="true">›</span>
+    </Button>
+  );
+
   return (
     <div className="bg-[#0b1020] text-white">
       {/* =========================================================
           HERO — Expertises (cohérent avec Accueil)
+          Refactor : extraction vers le composant Hero global
       ========================================================== */}
-      <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:min-h-[calc(100vh-88px)] lg:py-20">
-          {/* Badge */}
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-            <span aria-hidden="true">🤖</span>
-            <span>Conseil augmenté par l&apos;IA</span>
-          </div>
-
-          {/* H1 */}
-          <h1 className="mx-auto mt-10 max-w-[980px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-            Des <span className="text-sky-400">expertises humaines</span>,
-            renforcées par <span className="text-sky-400">ORCHESTRA</span>
-          </h1>
-
-          {/* Intro */}
-          <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
-            Chaque domaine d&apos;intervention s&apos;appuie sur une{" "}
-            <span className="text-sky-400">expertise humaine augmentée</span> par
-            une architecture d&apos;intelligences artificielles{" "}
-            <span className="text-sky-400">spécialisées</span>, au service de la{" "}
-            <span className="text-sky-400">clarté</span> et de la{" "}
-            <span className="text-sky-400">performance</span>.
-          </p>
-
-          {/* CTA Hero */}
-          <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
-            <Link
-              href="/methode-orchestra"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-            >
-              Découvrir la méthode ORCHESTRA
-            </Link>
-
-            <Link
-              href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-            >
-              Nous contacter <span aria-hidden="true">›</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Hero
+        badge={heroBadge}
+        title={heroTitle}
+        description={heroDescription}
+        primaryCta={heroPrimaryCta}
+        secondaryCta={heroSecondaryCta}
+        fullHeight
+      />
 
       {/* =========================================================
           SECTION 2 — Approche (fond alterné)
+          Refactor : passage via Section (variant darker)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <SectionTitle
             title="Notre approche des"
@@ -190,7 +189,7 @@ export default function ExpertisesPage() {
             }
           />
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           SECTION 3 — Domaines d’expertise (fond global)
@@ -252,9 +251,7 @@ export default function ExpertisesPage() {
 
           {/* Bandeau — Changement */}
           <div className="mt-8 rounded-2xl bg-[#0f1a2b] p-8 text-center ring-1 ring-white/10">
-            <div className="text-base font-semibold">
-              Accompagnement au changement
-            </div>
+            <div className="text-base font-semibold">Accompagnement au changement</div>
             <p className="mx-auto mt-4 max-w-4xl text-sm leading-7 text-white/80">
               Nous accompagnons les équipes dans l&apos;appropriation des
               décisions et des évolutions organisationnelles.{" "}
@@ -268,8 +265,9 @@ export default function ExpertisesPage() {
 
       {/* =========================================================
           SECTION 4 — ORCHESTRA soutient (fond alterné)
+          Refactor : passage via Section (variant darker)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -299,7 +297,7 @@ export default function ExpertisesPage() {
             </p>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           SECTION 5 — Pour qui (fond global)
@@ -331,9 +329,9 @@ export default function ExpertisesPage() {
 
       {/* =========================================================
           CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
-          (Texte spécifique à la page Expertises)
+          Refactor : remplacement des Link par Button global
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
@@ -349,24 +347,22 @@ export default function ExpertisesPage() {
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-              >
+              <Button href="/contact" variant="primary" className="h-12 px-7">
                 Nous contacter
-              </Link>
+              </Button>
 
-              <Link
+              <Button
                 href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                variant="secondary"
+                className="h-12 px-7 gap-2"
               >
                 Découvrir la méthode ORCHESTRA{" "}
                 <span aria-hidden="true">›</span>
-              </Link>
+              </Button>
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
     </div>
   );
 }
