@@ -203,44 +203,54 @@ export default function HomePage() {
               décisions finales.
             </p>
 
-            {/* 3 cartes */}
+            {/* 3 cartes — refactor : remplacement des cartes inline par Card (variant md) */}
             <div className="mt-14 grid gap-6 lg:grid-cols-3">
-              <div className="rounded-2xl bg-[#0f1a2b] p-9 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">⇅</div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Pilotage des orientations
-                </h3>
+              <Card
+                variant="md"
+                icon="⇅"
+                title={
+                  <h3 className="mt-4 text-xl font-semibold">
+                    Pilotage des orientations
+                  </h3>
+                }
+              >
                 <p className="mt-4 text-base leading-7 text-white/85">
                   Les experts humains définissent le cadre, les objectifs et les
                   priorités de chaque mission.
                 </p>
-              </div>
+              </Card>
 
-              <div className="rounded-2xl bg-[#0f1a2b] p-9 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">✔</div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Validation humaine
-                </h3>
+              <Card
+                variant="md"
+                icon="✔"
+                title={<h3 className="mt-4 text-xl font-semibold">Validation humaine</h3>}
+              >
                 <p className="mt-4 text-base leading-7 text-white/85">
                   Les analyses produites par l&apos;IA sont systématiquement
                   relues, challengées et validées par des experts.
                 </p>
-              </div>
+              </Card>
 
-              <div className="rounded-2xl bg-[#0f1a2b] p-9 text-center ring-1 ring-white/10">
-                <div className="mx-auto w-fit text-3xl text-sky-400">👥</div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Responsabilité humaine
-                </h3>
+              <Card
+                variant="md"
+                icon="👥"
+                title={
+                  <h3 className="mt-4 text-xl font-semibold">
+                    Responsabilité humaine
+                  </h3>
+                }
+              >
                 <p className="mt-4 text-base leading-7 text-white/85">
                   Les décisions finales appartiennent toujours aux consultants,
                   garants du sens et de l&apos;impact réel.
                 </p>
-              </div>
+              </Card>
             </div>
 
             <p className="mx-auto mt-14 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
-              <span className="text-sky-400">L&apos;intelligence artificielle</span>{" "}
+              <span className="text-sky-400">
+                L&apos;intelligence artificielle
+              </span>{" "}
               est un <span className="text-sky-400">levier</span>, pas un
               substitut. Elle renforce l&apos;expertise humaine sans jamais
               s&apos;y substituer.
