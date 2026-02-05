@@ -54,7 +54,7 @@ export default function FaqPage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
       Nous avons regroupé ici les{" "}
       <span className="text-sky-400">questions les plus fréquentes</span>{" "}
       concernant notre approche, l&apos;usage de l&apos;intelligence artificielle

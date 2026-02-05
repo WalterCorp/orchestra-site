@@ -33,7 +33,7 @@ export default function MethodeOrchestraPage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-8 max-w-4xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
       <span className="text-sky-400">ORCHESTRA</span> n&apos;est pas une
       intelligence artificielle unique,
       <br className="hidden lg:block" />

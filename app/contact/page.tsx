@@ -23,7 +23,7 @@ export default function ContactPage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
       Un <span className="text-sky-400">échange humain</span>, sans engagement.
       ORCHESTRA soutient l&apos;analyse, mais un{" "}
       <span className="text-sky-400">expert</span> vous répond.

@@ -26,7 +26,7 @@ export default function FonctionnementPage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-8 text-white/85 sm:text-lg">
+    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
       Chaque mission suit un{" "}
       <span className="text-sky-400">processus lisible</span>, construit autour
       de la <span className="text-sky-400">collaboration</span>

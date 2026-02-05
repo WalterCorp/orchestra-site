@@ -47,7 +47,7 @@ export default function HomePage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
       Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec
       elle pour renforcer l&apos;analyse, la structuration et la prise de
       décision.

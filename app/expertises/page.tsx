@@ -80,7 +80,7 @@ export default function ExpertisesPage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+    <p className="mx-auto mt-8 max-w-4xl text-mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8base leading-8 text-white/85 sm:text-base">
       Chaque domaine d&apos;intervention s&apos;appuie sur une{" "}
       <span className="text-sky-400">expertise humaine augmentée</span> par une
       architecture d&apos;intelligences artificielles{" "}

@@ -25,7 +25,7 @@ export default function CabinetPage() {
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
       Des experts au coeur des décisions, soutenus par une{" "}
       <span className="text-sky-400">architecture</span>{" "}
       <span className="text-sky-400">d&apos;intelligences artificielles</span>{" "}
