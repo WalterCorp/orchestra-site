@@ -36,7 +36,7 @@ function SectionTitle({
 }: {
   title: string;
   highlight?: string;
-  subtitle?: React.ReactNode;
+  subtitle?: ReactNode;
 }) {
   return (
     <div className="text-center">
@@ -155,7 +155,7 @@ export default function ExpertisesPage() {
         <Container>
           <SectionTitle title="Nos domaines d’" highlight="expertise" />
 
-          <div className="mt-14 grid gap-6 lg:grid-cols-4">
+        <div className="mt-14 grid gap-6 lg:grid-cols-4">
             <BigCard
               icon="↗"
               title="Stratégie & prise de décision"
@@ -250,7 +250,6 @@ export default function ExpertisesPage() {
               <Card icon="≡" title="De gagner en clarté" />
             </div>
 
-            {/* Phrase “signature” — ajustée pour correspondre à la hiérarchie typographique */}
             <p className="mx-auto mt-10 max-w-4xl text-base font-medium text-white/85 sm:text-lg">
               <span className="text-sky-400">sans jamais</span> se substituer à
               l&apos;expertise humaine.
