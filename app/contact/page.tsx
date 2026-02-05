@@ -1,64 +1,63 @@
-import Link from "next/link";
-
-/**
- * Container
- * - Contrainte de largeur + padding (référence UI sur tout le site)
- */
-function Container({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
-}
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { Hero } from "@/components/sections/Hero";
+import { Button } from "@/components/ui/Button";
 
 export default function ContactPage() {
+  // --------------------------------------------------
+  // HERO — contenu injecté (ReactNode) pour conserver
+  // la structure “courte / form-first”
+  // --------------------------------------------------
+
+  const heroBadge = (
+    <>
+      <span aria-hidden="true">🤖</span>
+      <span>Conseil augmenté par l&apos;IA</span>
+    </>
+  );
+
+  const heroTitle = (
+    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
+      Nous <span className="text-sky-400">contacter</span>
+    </h1>
+  );
+
+  const heroDescription = (
+    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+      Un <span className="text-sky-400">échange humain</span>, sans engagement.
+      ORCHESTRA soutient l&apos;analyse, mais un{" "}
+      <span className="text-sky-400">expert</span> vous répond.
+      <br className="hidden sm:block" />
+      Réponse sous <span className="text-sky-400">24–48h</span> ouvrées.
+    </p>
+  );
+
+  const heroPrimaryCta = (
+    <Button href="#formulaire" variant="primary" className="h-14 px-10">
+      Accéder au formulaire
+    </Button>
+  );
+
+  const heroSecondaryCta = (
+    <Button href="/methode-orchestra" variant="secondary" className="h-14 px-10 gap-2">
+      Découvrir la méthode ORCHESTRA <span aria-hidden="true">›</span>
+    </Button>
+  );
+
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* =========================================================
-          HERO — court / form-first (aligné Accueil)
-      ========================================================== */}
-      <section className="relative overflow-hidden">
-        <div className="relative mx-auto w-full max-w-6xl px-6 pb-10 pt-14 text-center sm:px-10 lg:pb-12 lg:pt-16">
-          {/* Badge */}
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-            <span aria-hidden="true">🤖</span>
-            <span>Conseil augmenté par l&apos;IA</span>
-          </div>
-
-          {/* H1 */}
-          <h1 className="mx-auto mt-10 max-w-[900px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
-            Nous <span className="text-sky-400">contacter</span>
-          </h1>
-
-          {/* Intro */}
-          <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
-            Un <span className="text-sky-400">échange humain</span>, sans
-            engagement. ORCHESTRA soutient l&apos;analyse, mais un{" "}
-            <span className="text-sky-400">expert</span> vous répond.
-            <br className="hidden sm:block" />
-            Réponse sous <span className="text-sky-400">24–48h</span> ouvrées.
-          </p>
-
-          {/* CTA (ancre + découverte) */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              href="#formulaire"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-            >
-              Accéder au formulaire
-            </Link>
-
-            <Link
-              href="/methode-orchestra"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-            >
-              Découvrir la méthode ORCHESTRA <span aria-hidden="true">›</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Hero
+        badge={heroBadge}
+        title={heroTitle}
+        description={heroDescription}
+        primaryCta={heroPrimaryCta}
+        secondaryCta={heroSecondaryCta}
+      />
 
       {/* =========================================================
           FORMULAIRE — bloc principal (fond alterné + card)
       ========================================================== */}
-      <section id="formulaire" className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24" id="formulaire">
         <Container>
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -143,12 +142,12 @@ export default function ContactPage() {
             </form>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           RÉASSURANCE — après formulaire (fond global)
       ========================================================== */}
-      <section className="py-24">
+      <Section className="py-24">
         <Container>
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -176,16 +175,16 @@ export default function ContactPage() {
 
             <div className="mt-12 text-sm text-white/60">
               Vous préférez découvrir notre approche ?{" "}
-              <Link
-                href="/methode-orchestra"
-                className="text-sky-400 transition-colors hover:text-sky-300"
-              >
-                Découvrir la Méthode ORCHESTRA
-              </Link>
+              <a
+              href="/methode-orchestra"
+              className="text-sky-400 transition-colors hover:text-sky-300"
+            >
+              Découvrir la Méthode ORCHESTRA
+            </a>
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
     </div>
   );
 }
