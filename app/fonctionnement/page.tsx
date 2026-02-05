@@ -69,7 +69,7 @@ export default function FonctionnementPage() {
               <span className="text-sky-400">Principes</span> de notre approche
             </h2>
 
-            <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               Notre manière de travailler repose sur trois principes fondamentaux :
             </p>
 
@@ -281,7 +281,7 @@ export default function FonctionnementPage() {
               <span className="text-sky-400">client</span>
             </h2>
 
-            <p className="mx-auto mt-10 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+            <p className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               Cette méthode permet au client de bénéficier :
             </p>
 
