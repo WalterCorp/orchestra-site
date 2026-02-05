@@ -90,7 +90,7 @@ export default function FaqPage() {
       ========================================================== */}
       <Section className="py-24">
         <Container>
-          <h2 className="text-center text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h2 className="text-center text-4xl font-semibold tracking-tight sm:text-6xl">
             Questions / Réponses
           </h2>
 
@@ -139,7 +139,7 @@ export default function FaqPage() {
               <span className="text-sky-400">échanger</span> sur votre contexte ?
             </h2>
 
-            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+            <p className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
               Un échange humain, sans engagement, pour clarifier votre situation
               et voir comment ORCHESTRA peut soutenir votre réflexion.
             </p>
