@@ -197,7 +197,7 @@ export default function HomePage() {
               La place de l&apos;<span className="text-sky-400">humain</span>
             </h2>
 
-            <p className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               L&apos;humain reste au centre de chaque accompagnement. Nos experts
               définissent les orientations, valident les analyses et prennent les
               décisions finales.
@@ -272,7 +272,7 @@ export default function HomePage() {
               <span className="text-sky-400">décisions</span> ?
             </h2>
 
-            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+            <p className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
               Un échange humain, sans engagement. ORCHESTRA soutient l’analyse,{" "}
               <span className="text-sky-400">l’humain pilote</span> la décision.
             </p>

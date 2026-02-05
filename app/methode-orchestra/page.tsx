@@ -158,7 +158,7 @@ export default function MethodeOrchestraPage() {
               />
             </div>
 
-            <p className="mx-auto mt-12 max-w-4xl text-sm text-white/85 sm:text-base">
+            <p className="mx-auto mt-12 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               L&apos;intelligence artificielle devient alors{" "}
               <span className="text-sky-400">un levier de clarté</span>, et non
               une promesse abstraite.
@@ -272,7 +272,7 @@ export default function MethodeOrchestraPage() {
               </div>
             </div>
 
-            <p className="mx-auto mt-14 max-w-4xl text-sm text-white/85 sm:text-base">
+            <p className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               Chaque composant agit comme{" "}
               <span className="text-sky-400">un expert spécialisé</span>, intégré
               dans une logique globale et cohérente.
@@ -291,7 +291,7 @@ export default function MethodeOrchestraPage() {
               Le rôle central de l&apos;<span className="text-sky-400">humain</span>
             </h2>
 
-            <p className="mx-auto mt-4 max-w-4xl text-sm text-white/85 sm:text-base">
+            <p className="mx-auto mt-4 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               L&apos;humain reste au centre du dispositif{" "}
               <span className="text-sky-400">ORCHESTRA</span>.
             </p>
@@ -355,7 +355,7 @@ export default function MethodeOrchestraPage() {
               <span className="text-sky-400">ORCHESTRA</span>
             </h2>
 
-            <p className="mx-auto mt-10 max-w-4xl text-sm text-white/85 sm:text-base">
+            <p className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               La méthode <span className="text-sky-400">ORCHESTRA</span> repose
               sur un fonctionnement clair et structuré :
             </p>
@@ -436,7 +436,7 @@ export default function MethodeOrchestraPage() {
               <span className="text-sky-400">Bénéfices</span> pour le client
             </h2>
 
-            <p className="mx-auto mt-10 max-w-4xl text-sm text-white/85 sm:text-base">
+            <p className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               Voici les avantages de l&apos;utilisation d&apos;ORCHESTRA pour le
               client :
             </p>

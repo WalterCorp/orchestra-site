@@ -106,7 +106,7 @@ export default function CabinetPage() {
 
             <div className="mx-auto mt-6 w-fit text-3xl text-sky-400">👤</div>
 
-            <div className="mx-auto mt-10 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               <p>
                 L&apos;humain reste au centre de chaque accompagnement.
                 <br />
