@@ -1,12 +1,7 @@
-import Link from "next/link";
-
-/**
- * Container
- * - Contrainte de largeur + padding (référence UI sur tout le site)
- */
-function Container({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
-}
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { Hero } from "@/components/sections/Hero";
+import { Button } from "@/components/ui/Button";
 
 const FAQ_ITEMS = [
   {
@@ -39,84 +34,61 @@ const FAQ_ITEMS = [
   },
 ];
 
-/**
- * CTA styles (cohérents avec Accueil)
- */
-function PrimaryCta({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-    >
-      {children}
-    </Link>
-  );
-}
-
-function SecondaryCta({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-    >
-      {children} <span aria-hidden="true">›</span>
-    </Link>
-  );
-}
-
 export default function FaqPage() {
+  // --------------------------------------------------
+  // HERO — contenu injecté (ReactNode) pour conserver
+  // le rendu de la page actuelle, sans régression
+  // --------------------------------------------------
+
+  const heroBadge = (
+    <>
+      <span aria-hidden="true">🤖</span>
+      <span>Conseil augmenté par l&apos;IA</span>
+    </>
+  );
+
+  const heroTitle = (
+    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+      Questions fréquentes
+    </h1>
+  );
+
+  const heroDescription = (
+    <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+      Nous avons regroupé ici les{" "}
+      <span className="text-sky-400">questions les plus fréquentes</span>{" "}
+      concernant notre approche, l&apos;usage de l&apos;intelligence artificielle
+      et notre manière de travailler.
+    </p>
+  );
+
+  const heroPrimaryCta = (
+    <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
+      Découvrir la méthode ORCHESTRA
+    </Button>
+  );
+
+  const heroSecondaryCta = (
+    <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
+      Nous contacter <span aria-hidden="true">›</span>
+    </Button>
+  );
+
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* =========================================================
-          HERO — FAQ (cohérent avec Accueil)
-      ========================================================== */}
-      <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
-          {/* Badge */}
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-            <span aria-hidden="true">🤖</span>
-            <span>Conseil augmenté par l&apos;IA</span>
-          </div>
-
-          {/* H1 */}
-          <h1 className="mx-auto mt-10 max-w-[900px] text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-            Questions fréquentes
-          </h1>
-
-          {/* Intro */}
-          <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
-            Nous avons regroupé ici les{" "}
-            <span className="text-sky-400">questions les plus fréquentes</span>{" "}
-            concernant notre approche, l&apos;usage de l&apos;intelligence artificielle et
-            notre manière de travailler.
-          </p>
-
-          {/* CTA Hero */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:mt-12">
-            <PrimaryCta href="/methode-orchestra">
-              Découvrir la méthode ORCHESTRA
-            </PrimaryCta>
-            <SecondaryCta href="/contact">Nous contacter</SecondaryCta>
-          </div>
-        </div>
-      </section>
+      <Hero
+        badge={heroBadge}
+        title={heroTitle}
+        description={heroDescription}
+        primaryCta={heroPrimaryCta}
+        secondaryCta={heroSecondaryCta}
+        fullHeight
+      />
 
       {/* =========================================================
           QUESTIONS / RÉPONSES (fond global)
       ========================================================== */}
-      <section className="py-24">
+      <Section className="py-24">
         <Container>
           <h2 className="text-center text-4xl font-semibold tracking-tight sm:text-5xl">
             Questions / Réponses
@@ -153,13 +125,13 @@ export default function FaqPage() {
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
           (Texte spécifique à la FAQ)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
@@ -173,24 +145,21 @@ export default function FaqPage() {
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-              >
+              <Button href="/contact" variant="primary" className="h-12 px-7">
                 Nous contacter
-              </Link>
+              </Button>
 
-              <Link
+              <Button
                 href="/methode-orchestra"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                variant="secondary"
+                className="h-12 px-7 gap-2"
               >
-                Découvrir la méthode ORCHESTRA{" "}
-                <span aria-hidden="true">›</span>
-              </Link>
+                Découvrir la méthode ORCHESTRA<span aria-hidden="true">›</span>
+              </Button>
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
     </div>
   );
 }
