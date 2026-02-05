@@ -85,7 +85,7 @@ export default function MethodeOrchestraPage() {
               🧩
             </div>
 
-            <div className="mx-auto mt-10 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               <p>
                 <span className="text-sky-400">ORCHESTRA</span> est le noyau
                 d&apos;intelligences artificielles du cabinet.
@@ -125,7 +125,7 @@ export default function MethodeOrchestraPage() {
               Pourquoi <span className="text-sky-400">ORCHESTRA</span>
             </h2>
 
-            <p className="mx-auto mt-6 max-w-5xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               Les organisations évoluent dans des environnements complexes,
               marqués par l&apos;incertitude,
               <br className="hidden sm:block" />
@@ -178,7 +178,7 @@ export default function MethodeOrchestraPage() {
               <span className="text-sky-400">ORCHESTRA</span>
             </h2>
 
-            <p className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               ORCHESTRA repose sur une architecture d&apos;intelligences
               artificielles spécialisées,
               <br />
@@ -221,7 +221,9 @@ export default function MethodeOrchestraPage() {
 
                 <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10">
                   <div className="mx-auto w-fit text-3xl text-sky-400">🧩</div>
-                  <div className="mt-5 text-lg font-semibold">IA de structuration</div>
+                  <div className="mt-5 text-lg font-semibold">
+                    IA de structuration
+                  </div>
                   <p className="mt-3 text-sm leading-6 text-white/80">
                     Organisation des idées,
                     <br />
@@ -393,7 +395,9 @@ export default function MethodeOrchestraPage() {
                 icon="✅"
                 title={
                   <>
-                    <div className="text-lg font-semibold">Arbitrage et validation</div>
+                    <div className="text-lg font-semibold">
+                      Arbitrage et validation
+                    </div>
                     <div className="text-lg font-semibold">humaine</div>
                   </>
                 }
@@ -442,7 +446,9 @@ export default function MethodeOrchestraPage() {
                 icon="↪"
                 title={
                   <>
-                    <div className="text-lg font-semibold">Une meilleure clarté dans</div>
+                    <div className="text-lg font-semibold">
+                      Une meilleure clarté dans
+                    </div>
                     <div className="text-lg font-semibold">ses décisions</div>
                   </>
                 }
@@ -452,8 +458,12 @@ export default function MethodeOrchestraPage() {
                 icon="🧠"
                 title={
                   <>
-                    <div className="text-lg font-semibold">Une expertise renforcée</div>
-                    <div className="text-lg font-semibold">mais ancrée dans le réel</div>
+                    <div className="text-lg font-semibold">
+                      Une expertise renforcée
+                    </div>
+                    <div className="text-lg font-semibold">
+                      mais ancrée dans le réel
+                    </div>
                   </>
                 }
                 className="p-8"
@@ -462,7 +472,9 @@ export default function MethodeOrchestraPage() {
                 icon="✅"
                 title={
                   <>
-                    <div className="text-lg font-semibold">Une méthode lisible et</div>
+                    <div className="text-lg font-semibold">
+                      Une méthode lisible et
+                    </div>
                     <div className="text-lg font-semibold">expliquée</div>
                   </>
                 }
@@ -472,7 +484,9 @@ export default function MethodeOrchestraPage() {
                 icon="📊"
                 title={
                   <>
-                    <div className="text-lg font-semibold">Un accompagnement</div>
+                    <div className="text-lg font-semibold">
+                      Un accompagnement
+                    </div>
                     <div className="text-lg font-semibold">
                       structuré et responsable
                     </div>
@@ -496,7 +510,8 @@ export default function MethodeOrchestraPage() {
               Vous souhaitez <span className="text-sky-400">découvrir</span>{" "}
               notre manière de travailler
               <br className="hidden sm:block" />
-              ou <span className="text-sky-400">échanger</span> sur votre contexte ?
+              ou <span className="text-sky-400">échanger</span> sur votre
+              contexte ?
             </h2>
 
             <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
