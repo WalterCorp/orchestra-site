@@ -1,102 +1,76 @@
-import Link from "next/link";
-
-/**
- * Container
- * - Contrainte de largeur + padding (référence UI sur tout le site)
- */
-function Container({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">{children}</div>;
-}
-
-/**
- * Card
- * - Carte simple (icône + titre)
- * - Utilisée pour les grilles de bénéfices / rôles / étapes
- */
-function Card({
-  icon,
-  title,
-  className = "",
-}: {
-  icon: string;
-  title: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={[
-        "rounded-2xl bg-[#0f1a2b] p-8 text-center ring-1 ring-white/10",
-        className,
-      ].join(" ")}
-    >
-      <div className="mx-auto w-fit text-3xl text-sky-400" aria-hidden="true">
-        {icon}
-      </div>
-      <div className="mt-6 text-lg font-semibold leading-snug">{title}</div>
-    </div>
-  );
-}
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { Hero } from "@/components/sections/Hero";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 export default function MethodeOrchestraPage() {
+  // --------------------------------------------------
+  // HERO — contenu injecté (ReactNode) + label ORCHESTRA spécifique
+  // --------------------------------------------------
+
+  const heroBadge = (
+    <>
+      <span aria-hidden="true">🤖</span>
+      <span>Conseil augmenté par l&apos;IA</span>
+    </>
+  );
+
+  const heroTitle = (
+    <>
+      {/* Label ORCHESTRA */}
+      <div className="mt-7 text-4xl font-semibold tracking-tight text-sky-400 sm:text-5xl">
+        ORCHESTRA
+      </div>
+
+      {/* H1 */}
+      <h1 className="mx-auto mt-6 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
+        Une équipe de{" "}
+        <span className="text-sky-400">collaborateurs intelligents</span> au
+        service de la <span className="text-sky-400">décision</span>
+      </h1>
+    </>
+  );
+
+  const heroDescription = (
+    <p className="mx-auto mt-8 max-w-4xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
+      <span className="text-sky-400">ORCHESTRA</span> n&apos;est pas une
+      intelligence artificielle unique,
+      <br className="hidden lg:block" />
+      mais une architecture coordonnée{" "}
+      <span className="text-sky-400">d&apos;intelligences spécialisées</span>,
+      pilotée et validée par des{" "}
+      <span className="text-sky-400">experts humains</span>.
+    </p>
+  );
+
+  const heroPrimaryCta = (
+    <Button href="/fonctionnement" variant="primary" className="h-14 px-10">
+      Comment nous travaillons
+    </Button>
+  );
+
+  const heroSecondaryCta = (
+    <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
+      Nous contacter <span aria-hidden="true">›</span>
+    </Button>
+  );
+
   return (
     <div className="bg-[#0b1020] text-white">
-      {/* =========================================================
-          HERO — Présentation de la méthode ORCHESTRA
-      ========================================================== */}
-      <section className="relative overflow-hidden">
-        <div className="relative mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20">
-          {/* Badge */}
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
-            <span aria-hidden="true">🤖</span>
-            <span>Conseil augmenté par l&apos;IA</span>
-          </div>
-
-          {/* Label ORCHESTRA */}
-          <div className="mt-7 text-4xl font-semibold tracking-tight text-sky-400 sm:text-5xl">
-            ORCHESTRA
-          </div>
-
-          {/* H1 */}
-          <h1 className="mx-auto mt-6 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
-            Une équipe de{" "}
-            <span className="text-sky-400">collaborateurs intelligents</span> au
-            service de la <span className="text-sky-400">décision</span>
-          </h1>
-
-          {/* Intro (ligne forcée en desktop large) */}
-          <p className="mx-auto mt-8 max-w-4xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
-            <span className="text-sky-400">ORCHESTRA</span> n&apos;est pas une
-            intelligence artificielle unique,
-            <br className="hidden lg:block" />
-            mais une architecture coordonnée{" "}
-            <span className="text-sky-400">d&apos;intelligences spécialisées</span>,
-            pilotée et validée par des{" "}
-            <span className="text-sky-400">experts humains</span>.
-          </p>
-
-          {/* CTA Hero */}
-          <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
-            <Link
-              href="/fonctionnement"
-              className="inline-flex h-14 items-center justify-center rounded-xl bg-sky-600 px-10 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-            >
-              Comment nous travaillons
-            </Link>
-
-            <Link
-              href="/contact"
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-white/5 px-10 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-            >
-              Nous contacter <span aria-hidden="true">›</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Hero
+        badge={heroBadge}
+        title={heroTitle}
+        description={heroDescription}
+        primaryCta={heroPrimaryCta}
+        secondaryCta={heroSecondaryCta}
+        fullHeight
+      />
 
       {/* =========================================================
           UNE NOUVELLE FAÇON DE TRAVAILLER — Bloc structurant (fond alterné)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -104,7 +78,10 @@ export default function MethodeOrchestraPage() {
               travailler avec l&apos;<span className="text-sky-400">IA</span>
             </h2>
 
-            <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+            <div
+              className="mx-auto mt-6 w-fit text-3xl text-sky-400"
+              aria-hidden="true"
+            >
               🧩
             </div>
 
@@ -136,12 +113,12 @@ export default function MethodeOrchestraPage() {
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           POURQUOI ORCHESTRA — Fond global
       ========================================================== */}
-      <section className="py-24">
+      <Section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -161,20 +138,23 @@ export default function MethodeOrchestraPage() {
             </p>
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card icon="🧠" title="Structurer la réflexion" />
-              <Card icon="📋" title="Clarifier les enjeux" />
-              <Card icon="↪" title="Objectiver les décisions" />
+              <Card icon="🧠" title="Structurer la réflexion" className="p-8" />
+              <Card icon="📋" title="Clarifier les enjeux" className="p-8" />
+              <Card icon="↪" title="Objectiver les décisions" className="p-8" />
               <Card
                 icon="👥"
                 title={
                   <>
-                    Conserver une lecture
-                    <br />
-                    humaine, pragmatique et
-                    <br />
-                    responsable
+                    <div className="text-lg font-semibold">
+                      Conserver une lecture
+                    </div>
+                    <div className="text-lg font-semibold">
+                      humaine, pragmatique et
+                    </div>
+                    <div className="text-lg font-semibold">responsable</div>
                   </>
                 }
+                className="p-8"
               />
             </div>
 
@@ -185,12 +165,12 @@ export default function MethodeOrchestraPage() {
             </p>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           COMPOSITION DU NOYAU ORCHESTRA — Bloc structurant (fond alterné)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -209,7 +189,7 @@ export default function MethodeOrchestraPage() {
               Exemples de composants :
             </p>
 
-            {/* Bulles (2 lignes pour un alignement parfait) */}
+            {/* Bulles (2 lignes pour un alignement parfait) — spécifique, conservé inline */}
             <div className="mx-auto mt-14 max-w-6xl space-y-6">
               {/* Ligne 1 : 3 bulles */}
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -241,9 +221,7 @@ export default function MethodeOrchestraPage() {
 
                 <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10">
                   <div className="mx-auto w-fit text-3xl text-sky-400">🧩</div>
-                  <div className="mt-5 text-lg font-semibold">
-                    IA de structuration
-                  </div>
+                  <div className="mt-5 text-lg font-semibold">IA de structuration</div>
                   <p className="mt-3 text-sm leading-6 text-white/80">
                     Organisation des idées,
                     <br />
@@ -256,10 +234,8 @@ export default function MethodeOrchestraPage() {
 
               {/* Ligne 2 : 2 bulles positionnées sous (1-2) et (2-3) */}
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:justify-items-center">
-                {/* Spacer col 1 (desktop) */}
                 <div className="hidden lg:block" />
 
-                {/* 4 : sous 1-2 (col 2-3) */}
                 <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2">
                   <div className="mx-auto w-fit text-3xl text-sky-400">🧭</div>
                   <div className="mt-5 text-lg font-semibold">
@@ -274,7 +250,6 @@ export default function MethodeOrchestraPage() {
                   </p>
                 </div>
 
-                {/* 5 : sous 2-3 (col 4-5) */}
                 <div className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2">
                   <div className="mx-auto w-fit text-3xl text-sky-400">🎓</div>
                   <div className="mt-5 text-lg font-semibold">
@@ -291,7 +266,6 @@ export default function MethodeOrchestraPage() {
                   </p>
                 </div>
 
-                {/* Spacer col 6 (desktop) */}
                 <div className="hidden lg:block" />
               </div>
             </div>
@@ -303,17 +277,16 @@ export default function MethodeOrchestraPage() {
             </p>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           RÔLE CENTRAL DE L’HUMAIN — Fond global
       ========================================================== */}
-      <section className="py-24">
+      <Section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Le rôle central de l&apos;
-              <span className="text-sky-400">humain</span>
+              Le rôle central de l&apos;<span className="text-sky-400">humain</span>
             </h2>
 
             <p className="mx-auto mt-4 max-w-4xl text-sm text-white/85 sm:text-base">
@@ -326,29 +299,34 @@ export default function MethodeOrchestraPage() {
             </p>
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card icon="↪" title="Définir les orientations" />
-              <Card icon="⌨️" title="Arbitrer les propositions" />
+              <Card icon="↪" title="Définir les orientations" className="p-8" />
+              <Card icon="⌨️" title="Arbitrer les propositions" className="p-8" />
               <Card
                 icon="✅"
                 title={
                   <>
-                    Valider les analyses et
-                    <br />
-                    prendre les décisions
-                    <br />
-                    finales
+                    <div className="text-lg font-semibold">
+                      Valider les analyses et
+                    </div>
+                    <div className="text-lg font-semibold">
+                      prendre les décisions
+                    </div>
+                    <div className="text-lg font-semibold">finales</div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="📊"
                 title={
                   <>
-                    Assurer
-                    <br />
-                    l&apos;accompagnement client
+                    <div className="text-lg font-semibold">Assurer</div>
+                    <div className="text-lg font-semibold">
+                      l&apos;accompagnement client
+                    </div>
                   </>
                 }
+                className="p-8"
               />
             </div>
 
@@ -362,12 +340,12 @@ export default function MethodeOrchestraPage() {
             </p>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           FONCTIONNEMENT GLOBAL — Bloc structurant (fond alterné)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -385,44 +363,51 @@ export default function MethodeOrchestraPage() {
                 icon="👥"
                 title={
                   <>
-                    Analyse du contexte et des
-                    <br />
-                    enjeux par les experts
-                    <br />
-                    humains
+                    <div className="text-lg font-semibold">
+                      Analyse du contexte et des
+                    </div>
+                    <div className="text-lg font-semibold">
+                      enjeux par les experts
+                    </div>
+                    <div className="text-lg font-semibold">humains</div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="⭕"
                 title={
                   <>
-                    Appui d&apos;<span className="text-sky-400">ORCHESTRA</span>{" "}
-                    pour
-                    <br />
-                    enrichir l&apos;analyse
+                    <div className="text-lg font-semibold">
+                      Appui d&apos;<span className="text-sky-400">ORCHESTRA</span>{" "}
+                      pour
+                    </div>
+                    <div className="text-lg font-semibold">
+                      enrichir l&apos;analyse
+                    </div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="✅"
                 title={
                   <>
-                    Arbitrage et validation
-                    <br />
-                    humaine
+                    <div className="text-lg font-semibold">Arbitrage et validation</div>
+                    <div className="text-lg font-semibold">humaine</div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="📊"
                 title={
                   <>
-                    Mise en oeuvre et
-                    <br />
-                    accompagnement
+                    <div className="text-lg font-semibold">Mise en oeuvre et</div>
+                    <div className="text-lg font-semibold">accompagnement</div>
                   </>
                 }
+                className="p-8"
               />
             </div>
 
@@ -435,12 +420,12 @@ export default function MethodeOrchestraPage() {
             </p>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           BÉNÉFICES POUR LE CLIENT — Fond global
       ========================================================== */}
-      <section className="py-24">
+      <Section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -457,60 +442,61 @@ export default function MethodeOrchestraPage() {
                 icon="↪"
                 title={
                   <>
-                    Une meilleure clarté dans
-                    <br />
-                    ses décisions
+                    <div className="text-lg font-semibold">Une meilleure clarté dans</div>
+                    <div className="text-lg font-semibold">ses décisions</div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="🧠"
                 title={
                   <>
-                    Une expertise renforcée
-                    <br />
-                    mais ancrée dans le réel
+                    <div className="text-lg font-semibold">Une expertise renforcée</div>
+                    <div className="text-lg font-semibold">mais ancrée dans le réel</div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="✅"
                 title={
                   <>
-                    Une méthode lisible et
-                    <br />
-                    expliquée
+                    <div className="text-lg font-semibold">Une méthode lisible et</div>
+                    <div className="text-lg font-semibold">expliquée</div>
                   </>
                 }
+                className="p-8"
               />
               <Card
                 icon="📊"
                 title={
                   <>
-                    Un accompagnement
-                    <br />
-                    structuré et responsable
+                    <div className="text-lg font-semibold">Un accompagnement</div>
+                    <div className="text-lg font-semibold">
+                      structuré et responsable
+                    </div>
                   </>
                 }
+                className="p-8"
               />
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
           (Texte spécifique à la page Méthode)
       ========================================================== */}
-      <section className="bg-[#080d1a] py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Vous souhaitez <span className="text-sky-400">découvrir</span>{" "}
               notre manière de travailler
               <br className="hidden sm:block" />
-              ou <span className="text-sky-400">échanger</span> sur votre contexte
-              ?
+              ou <span className="text-sky-400">échanger</span> sur votre contexte ?
             </h2>
 
             <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
@@ -519,23 +505,21 @@ export default function MethodeOrchestraPage() {
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-              >
+              <Button href="/contact" variant="primary" className="h-12 px-7">
                 Nous contacter
-              </Link>
+              </Button>
 
-              <Link
+              <Button
                 href="/fonctionnement"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/5 px-7 text-base font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                variant="secondary"
+                className="h-12 px-7 gap-2"
               >
                 Comment nous travaillons <span aria-hidden="true">›</span>
-              </Link>
+              </Button>
             </div>
           </div>
         </Container>
-      </section>
+      </Section>
     </div>
   );
 }
