@@ -102,6 +102,17 @@ export async function POST(req: Request) {
 
     const email = cleanText(data.email, LIMITS.EMAIL_MAX);
     const message = cleanText(data.message, LIMITS.MESSAGE_MAX);
+    const website = cleanText(data.website, 200);
+
+    // 2.5) Anti-spam (honeypot)
+    // Si le champ "website" est rempli, on considère que c’est un bot.
+    // On renvoie une réponse neutre (200) pour ne pas aider les spammeurs.
+    if (website) {
+    return NextResponse.json(
+        { ok: true, message: "Message reçu. Votre demande sera examinée." },
+        { status: 200 }
+    );
+    }
 
     // 3) Validation serveur (MVP)
     // On renvoie une structure d’erreurs simple pour le front.
@@ -120,23 +131,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, errors }, { status: 400 });
     }
 
+    // À ce stade, message et email sont garantis non nuls
+    const safeMessage = message!;
+
     // 4) Réponse de succès (MVP)
     // Pour ce commit, on confirme seulement que la validation fonctionne.
     // (Dans les commits suivants, on ajoutera honeypot, logs et webhook n8n.)
     return NextResponse.json(
-      {
-        ok: true,
-        // NOTE: temporaire pour vérifier la normalisation. À retirer quand on ajoute les logs (PII).
-        email,
-        message_length: message.length,
+    {
+    ok: true,
+    message: "Message reçu. Votre demande sera examinée.",
+    // Debug léger (utile pendant la phase API)
+    message_length: safeMessage.length,
 
-        // Champs optionnels normalisés (utile pour debug)
-        full_name,
-        company,
-        subject,
-      },
-      { status: 200 }
-    );
+    // Champs optionnels normalisés (utile pour vérifier la structure)
+    full_name,
+    company,
+    subject,
+  },
+  { status: 200 }
+);
+
   } catch (error) {
     // Erreur de parsing JSON ou problème inattendu
     return NextResponse.json(
