@@ -2,16 +2,74 @@
  * ORCHESTRA — Contact Pro API
  * ---------------------------
  * Endpoint server-side destiné à recevoir les demandes de contact.
- * Cette première version constitue un squelette :
- * - vérifie que la requête est un POST
- * - vérifie que le body est bien du JSON
+ *
+ * Commit 1 (squelette) :
+ * - vérifie méthode / JSON
  * - répond OK si le pipeline fonctionne
  *
- * La validation métier, l’anti-spam et les logs
- * seront ajoutés dans les commits suivants.
+ * Commit 2 (ce fichier) :
+ * - ajoute la validation serveur (email + message)
+ * - normalise les champs (trim + limites)
+ * - renvoie des erreurs structurées (400) si besoin
+ *
+ * Les commits suivants ajouteront :
+ * - anti-spam (honeypot)
+ * - logs minimaux (sans PII)
+ * - option webhook n8n (non bloquante)
  */
 
 import { NextResponse } from "next/server";
+
+/**
+ * Contrat d’entrée (MVP) — on garde volontairement simple.
+ * Les champs non listés seront ignorés.
+ */
+type ContactPayload = {
+  full_name?: string | null;
+  email?: string | null;
+  company?: string | null;
+  subject?: string | null;
+  message?: string | null;
+
+  // Réservé au commit 3 (honeypot). On l’accepte déjà côté payload.
+  website?: string | null;
+};
+
+/**
+ * Limites (MVP)
+ * Objectif : éviter les payloads anormaux et standardiser la taille des champs.
+ */
+const LIMITS = {
+  EMAIL_MAX: 254,
+  TEXT_MAX: 120,
+  MESSAGE_MIN: 20,
+  MESSAGE_MAX: 2000,
+};
+
+/**
+ * Validation email (MVP)
+ * On démarre simple : présence de "@" + limite de longueur.
+ * On pourra durcir plus tard si nécessaire.
+ */
+function isProbablyEmail(value: string) {
+  return value.includes("@") && value.length <= LIMITS.EMAIL_MAX;
+}
+
+/**
+ * Normalisation texte :
+ * - n’accepte que les strings
+ * - trim
+ * - convertit "" en null
+ * - tronque si dépasse maxLen (sécurité)
+ */
+function cleanText(value: unknown, maxLen: number) {
+  if (typeof value !== "string") return null;
+
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  return trimmed.length > maxLen ? trimmed.slice(0, maxLen) : trimmed;
+}
 
 /**
  * POST /api/contact
@@ -34,15 +92,53 @@ export async function POST(req: Request) {
     }
 
     // 2) Lecture du body JSON
-    // Pour l’instant, on ne traite pas les données :
-    // on vérifie simplement que le JSON est valide.
-    await req.json();
+    // Ici, on récupère les champs et on les normalise.
+    const raw = (await req.json()) as unknown;
+    const data = (raw ?? {}) as ContactPayload;
 
-    // 3) Réponse de succès (MVP)
-    // Le serveur a bien reçu et compris la requête
-    return NextResponse.json({ ok: true }, { status: 200 });
+    const full_name = cleanText(data.full_name, LIMITS.TEXT_MAX);
+    const company = cleanText(data.company, LIMITS.TEXT_MAX);
+    const subject = cleanText(data.subject, LIMITS.TEXT_MAX);
+
+    const email = cleanText(data.email, LIMITS.EMAIL_MAX);
+    const message = cleanText(data.message, LIMITS.MESSAGE_MAX);
+
+    // 3) Validation serveur (MVP)
+    // On renvoie une structure d’erreurs simple pour le front.
+    const errors: Record<string, string> = {};
+
+    if (!email) errors.email = "Email requis.";
+    else if (!isProbablyEmail(email)) errors.email = "Email invalide.";
+
+    if (!message) errors.message = "Message requis.";
+    else if (message.length < LIMITS.MESSAGE_MIN) {
+      errors.message = `Message trop court (min ${LIMITS.MESSAGE_MIN} caractères).`;
+    }
+
+    // Si erreurs => 400
+    if (Object.keys(errors).length > 0) {
+      return NextResponse.json({ ok: false, errors }, { status: 400 });
+    }
+
+    // 4) Réponse de succès (MVP)
+    // Pour ce commit, on confirme seulement que la validation fonctionne.
+    // (Dans les commits suivants, on ajoutera honeypot, logs et webhook n8n.)
+    return NextResponse.json(
+      {
+        ok: true,
+        // NOTE: temporaire pour vérifier la normalisation. À retirer quand on ajoute les logs (PII).
+        email,
+        message_length: message.length,
+
+        // Champs optionnels normalisés (utile pour debug)
+        full_name,
+        company,
+        subject,
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    // 4) Erreur de parsing JSON ou problème inattendu
+    // Erreur de parsing JSON ou problème inattendu
     return NextResponse.json(
       {
         ok: false,
