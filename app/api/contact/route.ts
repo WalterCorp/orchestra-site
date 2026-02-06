@@ -89,6 +89,29 @@ function logContactEvent(payload: {
 }
 
 /**
+ * Envoi non bloquant vers un webhook (n8n).
+ * Important : on ne casse jamais l’expérience utilisateur si le webhook est KO.
+ */
+async function safePostToWebhook(
+  url: string,
+  payload: unknown
+): Promise<{ ok: true } | { ok: false }> {
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) return { ok: false };
+    return { ok: true };
+  } catch {
+    return { ok: false };
+  }
+}
+
+
+/**
  * POST /api/contact
  * -----------------
  * Point d’entrée principal du formulaire Contact Pro.
@@ -153,13 +176,13 @@ export async function POST(req: Request) {
 
     // Si erreurs => 400
     if (Object.keys(errors).length > 0) {
-      return NextResponse.json({ ok: false, errors }, { status: 400 });
+    return NextResponse.json({ ok: false, errors }, { status: 400 });
     }
 
-    // À ce stade, message et email sont garantis non nuls
+    // 4) À ce stade, message est garanti non nul
     const safeMessage = message!;
 
-    // 3) Log minimal — contact valide (sans PII)
+    // 5) Log minimal — contact valide (sans PII)
     logContactEvent({
     event: "contact_received",
     spam_suspected: false,
@@ -168,23 +191,48 @@ export async function POST(req: Request) {
     user_agent: req.headers.get("user-agent"),
     });
 
-    // 4) Réponse de succès (MVP)
-    // Pour ce commit, on confirme seulement que la validation fonctionne.
-    // (Dans les commits suivants, on ajoutera honeypot, logs et webhook n8n.)
+    // 6) Webhook n8n optionnel (non bloquant)
+    const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
+
+    if (webhookUrl) {
+    const webhookPayload = {
+        received_at: new Date().toISOString(),
+        spam_suspected: false,
+        message_length: safeMessage.length,
+
+        // Données métier envoyées à n8n
+        full_name,
+        company,
+        subject,
+        email,
+        message: safeMessage,
+    };
+
+    const webhookResult = await safePostToWebhook(
+        webhookUrl,
+        webhookPayload
+    );
+
+    // Log technique (sans PII)
+    console.log("[CONTACT_PRO_WEBHOOK]", {
+        ok: webhookResult.ok,
+        timestamp: new Date().toISOString(),
+    });
+    }
+
+    // 7) Réponse de succès
     return NextResponse.json(
     {
-    ok: true,
-    message: "Message reçu. Votre demande sera examinée.",
-    // Debug léger (utile pendant la phase API)
-    message_length: safeMessage.length,
+        ok: true,
+        message: "Message reçu. Votre demande sera examinée.",
+        message_length: safeMessage.length,
+        full_name,
+        company,
+        subject,
+    },
+    { status: 200 }
+    );
 
-    // Champs optionnels normalisés (utile pour vérifier la structure)
-    full_name,
-    company,
-    subject,
-  },
-  { status: 200 }
-);
 
   } catch (error) {
     // Erreur de parsing JSON ou problème inattendu
