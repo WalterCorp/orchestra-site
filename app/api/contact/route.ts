@@ -72,6 +72,23 @@ function cleanText(value: unknown, maxLen: number) {
 }
 
 /**
+ * Log minimal (sans données personnelles)
+ * Les logs sont visibles en local et côté hébergeur (Vercel).
+ */
+function logContactEvent(payload: {
+  event: "contact_received";
+  spam_suspected: boolean;
+  message_length: number;
+  has_optional_fields: boolean;
+  user_agent: string | null;
+}) {
+  console.log("[CONTACT_PRO]", {
+    ...payload,
+    timestamp: new Date().toISOString(),
+  });
+}
+
+/**
  * POST /api/contact
  * -----------------
  * Point d’entrée principal du formulaire Contact Pro.
@@ -108,6 +125,14 @@ export async function POST(req: Request) {
     // Si le champ "website" est rempli, on considère que c’est un bot.
     // On renvoie une réponse neutre (200) pour ne pas aider les spammeurs.
     if (website) {
+        logContactEvent({
+        event: "contact_received",
+        spam_suspected: true,
+        message_length: 0,
+        has_optional_fields: false,
+        user_agent: req.headers.get("user-agent"),
+        });
+
     return NextResponse.json(
         { ok: true, message: "Message reçu. Votre demande sera examinée." },
         { status: 200 }
@@ -133,6 +158,15 @@ export async function POST(req: Request) {
 
     // À ce stade, message et email sont garantis non nuls
     const safeMessage = message!;
+
+    // 3) Log minimal — contact valide (sans PII)
+    logContactEvent({
+    event: "contact_received",
+    spam_suspected: false,
+    message_length: safeMessage.length,
+    has_optional_fields: Boolean(full_name || company || subject),
+    user_agent: req.headers.get("user-agent"),
+    });
 
     // 4) Réponse de succès (MVP)
     // Pour ce commit, on confirme seulement que la validation fonctionne.
