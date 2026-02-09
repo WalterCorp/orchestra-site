@@ -200,9 +200,13 @@ export async function POST(req: Request) {
 
     // 6) Webhook n8n optionnel (non bloquant)
     const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
+    console.log("[CONTACT_PRO_WEBHOOK_URL_PRESENT]", Boolean(webhookUrl));
+
 
     if (webhookUrl) {
     const webhookPayload = {
+        context: "orchestra",
+        event: "contact_received",
         received_at: new Date().toISOString(),
         spam_suspected: false,
         message_length: safeMessage.length,
