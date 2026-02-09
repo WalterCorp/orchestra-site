@@ -225,10 +225,6 @@ export async function POST(req: Request) {
     {
         ok: true,
         message: "Message reçu. Votre demande sera examinée.",
-        message_length: safeMessage.length,
-        full_name,
-        company,
-        subject,
     },
     { status: 200 }
     );
