@@ -94,19 +94,26 @@ function logContactEvent(payload: {
  */
 async function safePostToWebhook(
   url: string,
-  payload: unknown
+  payload: unknown,
+  timeoutMs = 1500
 ): Promise<{ ok: true } | { ok: false }> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
 
     if (!res.ok) return { ok: false };
     return { ok: true };
   } catch {
     return { ok: false };
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
