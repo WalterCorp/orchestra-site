@@ -73,8 +73,7 @@ export function ContactForm() {
 
       setState("success");
       setSuccessMessage(
-        ("message" in json && json.message) ||
-          "Message reçu. Votre demande sera examinée."
+        "Message reçu. Un membre de l’équipe ORCHESTRA reviendra vers vous."
       );
 
       // Reset du form après succès

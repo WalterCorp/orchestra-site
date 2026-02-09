@@ -164,7 +164,7 @@ export async function POST(req: Request) {
         });
 
     return NextResponse.json(
-        { ok: true, message: "Message reçu. Votre demande sera examinée." },
+        { ok: true, message: "Message reçu. Un membre de l’équipe ORCHESTRA reviendra vers vous." },
         { status: 200 }
     );
     }
@@ -231,7 +231,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
     {
         ok: true,
-        message: "Message reçu. Votre demande sera examinée.",
+        message: "Message reçu. Un membre de l’équipe ORCHESTRA reviendra vers vous.",
     },
     { status: 200 }
     );
