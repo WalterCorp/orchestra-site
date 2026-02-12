@@ -2,9 +2,7 @@ import React from "react";
 
 type SectionVariant = "default" | "darker";
 
-type SectionProps = {
-  children: React.ReactNode;
-  className?: string;
+type SectionProps = React.HTMLAttributes<HTMLElement> & {
   variant?: SectionVariant;
   as?: "section" | "div";
 };
@@ -28,14 +26,12 @@ export function Section({
   className = "",
   variant = "default",
   as: Tag = "section",
+  ...props
 }: SectionProps) {
-  const background =
-    variant === "darker"
-      ? "bg-[#080d1a]"
-      : "";
+  const background = variant === "darker" ? "bg-[#080d1a]" : "";
 
   return (
-    <Tag className={`${background} ${className}`.trim()}>
+    <Tag {...props} className={`${background} ${className}`.trim()}>
       {children}
     </Tag>
   );
