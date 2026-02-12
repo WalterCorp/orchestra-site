@@ -46,7 +46,8 @@ export function ContactForm() {
     };
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL ??
+    "https://diligencyvision.app.n8n.cloud/webhook/lead/new", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
