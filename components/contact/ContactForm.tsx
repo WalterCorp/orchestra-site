@@ -46,12 +46,18 @@ export function ContactForm() {
     };
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL ??
-    "https://diligencyvision.app.n8n.cloud/webhook/lead/new", {
+      const N8N_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
+
+      if (!N8N_WEBHOOK_URL) {
+        throw new Error("Missing NEXT_PUBLIC_N8N_WEBHOOK_URL");
+      }
+
+      const res = await fetch(N8N_WEBHOOK_URL, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
+
 
       const json = (await res.json()) as ApiErrorResponse | ApiSuccessResponse;
 
