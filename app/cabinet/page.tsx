@@ -1,14 +1,84 @@
+// app/cabinet/page.tsx
+
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Hero } from "@/components/sections/Hero";
 import { Button } from "@/components/ui/Button";
 
-export default function CabinetPage() {
+// --- CMS (Sanity) ---
+import { getPageBySlug } from "@/lib/sanity/queries";
+
+/**
+ * Portable Text (Sanity) = un format JSON pour représenter du texte riche.
+ * Pour cette phase MVP, on ne rend pas encore le texte "riche" (titres, liens, etc.)
+ * On extrait simplement le texte brut (plain text).
+ */
+type PortableTextChild = { _type?: string; text?: string };
+type PortableTextBlock = { _type?: string; children?: PortableTextChild[] };
+
+/**
+ * Convertit du Portable Text Sanity → texte brut lisible.
+ * - On prend uniquement les blocks standards (_type: "block")
+ * - On concatène les textes des children
+ * - On sépare les blocs par des sauts de ligne
+ */
+function portableTextToPlainText(content: unknown): string {
+  if (!Array.isArray(content)) return "";
+
+  return content
+    .map((block) => {
+      const b = block as PortableTextBlock;
+
+      // Un bloc standard ressemble à :
+      // { _type: "block", children: [{ text: "..." }, ...] }
+      if (b?._type !== "block" || !Array.isArray(b.children)) return "";
+
+      return b.children
+        .map((child) => (typeof child?.text === "string" ? child.text : ""))
+        .join("");
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+/**
+ * Page Cabinet
+ * On la passe en async car on va faire un fetch côté serveur (Server Component).
+ * Objectif de la phase: injecter le CMS uniquement sur la section "Vision du Cabinet".
+ */
+export default async function CabinetPage() {
   // --------------------------------------------------
-  // HERO — contenu injecté (ReactNode) pour conserver
+  // 1) Récupération CMS : slug = "cabinet"
+  // --------------------------------------------------
+  // Pourquoi slug ?
+  // Le slug est l’identifiant "URL-friendly" côté CMS.
+  // Ici on veut récupérer le document Sanity dont slug.current == "cabinet".
+  const slug = "cabinet";
+
+  // On stocke le texte CMS final ici.
+  // Si Sanity ne répond pas ou ne renvoie pas de contenu,
+  // on garde null et on affichera le fallback statique.
+  let cmsVisionText: string | null = null;
+
+  try {
+    const data = await getPageBySlug(slug);
+
+    // On transforme le Portable Text en texte brut
+    const plain = portableTextToPlainText(data?.content);
+
+    // On ne garde le texte que s’il contient quelque chose
+    cmsVisionText = plain?.trim() ? plain.trim() : null;
+  } catch (error) {
+    // Important : on ne casse pas la page si le CMS échoue.
+    // On log côté serveur pour debug.
+    console.error("[CabinetPage] Sanity fetch failed:", error);
+    cmsVisionText = null;
+  }
+
+  // --------------------------------------------------
+  // 2) HERO — contenu injecté (ReactNode) pour conserver
   // le rendu fullHeight (comme la V1)
   // --------------------------------------------------
-
   const heroBadge = (
     <>
       <span aria-hidden="true">🤖</span>
@@ -47,6 +117,9 @@ export default function CabinetPage() {
     </Button>
   );
 
+  // --------------------------------------------------
+  // 3) RENDER
+  // --------------------------------------------------
   return (
     <div className="bg-[#0b1020] text-white">
       <Hero
@@ -60,6 +133,8 @@ export default function CabinetPage() {
 
       {/* =========================================================
           LA VISION DU CABINET — Bloc structurant (fond alterné)
+          Objectif MVP : cette section est alimentée par Sanity
+          (si disponible), sinon fallback statique.
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
@@ -71,31 +146,38 @@ export default function CabinetPage() {
             <div className="mx-auto mt-6 w-fit text-3xl text-sky-400">👁️</div>
 
             <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <p>
-                Notre cabinet est né d&apos;un{" "}
-                <span className="text-sky-400">constat</span> simple : les
-                organisations évoluent dans des environnements de plus en plus
-                complexes.
-                <br />
-                Nous avons fait le choix de ne pas opposer l&apos;humain et
-                l&apos;intelligence artificielle, mais de les faire{" "}
-                <span className="text-sky-400">collaborer</span>.
-                <br />
-                Notre approche repose sur des experts humains, accompagnés par
-                une architecture d&apos;intelligences artificielles spécialisées,
-                conçue pour{" "}
-                <span className="text-sky-400">
-                  renforcer l&apos;analyse et la structuration
-                </span>{" "}
-                des décisions, sans jamais s&apos;y substituer.
-              </p>
+              {cmsVisionText ? (
+                // CMS content (plain text)
+                // whitespace-pre-wrap = respecte les retours à la ligne
+                <p className="whitespace-pre-wrap">{cmsVisionText}</p>
+              ) : (
+                // Fallback content (version statique actuelle)
+                <p>
+                  Notre cabinet est né d&apos;un{" "}
+                  <span className="text-sky-400">constat</span> simple : les
+                  organisations évoluent dans des environnements de plus en plus
+                  complexes.
+                  <br />
+                  Nous avons fait le choix de ne pas opposer l&apos;humain et
+                  l&apos;intelligence artificielle, mais de les faire{" "}
+                  <span className="text-sky-400">collaborer</span>.
+                  <br />
+                  Notre approche repose sur des experts humains, accompagnés par
+                  une architecture d&apos;intelligences artificielles spécialisées,
+                  conçue pour{" "}
+                  <span className="text-sky-400">
+                    renforcer l&apos;analyse et la structuration
+                  </span>{" "}
+                  des décisions, sans jamais s&apos;y substituer.
+                </p>
+              )}
             </div>
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          LA PLACE DE L’HUMAIN — Fond global
+          LA PLACE DE L’HUMAIN — Fond global (statique pour l’instant)
       ========================================================== */}
       <Section className="py-24">
         <Container>
@@ -126,7 +208,7 @@ export default function CabinetPage() {
       </Section>
 
       {/* =========================================================
-          USAGE ENCADRÉ DE L’IA — Bloc structurant (fond alterné)
+          USAGE ENCADRÉ DE L’IA — Bloc structurant (statique pour l’instant)
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
@@ -156,8 +238,7 @@ export default function CabinetPage() {
       </Section>
 
       {/* =========================================================
-          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
-          (Texte spécifique à la page Cabinet)
+          CTA PREMIUM — Fin de page (statique)
       ========================================================== */}
       <Section className="py-24">
         <Container>
