@@ -1,18 +1,12 @@
-// components/cms/RichText.tsx
+// components/sanity/RichText.tsx
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
-/**
- * Shared mark renderer:
- * Sanity decorator "highlight" => <span class="text-sky-400" />
- */
 const marks: PortableTextComponents["marks"] = {
   highlight: ({ children }) => <span className="text-sky-400">{children}</span>,
 };
 
 /**
- * 1) RichText: for BODY content (paragraphs)
- * - Adds spacing between paragraphs
- * - Matches your existing typography (white/85, leading-8, sm:text-lg)
+ * BODY renderer: paragraphs with spacing (for section content)
  */
 const bodyComponents: PortableTextComponents = {
   marks,
@@ -24,9 +18,7 @@ const bodyComponents: PortableTextComponents = {
 };
 
 /**
- * 2) Inline RichText: for TITLES (H1/H2) & short inline text
- * - No <p>, no margins
- * - Just returns spans/fragments
+ * INLINE renderer: no <p>, no margins (for titles inside H1/H2)
  */
 const inlineComponents: PortableTextComponents = {
   marks,
