@@ -2,48 +2,73 @@
 
 import { sanityClient } from "./client";
 
-/* =========================================================
-   PAGE_BY_SLUG_QUERY
-   ---------------------------------------------------------
-   GROQ query to fetch a single "page" document by its slug.
-
-   Returned fields:
-   - title
-   - slug
-   - content (Portable Text)
-   - SEO fields
-   - _updatedAt (for debug / freshness tracking)
-========================================================= */
-
+// --------------------------------------------------
+// GROQ query to fetch a single page by slug.
+// Alignée sur le schemaTypes/page.ts actuel.
+// --------------------------------------------------
 export const PAGE_BY_SLUG_QUERY = /* groq */ `
   *[_type == "page" && slug.current == $slug][0]{
     _id,
     _type,
     title,
     "slug": slug.current,
+
+    // Portable Text générique (optionnel)
     content,
+
+    // SEO
     seoTitle,
     seoDescription,
-    _updatedAt
+    _updatedAt,
+
+    // HERO (champs plats dans ton schema)
+    hero{
+      badgeEmoji,
+      badgeText,
+      title,
+      titleHighlights,
+      description,
+      descriptionHighlights,
+      primaryCtaLabel,
+      primaryCtaHref,
+      secondaryCtaLabel,
+      secondaryCtaHref
+    },
+
+    // Cabinet sections (objet -> vision/human/ai)
+    cabinetSections{
+      vision{
+        title,
+        emoji,
+        content
+      },
+      human{
+        title,
+        emoji,
+        content
+      },
+      ai{
+        title,
+        emoji,
+        content
+      }
+    },
+
+    // Cabinet CTA bloc
+    cabinetCta{
+      title,
+      text,
+      primaryLabel,
+      primaryHref,
+      secondaryLabel,
+      secondaryHref
+    }
   }
 `;
 
-/* =========================================================
-   getPageBySlug
-   ---------------------------------------------------------
-   Centralized helper to fetch a CMS page by slug.
-
-   Important:
-   We guard against undefined / empty slugs to avoid
-   the GROQ error:
-   "param $slug referenced, but not provided"
-========================================================= */
-
+// --------------------------------------------------
+// Helper function to fetch a page document by its slug.
+// --------------------------------------------------
 export async function getPageBySlug(slug: string) {
-  // Safety guard: avoid crashing Sanity query
-  if (!slug || typeof slug !== "string") {
-    return null;
-  }
-
   return sanityClient.fetch(PAGE_BY_SLUG_QUERY, { slug });
 }
