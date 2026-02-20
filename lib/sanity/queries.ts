@@ -83,7 +83,7 @@ export const GLOBAL_SETTINGS_QUERY = /* groq */ `
         title,
         note,
         items[]{
-          label,
+          text,
           iconKey
         }
       },

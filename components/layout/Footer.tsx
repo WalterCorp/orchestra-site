@@ -1,4 +1,6 @@
+// components/layout/Footer.tsx
 import Link from "next/link";
+import { getGlobalSettings } from "@/lib/sanity/queries";
 import {
   Linkedin,
   Building2,
@@ -10,16 +12,44 @@ import {
   Target,
 } from "lucide-react";
 
-export default function Footer() {
+/**
+ * Mapping iconKey (Sanity) → composant Lucide
+ */
+const ICON_MAP: Record<string, any> = {
+  linkedin: Linkedin,
+  building2: Building2,
+  fileText: FileText,
+  mail: Mail,
+  listChecks: ListChecks,
+  userCheck: UserCheck,
+  shieldCheck: ShieldCheck,
+  target: Target,
+};
+
+export default async function Footer() {
+  const settings = await getGlobalSettings();
+  const footer = settings?.footer;
+
+  const brandDescription =
+    footer?.brandDescription ??
+    "Cabinet de conseil en stratégie et organisation, fondé sur une collaboration structurée entre expertise humaine et intelligence artificielle.";
+
+  const navTitle = footer?.navTitle ?? "Navigation";
+  const navItems = footer?.navItems ?? [];
+  const columns = footer?.columns ?? [];
+  const copyright =
+    footer?.copyright ??
+    "© 2026 ORCHESTRA — Site vitrine démonstrateur";
+  const legalText =
+    footer?.legalText ?? "Mentions légales · Politique de confidentialité";
+
   return (
     <footer className="relative bg-[#080d1a] border-t border-white/10 px-6 pt-12 pb-24 text-sm text-zinc-300 sm:px-10">
-      {/* Transition douce vers le fond global */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0b1020]" />
 
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {/* Présentation */}
         <div className="space-y-3">
-          {/* Marque (cohérente Header) */}
           <div className="flex items-center gap-3 text-lg font-semibold text-white">
             <span
               className="h-4 w-4 rounded-full border-2 border-sky-400"
@@ -28,111 +58,50 @@ export default function Footer() {
             ORCHESTRA
           </div>
 
-          <p className="max-w-xs leading-6">
-            Cabinet de conseil en stratégie et organisation, fondé sur une
-            collaboration structurée entre expertise humaine et intelligence
-            artificielle.
-          </p>
+          <p className="max-w-xs leading-6">{brandDescription}</p>
         </div>
 
         {/* Navigation */}
         <div className="space-y-2">
-          <div className="font-semibold text-white">Navigation</div>
+          <div className="font-semibold text-white">{navTitle}</div>
           <ul className="space-y-1">
-            <li>
-              <Link href="/" className="hover:text-white">
-                Accueil
-              </Link>
-            </li>
-            <li>
-              <Link href="/cabinet" className="hover:text-white">
-                Le Cabinet
-              </Link>
-            </li>
-            <li>
-              <Link href="/methode-orchestra" className="hover:text-white">
-                La Méthode ORCHESTRA
-              </Link>
-            </li>
-            <li>
-              <Link href="/fonctionnement" className="hover:text-white">
-                Fonctionnement
-              </Link>
-            </li>
-            <li>
-              <Link href="/expertises" className="hover:text-white">
-                Expertises
-              </Link>
-            </li>
-            <li>
-              <Link href="/faq" className="hover:text-white">
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-white">
-                Contact
-              </Link>
-            </li>
+            {navItems.map((item: any) => (
+              <li key={item.href}>
+                <Link href={item.href} className="hover:text-white">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        {/* Intégrations possibles (démonstration) */}
-        <div className="space-y-2">
-          <div className="font-semibold text-white">Intégrations possibles</div>
+        {/* Colonnes dynamiques */}
+        {columns.map((column: any) => (
+          <div key={column.title} className="space-y-2">
+            <div className="font-semibold text-white">{column.title}</div>
 
-          <ul className="space-y-2 text-zinc-400">
-            <li className="flex items-center gap-2">
-              <Linkedin className="h-4 w-4 text-sky-400" />
-              LinkedIn (cabinet / dirigeant)
-            </li>
-            <li className="flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-sky-400" />
-              Page entreprise
-            </li>
-            <li className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-sky-400" />
-              Blog & contenus experts
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-sky-400" />
-              Newsletter / veille stratégique
-            </li>
-          </ul>
+            <ul className="space-y-2 text-zinc-400">
+              {column.items.map((item: any) => {
+                const Icon = ICON_MAP[item.iconKey];
+                return (
+                  <li key={`${column.title}-${item.iconKey}-${item.text}`} className="flex items-center gap-2">
+                    {Icon && <Icon className="h-4 w-4 text-sky-400" />}
+                    {item.text}
+                  </li>
+                );
+              })}
+            </ul>
 
-          <p className="pt-2 text-xs text-zinc-500">
-            Exemples présentés à titre démonstratif
-          </p>
-        </div>
-
-        {/* Principes */}
-        <div className="space-y-2">
-          <div className="font-semibold text-white">Principes</div>
-
-          <ul className="space-y-2 text-zinc-400">
-            <li className="flex items-center gap-2">
-              <ListChecks className="h-4 w-4 text-sky-400" />
-              Méthodologie structurée
-            </li>
-            <li className="flex items-center gap-2">
-              <UserCheck className="h-4 w-4 text-sky-400" />
-              Expertise humaine centrale
-            </li>
-            <li className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-sky-400" />
-              Usage responsable de l’IA
-            </li>
-            <li className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-sky-400" />
-              Décisions orientées action
-            </li>
-          </ul>
-        </div>
+            {column.note && (
+              <p className="pt-2 text-xs text-zinc-500">{column.note}</p>
+            )}
+          </div>
+        ))}
       </div>
 
       <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-4 border-t border-white/10 pt-6 text-xs text-zinc-400 md:flex-row">
-        <div>© 2026 ORCHESTRA — Site vitrine démonstrateur</div>
-        <div>Mentions légales · Politique de confidentialité</div>
+        <div>{copyright}</div>
+        <div>{legalText}</div>
       </div>
     </footer>
   );
