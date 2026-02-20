@@ -1,22 +1,44 @@
+// app/page.tsx
+
 // Section globale — gestion des blocs de page et des fonds alternés
-// Permet de sortir la logique de layout des pages
 import { Section } from "@/components/layout/Section";
 
 // Container global — référence de largeur et de padding pour toutes les pages
-// Centralisé pour rendre le site réplicable et maintenable
 import { Container } from "@/components/layout/Container";
 
 // Button global — centralisation des styles CTA (primary / secondary)
 import { Button } from "@/components/ui/Button";
 
 // Card globale — centralisation des styles de cartes (piliers, contenus, etc.)
-// Permet d’éviter la duplication de classes Tailwind dans les pages
 import { Card } from "@/components/ui/Card";
 
-// Hero — section réutilisable (extrait du code inline pour rendre le site réplicable)
+// Hero — section réutilisable
 import { Hero } from "@/components/sections/Hero";
 
-export default function HomePage() {
+// Sanity
+import { RichText, RichTextInline } from "@/components/sanity/RichText";
+import { getPageBySlug } from "@/lib/sanity/queries";
+
+// On force le rendu dynamique (MVP) pour refléter les updates Sanity sans surprises.
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const data = await getPageBySlug("accueil");
+
+  // Safety : si la page n’existe pas encore dans Sanity
+  if (!data) {
+    return (
+      <main className="p-10 space-y-4">
+        <h1 className="text-2xl font-bold">Home page missing in CMS</h1>
+        <p className="text-gray-600">No Sanity document found for slug: accueil</p>
+      </main>
+    );
+  }
+
+  const hero = data.hero;
+  const homeSections = data.homeSections;
+  const homeCta = data.homeCta;
+
   // --------------------------------------------------
   // HERO — contenu injecté (ReactNode) pour garder
   // une liberté totale de mise en forme sans régression
@@ -24,53 +46,51 @@ export default function HomePage() {
 
   const heroBadge = (
     <>
-      <span aria-hidden="true">🤖</span>
-      <span>Conseil augmenté par l&apos;IA</span>
+      <span aria-hidden="true">{hero?.badgeEmoji}</span>
+      <span>{hero?.badgeText}</span>
     </>
   );
 
   const heroTitle = (
     <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-      <span>
-        L&apos;<span className="text-sky-400">intelligence artificielle</span>{" "}
-        comme
-      </span>
-      <br />
-      <span>
-        système de <span className="text-sky-400">collaborateurs</span>,
-      </span>
-      <br />
-      au service de la{" "}
-      <span className="text-sky-400">clarté</span> et de la{" "}
-      <span className="text-sky-400">performance</span>.
+      <RichTextInline value={hero?.titleRich} />
     </h1>
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
-      Nous ne remplaçons pas l&apos;humain par l&apos;IA. Nous collaborons avec
-      elle pour renforcer l&apos;analyse, la structuration et la prise de
-      décision.
-    </p>
+    <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
+      <RichTextInline value={hero?.descriptionRich} />
+    </div>
   );
 
   const heroPrimaryCta = (
-    <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
-      Découvrir la méthode ORCHESTRA
+    <Button
+      href={hero?.primaryCtaHref ?? "/methode-orchestra"}
+      variant="primary"
+      className="h-14 px-10"
+    >
+      {hero?.primaryCtaLabel ?? "Découvrir la méthode ORCHESTRA"}
     </Button>
   );
 
   const heroSecondaryCta = (
-    <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
-      Nous contacter <span aria-hidden="true">›</span>
+    <Button
+      href={hero?.secondaryCtaHref ?? "/contact"}
+      variant="secondary"
+      className="h-14 px-10 gap-2"
+    >
+      {hero?.secondaryCtaLabel ?? (
+        <>
+          Nous contacter <span aria-hidden="true">›</span>
+        </>
+      )}
     </Button>
   );
 
   return (
     <div className="bg-[#0b1020] text-white">
       {/* =========================================================
-          HERO — Référence UI (typographie + CTA + centrage)
-          Refactor : extraction en composant réutilisable
+          HERO — Piloté par Sanity
       ========================================================== */}
       <Hero
         badge={heroBadge}
@@ -82,212 +102,118 @@ export default function HomePage() {
       />
 
       {/* =========================================================
-          NOTRE APPROCHE — Bloc structurant (fond alterné)
+          NOTRE APPROCHE — Piloté par Sanity (fond alterné)
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Notre <span className="text-sky-400">approche</span>
+              <RichTextInline value={homeSections?.approach?.titleRich} />
             </h2>
 
-            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <p>
-                Notre cabinet accompagne les organisations dans leurs prises de{" "}
-                <span className="text-sky-400">décision</span>{" "}
-                <span className="text-sky-400">stratégiques</span> et{" "}
-                <span className="text-sky-400">organisationnelles</span> grâce à
-                une méthode de travail reposant sur la{" "}
-                <span className="text-sky-400">collaboration</span> entre{" "}
-                <span className="text-sky-400">experts humains</span> et une{" "}
-                <span className="text-sky-400">
-                  architecture d’intelligences artificielles spécialisées
-                </span>
-                . L’intelligence artificielle n’est pas utilisée comme une
-                promesse ou un outil autonome, mais comme un{" "}
-                <span className="text-sky-400">système de collaborateurs</span>{" "}
-                <span className="text-sky-400">structuré</span>, encadré et piloté
-                par l’humain.
-              </p>
+            <div className="mx-auto mt-10 max-w-4xl">
+              <RichText value={homeSections?.approach?.content} />
             </div>
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          ORCHESTRA — Noyau de collaboration IA
+          ORCHESTRA — Noyau (piloté par Sanity)
       ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              ORCHESTRA - Notre noyau de{" "}
-              <span className="text-sky-400">collaboration IA</span>
+              <RichTextInline value={homeSections?.orchestraCore?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              Au coeur de notre méthode se trouve{" "}
-              <span className="text-sky-400">ORCHESTRA</span>, un noyau{" "}
-              <span className="text-sky-400">
-                d’intelligences artificielles spécialisées
-              </span>{" "}
-              fonctionnant comme une équipe de consultants numériques. ORCHESTRA
-              soutient l’analyse, la structuration et la projection des
-              scénarios, tout en laissant{" "}
-              <span className="text-sky-400">
-                l&apos;humain responsable des arbitrages et des décisions
-              </span>
-              . Cette approche permet de produire une expertise plus robuste,
-              plus claire et ancrée dans le réel.
-            </p>
+            <div className="mx-auto mt-10 max-w-4xl">
+              <RichText value={homeSections?.orchestraCore?.content} />
+            </div>
 
-            {/* Grille 4 piliers — refactor : remplacement des cartes inline par Card */}
+            {/* Grille 4 piliers — pilotée par Sanity (structure stable) */}
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card
-                icon="📊"
-                title={
-                  <>
-                    <div className="mt-4 text-lg font-semibold">Collecter</div>
-                    <div className="text-lg font-semibold">&amp; Analyser</div>
-                  </>
-                }
-              />
-
-              <Card
-                icon="🧩"
-                title={
-                  <>
-                    <div className="mt-4 text-lg font-semibold">Structurer</div>
-                    <div className="text-lg font-semibold">&amp; Expliquer</div>
-                  </>
-                }
-              />
-
-              <Card
-                icon="🗺️"
-                title={
-                  <>
-                    <div className="mt-4 text-lg font-semibold">Explorer</div>
-                    <div className="text-lg font-semibold">&amp; Scénariser</div>
-                  </>
-                }
-              />
-
-              <Card
-                icon="✅"
-                title={
-                  <>
-                    <div className="mt-4 text-lg font-semibold">Superviser</div>
-                    <div className="text-lg font-semibold">&amp; Valider</div>
-                  </>
-                }
-              />
+              {(homeSections?.orchestraCore?.pillars ?? []).map(
+                (pillar: any, idx: number) => (
+                  <Card
+                    key={`${pillar.icon}-${pillar.line1}-${idx}`}
+                    icon={pillar.icon}
+                    title={
+                      <>
+                        <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
+                        <div className="text-lg font-semibold">{pillar.line2}</div>
+                      </>
+                    }
+                  />
+                )
+              )}
             </div>
           </div>
         </Container>
       </section>
 
       {/* =========================================================
-          LA PLACE DE L’HUMAIN — Bloc structurant (fond alterné)
+          LA PLACE DE L’HUMAIN — Piloté par Sanity (fond alterné)
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              La place de l&apos;<span className="text-sky-400">humain</span>
+              <RichTextInline value={homeSections?.humanPlace?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              L&apos;humain reste au centre de chaque accompagnement. Nos experts
-              définissent les orientations, valident les analyses et prennent les
-              décisions finales.
-            </p>
-
-            {/* 3 cartes — refactor : remplacement des cartes inline par Card (variant md) */}
-            <div className="mt-14 grid gap-6 lg:grid-cols-3">
-              <Card
-                variant="md"
-                icon="⇅"
-                title={
-                  <h3 className="mt-4 text-xl font-semibold">
-                    Pilotage des orientations
-                  </h3>
-                }
-              >
-                <p className="mt-4 text-base leading-7 text-white/85">
-                  Les experts humains définissent le cadre, les objectifs et les
-                  priorités de chaque mission.
-                </p>
-              </Card>
-
-              <Card
-                variant="md"
-                icon="✔"
-                title={<h3 className="mt-4 text-xl font-semibold">Validation humaine</h3>}
-              >
-                <p className="mt-4 text-base leading-7 text-white/85">
-                  Les analyses produites par l&apos;IA sont systématiquement
-                  relues, challengées et validées par des experts.
-                </p>
-              </Card>
-
-              <Card
-                variant="md"
-                icon="👥"
-                title={
-                  <h3 className="mt-4 text-xl font-semibold">
-                    Responsabilité humaine
-                  </h3>
-                }
-              >
-                <p className="mt-4 text-base leading-7 text-white/85">
-                  Les décisions finales appartiennent toujours aux consultants,
-                  garants du sens et de l&apos;impact réel.
-                </p>
-              </Card>
+            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={homeSections?.humanPlace?.intro} />
             </div>
 
-            <p className="mx-auto mt-14 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
-              <span className="text-sky-400">
-                L&apos;intelligence artificielle
-              </span>{" "}
-              est un <span className="text-sky-400">levier</span>, pas un
-              substitut. Elle renforce l&apos;expertise humaine sans jamais
-              s&apos;y substituer.
-            </p>
+            {/* 3 cartes — pilotées par Sanity (structure stable) */}
+            <div className="mt-14 grid gap-6 lg:grid-cols-3">
+              {(homeSections?.humanPlace?.cards ?? []).map((card: any, idx: number) => (
+                <Card
+                  key={`${card.icon}-${card.title}-${idx}`}
+                  variant="md"
+                  icon={card.icon}
+                  title={<h3 className="mt-4 text-xl font-semibold">{card.title}</h3>}
+                >
+                  <p className="mt-4 text-base leading-7 text-white/85">{card.text}</p>
+                </Card>
+              ))}
+            </div>
+
+            <div className="mx-auto mt-14 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={homeSections?.humanPlace?.outro} />
+            </div>
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          CTA PREMIUM — Bloc final (style “carte” ORCHESTRA)
+          CTA FINAL — Piloté par Sanity
       ========================================================== */}
       <section className="py-24">
         <Container>
           <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Prêt à <span className="text-sky-400">clarifier</span> vos enjeux
-              <br className="hidden sm:block" />
-              et structurer vos{" "}
-              <span className="text-sky-400">décisions</span> ?
+              <RichTextInline value={homeCta?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-              Un échange humain, sans engagement. ORCHESTRA soutient l’analyse,{" "}
-              <span className="text-sky-400">l’humain pilote</span> la décision.
-            </p>
+            <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+              <RichTextInline value={homeCta?.textRich} />
+            </div>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button href="/contact" variant="primary" className="h-12 px-7">
-                Nous contacter
+              <Button href={homeCta?.primaryHref ?? "/contact"} variant="primary" className="h-12 px-7">
+                {homeCta?.primaryLabel ?? "Nous contacter"}
               </Button>
 
               <Button
-                href="/methode-orchestra"
+                href={homeCta?.secondaryHref ?? "/methode-orchestra"}
                 variant="secondary"
                 className="h-12 px-7 gap-2"
               >
-                Découvrir la méthode ORCHESTRA<span aria-hidden="true">›</span>
+                {homeCta?.secondaryLabel ?? "Découvrir la méthode ORCHESTRA"}
+                <span aria-hidden="true">›</span>
               </Button>
             </div>
           </div>

@@ -2,11 +2,23 @@
 import { sanityClient } from "./client";
 
 /**
- * ---------------------------------------------------------
+ * ============================================================
  * PAGE BY SLUG
- * ---------------------------------------------------------
- * Récupère une page dynamique depuis Sanity
+ * ============================================================
+ *
+ * Objectif :
+ * Récupérer une page dynamique depuis Sanity via son slug.
+ *
+ * Exemple :
+ * - getPageBySlug("accueil")
+ * - getPageBySlug("cabinet")
+ *
+ * Architecture :
+ * - Hero commun à toutes les pages
+ * - Blocs spécifiques par page (Accueil, Cabinet, etc.)
+ * - Un seul type "page" côté CMS
  */
+
 export const PAGE_BY_SLUG_QUERY = /* groq */ `
   *[_type == "page" && slug.current == $slug][0]{
     _id,
@@ -14,10 +26,16 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
     title,
     "slug": slug.current,
 
+    // ---------------------------
+    // SEO
+    // ---------------------------
     seoTitle,
     seoDescription,
     _updatedAt,
 
+    // ---------------------------
+    // HERO (commun)
+    // ---------------------------
     hero{
       badgeEmoji,
       badgeText,
@@ -29,6 +47,47 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       secondaryCtaHref
     },
 
+    // =========================================================
+    // ACCUEIL
+    // =========================================================
+    homeSections{
+      approach{
+        titleRich,
+        content
+      },
+      orchestraCore{
+        titleRich,
+        content,
+        pillars[]{
+          icon,
+          line1,
+          line2
+        }
+      },
+      humanPlace{
+        titleRich,
+        intro,
+        cards[]{
+          icon,
+          title,
+          text
+        },
+        outro
+      }
+    },
+
+    homeCta{
+      titleRich,
+      textRich,
+      primaryLabel,
+      primaryHref,
+      secondaryLabel,
+      secondaryHref
+    },
+
+    // =========================================================
+    // CABINET
+    // =========================================================
     cabinetSections{
       vision{ titleRich, emoji, content },
       human{ titleRich, emoji, content },
@@ -46,18 +105,27 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
   }
 `;
 
+/**
+ * Helper centralisé
+ * -------------------
+ * Permet d’appeler la query sans la dupliquer.
+ */
 export async function getPageBySlug(slug: string) {
   return sanityClient.fetch(PAGE_BY_SLUG_QUERY, { slug });
 }
 
 /**
- * ---------------------------------------------------------
+ * ============================================================
  * GLOBAL SETTINGS
- * ---------------------------------------------------------
+ * ============================================================
+ *
  * Source de vérité unique pour :
  * - Header
  * - Footer
+ *
+ * Évite toute valeur hardcodée côté Next.js.
  */
+
 export const GLOBAL_SETTINGS_QUERY = /* groq */ `
   *[_type == "globalSettings"][0]{
     header{
