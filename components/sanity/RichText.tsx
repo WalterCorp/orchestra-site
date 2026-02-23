@@ -24,15 +24,23 @@ const bodyComponents: PortableTextComponents = {
 };
 
 /**
- * INLINE renderer (titres)
- * - On évite les <br /> dans les H1/H2 : hardBreak devient un espace
- * - Pas de <p>
+ * INLINE renderer (titres / phrases courtes)
+ * Objectif :
+ * - Supporter Enter => nouvelle ligne (blocks)
+ * - Supporter Shift+Enter => <br />
+ * - Empêcher la génération de <h1>/<h2>... en inline (sinon nested headings)
  */
 const inlineComponents: PortableTextComponents = {
   marks,
-  hardBreak: () => " ",
+  hardBreak: () => <br />,
   block: {
-    normal: ({ children }) => <>{children}</>,
+    normal: ({ children }) => <span className="block">{children}</span>,
+    h1: ({ children }) => <span className="block">{children}</span>,
+    h2: ({ children }) => <span className="block">{children}</span>,
+    h3: ({ children }) => <span className="block">{children}</span>,
+    h4: ({ children }) => <span className="block">{children}</span>,
+    h5: ({ children }) => <span className="block">{children}</span>,
+    h6: ({ children }) => <span className="block">{children}</span>,
   },
 };
 

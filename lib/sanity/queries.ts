@@ -12,10 +12,12 @@ import { sanityClient } from "./client";
  * Exemple :
  * - getPageBySlug("accueil")
  * - getPageBySlug("cabinet")
+ * - getPageBySlug("methode-orchestra")
  *
  * Architecture :
  * - Hero commun à toutes les pages
- * - Blocs spécifiques par page (Accueil, Cabinet, etc.)
+ * - CTA final commun (finalCta) + fallback legacy (homeCta/cabinetCta)
+ * - Blocs spécifiques par page (Accueil, Cabinet, Méthode...)
  * - Un seul type "page" côté CMS
  */
 
@@ -47,6 +49,18 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       secondaryCtaHref
     },
 
+    // ---------------------------
+    // CTA FINAL (commun)
+    // ---------------------------
+    finalCta{
+      titleRich,
+      textRich,
+      primaryLabel,
+      primaryHref,
+      secondaryLabel,
+      secondaryHref
+    },
+
     // =========================================================
     // ACCUEIL
     // =========================================================
@@ -76,6 +90,7 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       }
     },
 
+    // Legacy Accueil (encore utilisé par le front)
     homeCta{
       titleRich,
       textRich,
@@ -94,6 +109,7 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       ai{ titleRich, emoji, content }
     },
 
+    // Legacy Cabinet (encore utilisé par le front)
     cabinetCta{
       titleRich,
       textRich,
@@ -101,6 +117,57 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       primaryHref,
       secondaryLabel,
       secondaryHref
+    },
+
+    // =========================================================
+    // MÉTHODE ORCHESTRA
+    // =========================================================
+    methodeSections{
+      intro{
+        titleRich,
+        emoji,
+        contentRich
+      },
+
+      why{
+        titleRich,
+        introRich,
+        label,
+        pillars[]{ icon, titleLines },
+        outroRich
+      },
+
+      core{
+        titleRich,
+        introRich,
+        label,
+        bubbles{
+          line1[]{ icon, title, text },
+          line2[]{ icon, title, text }
+        },
+        outroRich
+      },
+
+      human{
+        titleRich,
+        introRich,
+        label,
+        cards[]{ icon, titleLines },
+        outroRich
+      },
+
+      workflow{
+        titleRich,
+        introRich,
+        steps[]{ icon, titleLines },
+        outroRich
+      },
+
+      benefits{
+        titleRich,
+        introRich,
+        cards[]{ icon, titleLines }
+      }
     }
   }
 `;
