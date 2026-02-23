@@ -37,7 +37,9 @@ export default async function HomePage() {
 
   const hero = data.hero;
   const homeSections = data.homeSections;
-  const homeCta = data.homeCta;
+
+  // ✅ CTA final commun uniquement (legacy supprimé côté schema)
+  const cta = data.finalCta;
 
   // --------------------------------------------------
   // HERO — contenu injecté (ReactNode) pour garder
@@ -189,36 +191,39 @@ export default async function HomePage() {
       </Section>
 
       {/* =========================================================
-          CTA FINAL — Piloté par Sanity
+          CTA FINAL — Commun (finalCta)
+          (Si finalCta est vide, on n’affiche rien — local OK)
       ========================================================== */}
-      <section className="py-24">
-        <Container>
-          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              <RichTextInline value={homeCta?.titleRich} />
-            </h2>
+      {cta ? (
+        <section className="py-24">
+          <Container>
+            <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <RichTextInline value={cta?.titleRich} />
+              </h2>
 
-            <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-              <RichTextInline value={homeCta?.textRich} />
+              <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+                <RichTextInline value={cta?.textRich} />
+              </div>
+
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button href={cta?.primaryHref ?? "/contact"} variant="primary" className="h-12 px-7">
+                  {cta?.primaryLabel ?? "Nous contacter"}
+                </Button>
+
+                <Button
+                  href={cta?.secondaryHref ?? "/methode-orchestra"}
+                  variant="secondary"
+                  className="h-12 px-7 gap-2"
+                >
+                  {cta?.secondaryLabel ?? "Découvrir la méthode ORCHESTRA"}
+                  <span aria-hidden="true">›</span>
+                </Button>
+              </div>
             </div>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button href={homeCta?.primaryHref ?? "/contact"} variant="primary" className="h-12 px-7">
-                {homeCta?.primaryLabel ?? "Nous contacter"}
-              </Button>
-
-              <Button
-                href={homeCta?.secondaryHref ?? "/methode-orchestra"}
-                variant="secondary"
-                className="h-12 px-7 gap-2"
-              >
-                {homeCta?.secondaryLabel ?? "Découvrir la méthode ORCHESTRA"}
-                <span aria-hidden="true">›</span>
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </section>
+          </Container>
+        </section>
+      ) : null}
     </div>
   );
 }

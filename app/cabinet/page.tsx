@@ -23,36 +23,50 @@ export default async function CabinetPage() {
 
   const hero = data.hero;
   const sections = data.cabinetSections;
-  const cta = data.cabinetCta;
+
+  // ✅ CTA final commun (source de vérité)
+  const cta = data.finalCta;
 
   const heroBadge = (
     <>
-      <span aria-hidden="true">{hero.badgeEmoji}</span>
-      <span>{hero.badgeText}</span>
+      <span aria-hidden="true">{hero?.badgeEmoji}</span>
+      <span>{hero?.badgeText}</span>
     </>
   );
 
   const heroTitle = (
     <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-      <RichTextInline value={hero.titleRich} />
+      <RichTextInline value={hero?.titleRich} />
     </h1>
   );
 
   const heroDescription = (
     <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
-      <RichTextInline value={hero.descriptionRich} />
+      <RichTextInline value={hero?.descriptionRich} />
     </div>
   );
 
   const heroPrimaryCta = (
-    <Button href={hero.primaryCtaHref} variant="primary" className="h-14 px-10">
-      {hero.primaryCtaLabel}
+    <Button
+      href={hero?.primaryCtaHref ?? "/methode-orchestra"}
+      variant="primary"
+      className="h-14 px-10"
+    >
+      {hero?.primaryCtaLabel ?? "Découvrir la méthode ORCHESTRA"}
     </Button>
   );
 
   const heroSecondaryCta = (
-    <Button href={hero.secondaryCtaHref} variant="secondary" className="h-14 px-10 gap-2">
-      {hero.secondaryCtaLabel}
+    <Button
+      href={hero?.secondaryCtaHref ?? "/contact"}
+      variant="secondary"
+      className="h-14 px-10 gap-2"
+    >
+      {hero?.secondaryCtaLabel ?? (
+        <>
+          Nous contacter <span aria-hidden="true">›</span>
+        </>
+      )}
     </Button>
   );
 
@@ -72,11 +86,17 @@ export default async function CabinetPage() {
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={sections.vision.titleRich} />
+              <RichTextInline value={sections?.vision?.titleRich} />
             </h2>
-            <div className="mx-auto mt-6 w-fit text-3xl text-sky-400">{sections.vision.emoji}</div>
+
+            {sections?.vision?.emoji ? (
+              <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+                {sections.vision.emoji}
+              </div>
+            ) : null}
+
             <div className="mx-auto mt-10 max-w-4xl">
-              <RichText value={sections.vision.content} />
+              <RichText value={sections?.vision?.content} />
             </div>
           </div>
         </Container>
@@ -87,11 +107,17 @@ export default async function CabinetPage() {
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={sections.human.titleRich} />
+              <RichTextInline value={sections?.human?.titleRich} />
             </h2>
-            <div className="mx-auto mt-6 w-fit text-3xl text-sky-400">{sections.human.emoji}</div>
+
+            {sections?.human?.emoji ? (
+              <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+                {sections.human.emoji}
+              </div>
+            ) : null}
+
             <div className="mx-auto mt-10 max-w-4xl">
-              <RichText value={sections.human.content} />
+              <RichText value={sections?.human?.content} />
             </div>
           </div>
         </Container>
@@ -102,38 +128,65 @@ export default async function CabinetPage() {
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={sections.ai.titleRich} />
+              <RichTextInline value={sections?.ai?.titleRich} />
             </h2>
-            <div className="mx-auto mt-6 w-fit text-3xl text-sky-400">{sections.ai.emoji}</div>
+
+            {sections?.ai?.emoji ? (
+              <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+                {sections.ai.emoji}
+              </div>
+            ) : null}
+
             <div className="mx-auto mt-10 max-w-4xl">
-              <RichText value={sections.ai.content} />
+              <RichText value={sections?.ai?.content} />
             </div>
           </div>
         </Container>
       </Section>
 
-      {/* CTA */}
+      {/* CTA FINAL (commun) */}
       <Section className="py-24">
         <Container>
-          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              <RichTextInline value={cta.titleRich} />
-            </h2>
-
-            <div className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-              <RichTextInline value={cta.textRich} />
+          {!cta ? (
+            <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                CTA final manquant dans le CMS
+              </h2>
+              <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/85 sm:text-base">
+                Renseigne <span className="text-sky-400">finalCta</span> pour la page{" "}
+                <span className="text-sky-400">cabinet</span> dans Sanity.
+              </p>
             </div>
+          ) : (
+            <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <RichTextInline value={cta?.titleRich} />
+              </h2>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button href={cta.primaryHref} variant="primary" className="h-12 px-7">
-                {cta.primaryLabel}
-              </Button>
+              <div className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+                <RichTextInline value={cta?.textRich} />
+              </div>
 
-              <Button href={cta.secondaryHref} variant="secondary" className="h-12 px-7 gap-2">
-                {cta.secondaryLabel}
-              </Button>
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button
+                  href={cta?.primaryHref ?? "/contact"}
+                  variant="primary"
+                  className="h-12 px-7"
+                >
+                  {cta?.primaryLabel ?? "Nous contacter"}
+                </Button>
+
+                <Button
+                  href={cta?.secondaryHref ?? "/methode-orchestra"}
+                  variant="secondary"
+                  className="h-12 px-7 gap-2"
+                >
+                  {cta?.secondaryLabel ?? "Découvrir la méthode ORCHESTRA"}
+                  <span aria-hidden="true">›</span>
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </Container>
       </Section>
     </div>

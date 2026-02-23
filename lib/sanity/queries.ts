@@ -16,7 +16,7 @@ import { sanityClient } from "./client";
  *
  * Architecture :
  * - Hero commun à toutes les pages
- * - CTA final commun (finalCta) + fallback legacy (homeCta/cabinetCta)
+ * - CTA final commun (finalCta)
  * - Blocs spécifiques par page (Accueil, Cabinet, Méthode...)
  * - Un seul type "page" côté CMS
  */
@@ -90,16 +90,6 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       }
     },
 
-    // Legacy Accueil (encore utilisé par le front)
-    homeCta{
-      titleRich,
-      textRich,
-      primaryLabel,
-      primaryHref,
-      secondaryLabel,
-      secondaryHref
-    },
-
     // =========================================================
     // CABINET
     // =========================================================
@@ -107,16 +97,6 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       vision{ titleRich, emoji, content },
       human{ titleRich, emoji, content },
       ai{ titleRich, emoji, content }
-    },
-
-    // Legacy Cabinet (encore utilisé par le front)
-    cabinetCta{
-      titleRich,
-      textRich,
-      primaryLabel,
-      primaryHref,
-      secondaryLabel,
-      secondaryHref
     },
 
     // =========================================================
