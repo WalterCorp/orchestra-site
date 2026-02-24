@@ -275,7 +275,7 @@ export default async function MethodeOrchestraPage() {
               ))}
             </div>
 
-            <div className="mx-auto mt-12 max-w-5xl text-sm text-white/85 sm:text-base">
+            <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
               <RichTextInline value={methode?.human?.outroRich} />
             </div>
           </div>
@@ -307,7 +307,7 @@ export default async function MethodeOrchestraPage() {
               ))}
             </div>
 
-            <div className="mx-auto mt-12 max-w-5xl text-sm text-white/85 sm:text-base">
+            <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
               <RichTextInline value={methode?.workflow?.outroRich} />
             </div>
           </div>

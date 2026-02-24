@@ -1,50 +1,21 @@
-// components/ui/BigCard.tsx
 import React from "react";
 
 type BigCardProps = {
-  /** Titre affiché en haut de carte */
-  title: string;
-
-  /** Icône/emoji/élément visuel (ex: "↗") */
-  icon: React.ReactNode;
-
-  /** Texte d’introduction (paragraphe) */
-  intro: string;
-
-  /**
-   * Libellé affiché après "ORCHESTRA"
-   * Exemple : "intervient pour" / "soutient" / "permet"
-   */
-  label: string;
-
-  /** Liste de points (affichés en liste) */
-  bullets: string[];
-
-  /** Texte optionnel de fin de carte */
-  outro?: string;
-
-  /** Classes supplémentaires (rare, mais utile en cas de variante) */
+  icon?: React.ReactNode;
+  titleLines: string[];
+  top?: React.ReactNode;     // bloc haut (rich)
+  label?: React.ReactNode;   // label (rich)
+  bottom?: React.ReactNode;  // bloc bas (rich) -> optionnel
+  outro?: React.ReactNode;   // outro (rich) -> optionnel
   className?: string;
 };
 
-/**
- * BigCard — Carte “expertise” (ORCHESTRA)
- *
- * Rôle :
- * - Afficher un bloc d’expertise structuré (intro + label + bullets)
- * - Standardiser le rendu des cartes longues (pages type Expertises)
- *
- * Principes :
- * - Zéro logique métier
- * - Texte injecté via props
- * - Rendu stable (important pour un refactor sans régression)
- */
 export function BigCard({
-  title,
   icon,
-  intro,
+  titleLines,
+  top,
   label,
-  bullets,
+  bottom,
   outro,
   className = "",
 }: BigCardProps) {
@@ -56,30 +27,35 @@ export function BigCard({
       ].join(" ")}
     >
       {/* Icône */}
-      <div className="mx-auto w-fit text-3xl text-sky-400">{icon}</div>
+      {icon ? (
+        <div className="w-fit text-3xl text-sky-400">{icon}</div>
+      ) : null}
 
-      {/* Titre */}
-      <h3 className="mt-5 text-center text-base font-semibold">{title}</h3>
+      {/* Titre multi-lignes */}
+      <div className="mt-4 text-lg font-semibold leading-7">
+        {Array.isArray(titleLines)
+          ? titleLines.filter(Boolean).map((l, idx) => (
+              <div key={`${l}-${idx}`}>{l}</div>
+            ))
+          : null}
+      </div>
 
-      {/* Intro */}
-      <p className="mt-4 text-sm leading-7 text-white/80">{intro}</p>
+      {/* Bloc haut */}
+      {top ? <div className="mt-4 text-sm leading-7 text-white/85">{top}</div> : null}
 
-      {/* Label ORCHESTRA */}
-      <p className="mt-6 text-sm font-semibold text-white">
-        <span className="text-sky-400">ORCHESTRA</span>{" "}
-        <span className="whitespace-nowrap">{label}&nbsp;:</span>
-      </p>
+      {/* Label */}
+      {label ? (
+        <div className="mt-6 text-sm font-semibold text-white">{label}</div>
+      ) : null}
 
-      {/* Bullets */}
-      <ul className="mt-3 space-y-2 text-sm leading-7 text-white/80">
-        {bullets.map((b) => (
-          <li key={b}>- {b}</li>
-        ))}
-      </ul>
+      {/* Bloc bas */}
+      {bottom ? (
+        <div className="mt-3 text-sm leading-7 text-white/80">{bottom}</div>
+      ) : null}
 
       {/* Outro */}
       {outro ? (
-        <p className="mt-5 text-sm leading-7 text-white/80">{outro}</p>
+        <div className="mt-5 text-sm leading-7 text-white/80">{outro}</div>
       ) : null}
     </div>
   );

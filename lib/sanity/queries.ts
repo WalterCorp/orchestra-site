@@ -1,26 +1,6 @@
 // lib/sanity/queries.ts
 import { sanityClient } from "./client";
 
-/**
- * ============================================================
- * PAGE BY SLUG
- * ============================================================
- *
- * Objectif :
- * Récupérer une page dynamique depuis Sanity via son slug.
- *
- * Exemple :
- * - getPageBySlug("accueil")
- * - getPageBySlug("cabinet")
- * - getPageBySlug("methode-orchestra")
- *
- * Architecture :
- * - Hero commun à toutes les pages
- * - CTA final commun (finalCta)
- * - Blocs spécifiques par page (Accueil, Cabinet, Méthode...)
- * - Un seul type "page" côté CMS
- */
-
 export const PAGE_BY_SLUG_QUERY = /* groq */ `
   *[_type == "page" && slug.current == $slug][0]{
     _id,
@@ -28,16 +8,10 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
     title,
     "slug": slug.current,
 
-    // ---------------------------
-    // SEO
-    // ---------------------------
     seoTitle,
     seoDescription,
     _updatedAt,
 
-    // ---------------------------
-    // HERO (commun)
-    // ---------------------------
     hero{
       badgeEmoji,
       badgeText,
@@ -49,9 +23,6 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       secondaryCtaHref
     },
 
-    // ---------------------------
-    // CTA FINAL (commun)
-    // ---------------------------
     finalCta{
       titleRich,
       textRich,
@@ -61,53 +32,29 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       secondaryHref
     },
 
-    // =========================================================
-    // ACCUEIL
-    // =========================================================
     homeSections{
-      approach{
-        titleRich,
-        content
-      },
+      approach{ titleRich, content },
       orchestraCore{
         titleRich,
         content,
-        pillars[]{
-          icon,
-          line1,
-          line2
-        }
+        pillars[]{ icon, line1, line2 }
       },
       humanPlace{
         titleRich,
         intro,
-        cards[]{
-          icon,
-          title,
-          text
-        },
+        cards[]{ icon, title, text },
         outro
       }
     },
 
-    // =========================================================
-    // CABINET
-    // =========================================================
     cabinetSections{
       vision{ titleRich, emoji, content },
       human{ titleRich, emoji, content },
       ai{ titleRich, emoji, content }
     },
 
-    // =========================================================
-    // MÉTHODE ORCHESTRA
-    // =========================================================
     methodeSections{
-      intro{
-        titleRich,
-        emoji,
-        contentRich
-      },
+      intro{ titleRich, emoji, contentRich },
 
       why{
         titleRich,
@@ -148,59 +95,64 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
         introRich,
         cards[]{ icon, titleLines }
       }
+    },
+
+    fonctionnementSections{
+      principles{
+        titleRich,
+        introRich,
+        cards[]{ icon, titleLines },
+        outroRich
+      },
+
+      process{
+        titleRich,
+        introRich,
+        steps[]{
+          icon,
+          titleLines,
+          topRich,
+          labelRich,
+          bottomRich,
+          outroRich
+        }
+      },
+
+      orchestraPlace{
+        titleRich,
+        introRich,
+        labelRich,
+        cards[]{ icon, titleLines }
+      },
+
+      clientBenefits{
+        titleRich,
+        introRich,
+        cards[]{ icon, titleLines }
+      }
     }
   }
 `;
 
-/**
- * Helper centralisé
- * -------------------
- * Permet d’appeler la query sans la dupliquer.
- */
 export async function getPageBySlug(slug: string) {
   return sanityClient.fetch(PAGE_BY_SLUG_QUERY, { slug });
 }
-
-/**
- * ============================================================
- * GLOBAL SETTINGS
- * ============================================================
- *
- * Source de vérité unique pour :
- * - Header
- * - Footer
- *
- * Évite toute valeur hardcodée côté Next.js.
- */
 
 export const GLOBAL_SETTINGS_QUERY = /* groq */ `
   *[_type == "globalSettings"][0]{
     header{
       brandLabel,
       mobileTagline,
-      navItems[]{
-        label,
-        href,
-        isCta,
-        openInNewTab
-      }
+      navItems[]{ label, href, isCta, openInNewTab }
     },
     footer{
       brandDescription,
       navTitle,
-      navItems[]{
-        label,
-        href,
-        isCta,
-        openInNewTab
-      },
+      navItems[]{ label, href, isCta, openInNewTab },
       columns[]{
         title,
         note,
-        items[]{
-          text,
-          iconKey
-        }
+        items[]{ text, iconKey }
       },
       copyright,
       legalText

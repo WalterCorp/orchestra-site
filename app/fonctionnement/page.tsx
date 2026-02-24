@@ -1,50 +1,99 @@
+// app/fonctionnement/page.tsx
+
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Hero } from "@/components/sections/Hero";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { BigCard } from "@/components/ui/BigCard";
 
-export default function FonctionnementPage() {
-  // --------------------------------------------------
-  // HERO — contenu injecté (ReactNode) pour conserver
-  // le rendu fullHeight (comme la V1)
-  // --------------------------------------------------
+import {
+  RichTextInline,
+  RichTextSmall,
+} from "@/components/sanity/RichText";
+
+import { getPageBySlug } from "@/lib/sanity/queries";
+
+export const dynamic = "force-dynamic";
+
+function TitleLines({ lines }: { lines?: string[] }) {
+  if (!Array.isArray(lines)) return null;
+
+  return (
+    <>
+      {lines.filter(Boolean).map((line, idx) => (
+        <div key={`${line}-${idx}`} className="text-lg font-semibold">
+          {line}
+        </div>
+      ))}
+    </>
+  );
+}
+
+export default async function FonctionnementPage() {
+  const data = await getPageBySlug("fonctionnement");
+
+  if (!data) {
+    return (
+      <main className="p-10 space-y-4">
+        <h1 className="text-2xl font-bold">
+          Fonctionnement page missing in CMS
+        </h1>
+        <p className="text-gray-600">
+          No Sanity document found for slug: fonctionnement
+        </p>
+      </main>
+    );
+  }
+
+  const hero = data.hero;
+  const f = data.fonctionnementSections;
+  const cta = data.finalCta;
+
+  // =========================================================
+  // HERO
+  // =========================================================
 
   const heroBadge = (
     <>
-      <span aria-hidden="true">🤖</span>
-      <span>Conseil augmenté par l&apos;IA</span>
+      <span aria-hidden="true">{hero?.badgeEmoji ?? "⚙️"}</span>
+      <span>{hero?.badgeText ?? "Comment nous travaillons"}</span>
     </>
   );
 
   const heroTitle = (
     <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.12] tracking-tight sm:text-6xl lg:mt-12">
-      Une <span className="text-sky-400">méthode</span> claire, structurée et{" "}
-      <span className="text-sky-400">pilotée</span> par l&apos;
-      <span className="text-sky-400">humain</span>
+      <RichTextInline value={hero?.titleRich} />
     </h1>
   );
 
   const heroDescription = (
-    <p className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
-      Chaque mission suit un{" "}
-      <span className="text-sky-400">processus lisible</span>, construit autour
-      de la <span className="text-sky-400">collaboration</span>
-      <br />
-      entre experts humains et le noyau d&apos;intelligences artificielles{" "}
-      <span className="text-sky-400">ORCHESTRA</span>.
-    </p>
+    <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
+      <RichTextInline value={hero?.descriptionRich} />
+    </div>
   );
 
   const heroPrimaryCta = (
-    <Button href="/methode-orchestra" variant="primary" className="h-14 px-10">
-      Découvrir la Méthode ORCHESTRA
+    <Button
+      href={hero?.primaryCtaHref ?? "/contact"}
+      variant="primary"
+      className="h-14 px-10"
+    >
+      {hero?.primaryCtaLabel ?? "Nous contacter"}
     </Button>
   );
 
   const heroSecondaryCta = (
-    <Button href="/contact" variant="secondary" className="h-14 px-10 gap-2">
-      Nous contacter <span aria-hidden="true">›</span>
+    <Button
+      href={hero?.secondaryCtaHref ?? "/methode-orchestra"}
+      variant="secondary"
+      className="h-14 px-10 gap-2"
+    >
+      {hero?.secondaryCtaLabel ?? (
+        <>
+          Découvrir la méthode <span aria-hidden="true">›</span>
+        </>
+      )}
     </Button>
   );
 
@@ -60,278 +109,182 @@ export default function FonctionnementPage() {
       />
 
       {/* =========================================================
-          PRINCIPES — Bloc structurant (fond alterné)
+          PRINCIPES
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <span className="text-sky-400">Principes</span> de notre approche
+              <RichTextInline value={f?.principles?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              Notre manière de travailler repose sur trois principes fondamentaux :
-            </p>
+            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={f?.principles?.introRich} />
+            </div>
 
             <div className="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-3">
-              <Card title="La clarté avant la complexité" icon="☑" />
-              <Card
-                title={
-                  <>
-                    <div className="text-lg font-semibold">
-                      L&apos;humain avant
-                    </div>
-                    <div className="text-lg font-semibold">
-                      l&apos;automatisation
-                    </div>
-                  </>
-                }
-                icon="👥"
-              />
-              <Card
-                title={
-                  <>
-                    <div className="text-lg font-semibold">
-                      La méthode avant la
-                    </div>
-                    <div className="text-lg font-semibold">technologie</div>
-                  </>
-                }
-                icon="☑"
-              />
+              {(f?.principles?.cards ?? []).map((c: any, idx: number) => (
+                <Card
+                  key={`principle-${idx}`}
+                  icon={c?.icon}
+                  title={<TitleLines lines={c?.titleLines} />}
+                />
+              ))}
             </div>
 
-            <p className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              L&apos;intelligence artificielle n&apos;est jamais utilisée pour
-              accélérer sans réfléchir, mais pour structurer, éclairer et{" "}
-              <span className="text-sky-400">renforcer la prise de décision</span>.
-            </p>
+            <div className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={f?.principles?.outroRich} />
+            </div>
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          DÉROULEMENT — Fond global (✅ largeur augmentée)
-          Note : cartes d’étapes laissées inline (alignement left + contenu dense)
+          DÉROULEMENT
       ========================================================== */}
-      <section className="py-24">
-        <div className="mx-auto w-full max-w-[74rem] px-6 sm:px-10">
+      <Section className="py-24">
+        <Container className="max-w-[74rem]">
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Déroulement d&apos;un{" "}
-              <span className="text-sky-400">accompagnement</span>
+              <RichTextInline value={f?.process?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              Chaque accompagnement suit une progression logique et maitrisée,{" "}
-              <span className="text-sky-400">adaptée au contexte</span>
-              <br className="hidden sm:block" />
-              du client.
-            </p>
+            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={f?.process?.introRich} />
+            </div>
 
             <div className="mt-16 grid gap-6 lg:grid-cols-4">
-              {/* 1 — Cadrage */}
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-                <div className="text-3xl text-sky-400">↪</div>
-                <h3 className="mt-4 text-lg font-semibold">
-                  Compréhension &amp; cadrage
-                </h3>
-                <div className="mt-4 text-sm leading-7 text-white/85">
-                  <ul className="space-y-2">
-                    <li>- Echange initial avec le client</li>
-                    <li>- Analyse du contexte, des enjeux et des objectifs</li>
-                    <li>- Clarification des attentes et des contraintes</li>
-                  </ul>
-
-                  <div className="mt-6 font-semibold text-white">
-                    <span className="text-sky-400">ORCHESTRA</span> intervient pour :
-                  </div>
-                  <ul className="mt-3 space-y-2">
-                    <li>- Structurer les informations</li>
-                    <li>- Identifier les zones d&apos;incertitude</li>
-                    <li>- Enrichir la réflexion initiale</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* 2 — Analyse augmentée */}
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-                <div className="text-3xl text-sky-400">🧠</div>
-                <h3 className="mt-4 text-lg font-semibold">
-                  Analyse augmentée &amp; structuration
-                </h3>
-                <div className="mt-4 text-sm leading-7 text-white/85">
-                  <ul className="space-y-2">
-                    <li>- Analyse approfondie des problématiques</li>
-                    <li>- Mise en perspective des données et informations</li>
-                    <li>- Identification des leviers d&apos;action</li>
-                  </ul>
-
-                  <div className="mt-6 font-semibold text-white">
-                    <span className="text-sky-400">ORCHESTRA</span> soutient :
-                  </div>
-                  <ul className="mt-3 space-y-2">
-                    <li>- L&apos;analyse stratégique</li>
-                    <li>- La veille sectorielle</li>
-                    <li>- La structuration des options possibles</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* 3 — Scénarios */}
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-                <div className="text-3xl text-sky-400">☑</div>
-                <h3 className="mt-4 text-lg font-semibold">
-                  Scénarios &amp; arbitrages
-                </h3>
-                <div className="mt-4 text-sm leading-7 text-white/85">
-                  <ul className="space-y-2">
-                    <li>- Construction de scénarios possibles</li>
-                    <li>- Projection des impacts et conséquences</li>
-                    <li>- Evaluation des risques et opportunités</li>
-                  </ul>
-
-                  <div className="mt-6 font-semibold text-white">
-                    Les experts humains sont là pour :
-                  </div>
-                  <ul className="mt-3 space-y-2">
-                    <li>- Arbitrer les propositions</li>
-                    <li>- Sélectionner les options pertinentes</li>
-                    <li>- Prendre les décisions finales</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* 4 — Mise en œuvre */}
-              <div className="rounded-2xl bg-[#0f1a2b] p-7 text-left ring-1 ring-white/10">
-                <div className="text-3xl text-sky-400">🚀</div>
-                <h3 className="mt-4 text-lg font-semibold">
-                  Mise en œuvre &amp; accompagnement
-                </h3>
-                <div className="mt-4 text-sm leading-7 text-white/85">
-                  <ul className="space-y-2">
-                    <li>- Traduction des décisions en actions concrètes</li>
-                    <li>- Accompagnement dans la mise en œuvre</li>
-                    <li>- Ajustements en fonction du terrain et des retours</li>
-                  </ul>
-
-                  <div className="mt-8 text-center font-semibold text-white">
-                    <span className="text-sky-400">ORCHESTRA</span> reste un support permanent,
-                    sans jamais se substituer à l&apos;humain.
-                  </div>
-                </div>
-              </div>
+              {(f?.process?.steps ?? []).map((s: any, idx: number) => (
+                <BigCard
+                  key={`step-${idx}`}
+                  className="text-left"
+                  icon={s?.icon}
+                  titleLines={
+                    Array.isArray(s?.titleLines) ? s.titleLines : []
+                  }
+                  top={
+                    s?.topRich ? (
+                      <RichTextSmall value={s.topRich} />
+                    ) : null
+                  }
+                  label={
+                    s?.labelRich ? (
+                      <RichTextInline value={s.labelRich} />
+                    ) : null
+                  }
+                  bottom={
+                    s?.bottomRich ? (
+                      <RichTextSmall value={s.bottomRich} />
+                    ) : null
+                  }
+                  outro={
+                    s?.outroRich ? (
+                      <RichTextSmall value={s.outroRich} />
+                    ) : null
+                  }
+                />
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* =========================================================
-          PLACE D’ORCHESTRA — Bloc structurant (fond alterné)
+          PLACE D’ORCHESTRA
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              La place d&apos;<span className="text-sky-400">ORCHESTRA</span> dans
-              le <span className="text-sky-400">processus</span>
+              <RichTextInline value={f?.orchestraPlace?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <span className="text-sky-400">ORCHESTRA</span> agit comme un{" "}
-              <span className="text-sky-400">copilote</span> structurant. Il aide à
-              voir plus clair, plus loin et plus vite
-              <br className="hidden sm:block" />
-              <span className="text-sky-400">
-                sans jamais décider à la place de l&apos;humain
-              </span>
-              .
-            </p>
-
-            <p className="mx-auto mt-16 max-w-2xl text-base font-semibold leading-8 text-white/90 sm:text-lg">
-              Chaque production issue d&apos;<span className="text-sky-400">ORCHESTRA</span>{" "}
-              est :
-            </p>
+            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={f?.orchestraPlace?.introRich} />
+            </div>
 
             <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-3">
-              <Card title="Analysée" icon="🧠" />
-              <Card title="Contextualisée" icon="🧩" />
-              <Card
-                title={
-                  <>
-                    <div className="text-lg font-semibold">Validée par un</div>
-                    <div className="text-lg font-semibold">expert humain</div>
-                  </>
-                }
-                icon="✅"
-              />
+              {(f?.orchestraPlace?.cards ?? []).map(
+                (c: any, idx: number) => (
+                  <Card
+                    key={`orchestra-${idx}`}
+                    icon={c?.icon}
+                    title={<TitleLines lines={c?.titleLines} />}
+                  />
+                )
+              )}
             </div>
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          CE QUE ÇA CHANGE — Fond global
+          CLIENT BENEFITS
       ========================================================== */}
       <Section className="py-24">
         <Container>
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              Ce que cela change pour le{" "}
-              <span className="text-sky-400">client</span>
+              <RichTextInline value={f?.clientBenefits?.titleRich} />
             </h2>
 
-            <p className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              Cette méthode permet au client de bénéficier :
-            </p>
+            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+              <RichTextInline value={f?.clientBenefits?.introRich} />
+            </div>
 
             <div className="mx-auto mt-14 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <Card title="D&apos;un cadre clair et rassurant" icon="📄" />
-              <Card title="D&apos;analyses structurées et lisibles" icon="🧱" />
-              <Card title="D&apos;une prise de décision plus sereine" icon="☑" />
-              <Card
-                title="D&apos;un accompagnement humain renforcé par l&apos;IA"
-                icon="👥"
-              />
+              {(f?.clientBenefits?.cards ?? []).map(
+                (c: any, idx: number) => (
+                  <Card
+                    key={`benefit-${idx}`}
+                    icon={c?.icon}
+                    title={<TitleLines lines={c?.titleLines} />}
+                  />
+                )
+              )}
             </div>
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          CTA PREMIUM — Fin de page (style “carte” ORCHESTRA)
+          CTA FINAL
       ========================================================== */}
-      <Section variant="darker" className="py-24">
-        <Container>
-          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Vous souhaitez <span className="text-sky-400">découvrir</span>{" "}
-              comment cette méthode peut{" "}
-              <span className="text-sky-400">s&apos;appliquer</span> à votre
-              contexte ?
-            </h2>
+      {cta ? (
+        <Section variant="darker" className="py-24">
+          <Container>
+            <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <RichTextInline value={cta?.titleRich} />
+              </h2>
 
-            <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-              Un échange humain, sans engagement, pour clarifier vos enjeux et
-              envisager les prochaines étapes.
-            </p>
+              <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+                <RichTextInline value={cta?.textRich} />
+              </div>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button href="/contact" variant="primary" className="h-12 px-7">
-                Nous contacter
-              </Button>
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button
+                  href={cta?.primaryHref ?? "/contact"}
+                  variant="primary"
+                  className="h-12 px-7"
+                >
+                  {cta?.primaryLabel ?? "Nous contacter"}
+                </Button>
 
-              <Button
-                href="/methode-orchestra"
-                variant="secondary"
-                className="h-12 px-7 gap-2"
-              >
-                Découvrir la Méthode ORCHESTRA <span aria-hidden="true">›</span>
-              </Button>
+                <Button
+                  href={cta?.secondaryHref ?? "/methode-orchestra"}
+                  variant="secondary"
+                  className="h-12 px-7 gap-2"
+                >
+                  {cta?.secondaryLabel ??
+                    "Découvrir la méthode ORCHESTRA"}
+                  <span aria-hidden="true">›</span>
+                </Button>
+              </div>
             </div>
-          </div>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      ) : null}
     </div>
   );
 }

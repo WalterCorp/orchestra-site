@@ -9,9 +9,9 @@ const marks: PortableTextComponents["marks"] = {
 };
 
 /**
- * BODY renderer
- * - Enter (nouveau block) => nouveau <p> avec espacement léger via wrapper
- * - Shift+Enter (hardBreak) => <br /> (retour à la ligne contrôlé)
+ * BODY renderer (sections / blocs de page)
+ * - Enter (nouveau block) => nouveau <p>
+ * - Shift+Enter (hardBreak) => <br />
  */
 const bodyComponents: PortableTextComponents = {
   marks,
@@ -25,10 +25,9 @@ const bodyComponents: PortableTextComponents = {
 
 /**
  * INLINE renderer (titres / phrases courtes)
- * Objectif :
- * - Supporter Enter => nouvelle ligne (blocks)
- * - Supporter Shift+Enter => <br />
- * - Empêcher la génération de <h1>/<h2>... en inline (sinon nested headings)
+ * - Supporte Enter => nouvelle ligne (blocks)
+ * - Supporte Shift+Enter => <br />
+ * - Empêche la génération de <h1>/<h2>... en inline
  */
 const inlineComponents: PortableTextComponents = {
   marks,
@@ -41,6 +40,32 @@ const inlineComponents: PortableTextComponents = {
     h4: ({ children }) => <span className="block">{children}</span>,
     h5: ({ children }) => <span className="block">{children}</span>,
     h6: ({ children }) => <span className="block">{children}</span>,
+  },
+};
+
+/**
+ * SMALL renderer (cards / contenus denses)
+ * Objectif : retrouver la typo V1 dans les cartes
+ */
+const smallComponents: PortableTextComponents = {
+  marks,
+  hardBreak: () => <br />,
+  block: {
+    normal: ({ children }) => (
+      <p className="text-sm leading-7 text-white/85">{children}</p>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="list-disc space-y-2 pl-5 text-sm leading-7 text-white/85">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal space-y-2 pl-5 text-sm leading-7 text-white/85">
+        {children}
+      </ol>
+    ),
   },
 };
 
@@ -59,4 +84,14 @@ export function RichTextInline({ value }: { value: unknown }) {
   if (!Array.isArray(value) || value.length === 0) return null;
 
   return <PortableText value={value as any} components={inlineComponents} />;
+}
+
+export function RichTextSmall({ value }: { value: unknown }) {
+  if (!Array.isArray(value) || value.length === 0) return null;
+
+  return (
+    <div className="space-y-3">
+      <PortableText value={value as any} components={smallComponents} />
+    </div>
+  );
 }
