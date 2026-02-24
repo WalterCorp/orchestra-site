@@ -1,8 +1,10 @@
+// components/layout/HeaderClient.tsx
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/Button";
 
 type NavItem = {
   label: string;
@@ -22,6 +24,13 @@ export default function HeaderClient({
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Split : liens centraux vs CTA (ancré à droite)
+  const { links, cta } = useMemo(() => {
+    const ctaItem = navItems.find((i) => i.isCta);
+    const linkItems = navItems.filter((i) => !i.isCta);
+    return { links: linkItems, cta: ctaItem };
+  }, [navItems]);
 
   // Ferme le menu quand on change de page
   useEffect(() => {
@@ -53,49 +62,50 @@ export default function HeaderClient({
           {brandLabel}
         </Link>
 
-        {/* Navigation desktop */}
-        <nav className="hidden min-w-0 items-center gap-6 text-base lg:flex">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            const target = item.openInNewTab ? "_blank" : undefined;
-            const rel = item.openInNewTab ? "noreferrer" : undefined;
+        {/* Navigation desktop (à partir de xl pour éviter le squeeze) */}
+        <div className="hidden flex-1 items-center justify-center xl:flex">
+          <nav className="flex items-center gap-6 text-base">
+            {links.map((item) => {
+              const isActive = pathname === item.href;
+              const target = item.openInNewTab ? "_blank" : undefined;
+              const rel = item.openInNewTab ? "noreferrer noopener" : undefined;
 
-            if (item.isCta) {
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   target={target}
                   rel={rel}
-                  className="inline-flex h-10 items-center justify-center rounded-lg bg-sky-600 px-4 font-semibold text-white transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
+                  className={
+                    isActive
+                      ? "font-semibold text-white underline underline-offset-8"
+                      : "text-white/70 transition-colors hover:text-white"
+                  }
                 >
                   {item.label}
                 </Link>
               );
-            }
+            })}
+          </nav>
+        </div>
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                target={target}
-                rel={rel}
-                className={
-                  isActive
-                    ? "font-semibold text-white underline underline-offset-8"
-                    : "text-white/70 transition-colors hover:text-white"
-                }
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+        {/* CTA desktop (ancré à droite, séparé du nav) */}
+        <div className="hidden shrink-0 items-center xl:flex">
+          {cta ? (
+            <Button
+              href={cta.href}
+              variant="primary"
+              className="h-10 px-4 rounded-lg"
+            >
+              {cta.label}
+            </Button>
+          ) : null}
+        </div>
 
-        {/* Bouton menu mobile */}
+        {/* Bouton menu mobile (visible < xl) */}
         <button
           type="button"
-          className="inline-flex h-10 items-center justify-center rounded-lg bg-white/5 px-4 text-sm font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 lg:hidden"
+          className="inline-flex h-10 items-center justify-center rounded-lg bg-white/5 px-4 text-sm font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 xl:hidden"
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           onClick={() => setMobileOpen((v) => !v)}
@@ -106,7 +116,7 @@ export default function HeaderClient({
 
       {/* Menu mobile (overlay) */}
       {mobileOpen && (
-        <div className="lg:hidden">
+        <div className="xl:hidden">
           {/* Backdrop */}
           <button
             type="button"
@@ -122,24 +132,10 @@ export default function HeaderClient({
           >
             <div className="mx-auto max-w-7xl">
               <div className="flex flex-col gap-3">
-                {navItems.map((item) => {
+                {links.map((item) => {
                   const isActive = pathname === item.href;
                   const target = item.openInNewTab ? "_blank" : undefined;
-                  const rel = item.openInNewTab ? "noreferrer" : undefined;
-
-                  if (item.isCta) {
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        target={target}
-                        rel={rel}
-                        className="mt-2 inline-flex h-12 items-center justify-center rounded-xl bg-sky-600 px-7 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-                      >
-                        {item.label}
-                      </Link>
-                    );
-                  }
+                  const rel = item.openInNewTab ? "noreferrer noopener" : undefined;
 
                   return (
                     <Link
@@ -157,6 +153,16 @@ export default function HeaderClient({
                     </Link>
                   );
                 })}
+
+                {cta ? (
+                  <Button
+                    href={cta.href}
+                    variant="primary"
+                    className="mt-2 h-12 px-7"
+                  >
+                    {cta.label}
+                  </Button>
+                ) : null}
               </div>
 
               <div className="mt-4 text-xs text-white/50">{mobileTagline}</div>

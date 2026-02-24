@@ -43,8 +43,8 @@ export default async function MethodeOrchestraPage() {
   const hero = data.hero;
   const methode = data.methodeSections;
 
-  // Option 1 validée : CTA fin = finalCta ?? homeCta ?? cabinetCta
-  const cta = data.finalCta ?? data.homeCta ?? data.cabinetCta;
+  // ✅ STANDARD GLOBAL : CTA final = finalCta uniquement (plus de fallback legacy)
+  const cta = data.finalCta;
 
   // --------------------------------------------------
   // HERO — pattern identique à Accueil
@@ -60,9 +60,8 @@ export default async function MethodeOrchestraPage() {
 
   const heroTitle = (
     <>
-      {/* Label ORCHESTRA — spécifique, conservé */}
-      <div className="mt-7 text-4xl font-semibold tracking-tight text-sky-400 sm:text-5xl">
-      </div>
+      {/* Label ORCHESTRA — spécifique (laissé volontairement vide si non piloté CMS) */}
+      <div className="mt-7 text-4xl font-semibold tracking-tight text-sky-400 sm:text-5xl" />
 
       <h1 className="mx-auto mt-6 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
         <RichTextInline value={hero?.titleRich} />
@@ -193,44 +192,48 @@ export default async function MethodeOrchestraPage() {
             <div className="mx-auto mt-14 max-w-6xl space-y-6">
               {/* Ligne 1 : 3 bulles */}
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {(methode?.core?.bubbles?.line1 ?? []).map((b: any, idx: number) => (
-                  <div
-                    key={`${b.icon}-${b.title}-${idx}`}
-                    className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10"
-                  >
-                    <div className="mx-auto w-fit text-3xl text-sky-400">
-                      {b.icon}
+                {(methode?.core?.bubbles?.line1 ?? []).map(
+                  (b: any, idx: number) => (
+                    <div
+                      key={`${b.icon}-${b.title}-${idx}`}
+                      className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10"
+                    >
+                      <div className="mx-auto w-fit text-3xl text-sky-400">
+                        {b.icon}
+                      </div>
+                      <div className="mt-5 text-lg font-semibold">{b.title}</div>
+                      {b.text ? (
+                        <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">
+                          {b.text}
+                        </p>
+                      ) : null}
                     </div>
-                    <div className="mt-5 text-lg font-semibold">{b.title}</div>
-                    {b.text ? (
-                      <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">
-                        {b.text}
-                      </p>
-                    ) : null}
-                  </div>
-                ))}
+                  )
+                )}
               </div>
 
               {/* Ligne 2 : 2 bulles */}
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:justify-items-center">
                 <div className="hidden lg:block" />
 
-                {(methode?.core?.bubbles?.line2 ?? []).map((b: any, idx: number) => (
-                  <div
-                    key={`${b.icon}-${b.title}-${idx}`}
-                    className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2"
-                  >
-                    <div className="mx-auto w-fit text-3xl text-sky-400">
-                      {b.icon}
+                {(methode?.core?.bubbles?.line2 ?? []).map(
+                  (b: any, idx: number) => (
+                    <div
+                      key={`${b.icon}-${b.title}-${idx}`}
+                      className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2"
+                    >
+                      <div className="mx-auto w-fit text-3xl text-sky-400">
+                        {b.icon}
+                      </div>
+                      <div className="mt-5 text-lg font-semibold">{b.title}</div>
+                      {b.text ? (
+                        <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">
+                          {b.text}
+                        </p>
+                      ) : null}
                     </div>
-                    <div className="mt-5 text-lg font-semibold">{b.title}</div>
-                    {b.text ? (
-                      <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">
-                        {b.text}
-                      </p>
-                    ) : null}
-                  </div>
-                ))}
+                  )
+                )}
 
                 <div className="hidden lg:block" />
               </div>
@@ -340,36 +343,43 @@ export default async function MethodeOrchestraPage() {
       </Section>
 
       {/* =========================================================
-          CTA FINAL — commun (finalCta) + fallback legacy
+          CTA FINAL — commun (finalCta uniquement)
+          Standard global : si finalCta est vide → on n’affiche rien
       ========================================================== */}
-      <Section variant="darker" className="py-24">
-        <Container>
-          <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              <RichTextInline value={cta?.titleRich} />
-            </h2>
+      {cta ? (
+        <Section variant="darker" className="py-24">
+          <Container>
+            <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
+              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <RichTextInline value={cta?.titleRich} />
+              </h2>
 
-            <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-              <RichTextInline value={cta?.textRich} />
+              <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+                <RichTextInline value={cta?.textRich} />
+              </div>
+
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button
+                  href={cta?.primaryHref ?? "/contact"}
+                  variant="primary"
+                  className="h-12 px-7"
+                >
+                  {cta?.primaryLabel ?? "Nous contacter"}
+                </Button>
+
+                <Button
+                  href={cta?.secondaryHref ?? "/fonctionnement"}
+                  variant="secondary"
+                  className="h-12 px-7 gap-2"
+                >
+                  {cta?.secondaryLabel ?? "Comment nous travaillons"}
+                  <span aria-hidden="true">›</span>
+                </Button>
+              </div>
             </div>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button href={cta?.primaryHref ?? "/contact"} variant="primary" className="h-12 px-7">
-                {cta?.primaryLabel ?? "Nous contacter"}
-              </Button>
-
-              <Button
-                href={cta?.secondaryHref ?? "/fonctionnement"}
-                variant="secondary"
-                className="h-12 px-7 gap-2"
-              >
-                {cta?.secondaryLabel ?? "Comment nous travaillons"}
-                <span aria-hidden="true">›</span>
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      ) : null}
     </div>
   );
 }

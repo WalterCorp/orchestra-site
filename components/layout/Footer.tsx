@@ -30,6 +30,9 @@ export default async function Footer() {
   const settings = await getGlobalSettings();
   const footer = settings?.footer;
 
+  // ✅ CMS-first : marque pilotée par globalSettings.header.brandLabel
+  const brandLabel: string = settings?.header?.brandLabel ?? "ORCHESTRA";
+
   const brandDescription =
     footer?.brandDescription ??
     "Cabinet de conseil en stratégie et organisation, fondé sur une collaboration structurée entre expertise humaine et intelligence artificielle.";
@@ -38,8 +41,7 @@ export default async function Footer() {
   const navItems = footer?.navItems ?? [];
   const columns = footer?.columns ?? [];
   const copyright =
-    footer?.copyright ??
-    "© 2026 ORCHESTRA — Site vitrine démonstrateur";
+    footer?.copyright ?? "© 2026 ORCHESTRA — Site vitrine démonstrateur";
   const legalText =
     footer?.legalText ?? "Mentions légales · Politique de confidentialité";
 
@@ -55,7 +57,7 @@ export default async function Footer() {
               className="h-4 w-4 rounded-full border-2 border-sky-400"
               aria-hidden="true"
             />
-            ORCHESTRA
+            {brandLabel}
           </div>
 
           <p className="max-w-xs leading-6">{brandDescription}</p>
@@ -84,7 +86,10 @@ export default async function Footer() {
               {column.items.map((item: any) => {
                 const Icon = ICON_MAP[item.iconKey];
                 return (
-                  <li key={`${column.title}-${item.iconKey}-${item.text}`} className="flex items-center gap-2">
+                  <li
+                    key={`${column.title}-${item.iconKey}-${item.text}`}
+                    className="flex items-center gap-2"
+                  >
                     {Icon && <Icon className="h-4 w-4 text-sky-400" />}
                     {item.text}
                   </li>

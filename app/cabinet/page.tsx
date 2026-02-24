@@ -24,7 +24,8 @@ export default async function CabinetPage() {
   const hero = data.hero;
   const sections = data.cabinetSections;
 
-  // ✅ CTA final commun (source de vérité)
+  // ✅ STANDARD GLOBAL : CTA final commun (finalCta uniquement)
+  // Si finalCta est vide → on n’affiche rien (prod clean)
   const cta = data.finalCta;
 
   const heroBadge = (
@@ -90,7 +91,10 @@ export default async function CabinetPage() {
             </h2>
 
             {sections?.vision?.emoji ? (
-              <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+              <div
+                className="mx-auto mt-6 w-fit text-3xl text-sky-400"
+                aria-hidden="true"
+              >
                 {sections.vision.emoji}
               </div>
             ) : null}
@@ -111,7 +115,10 @@ export default async function CabinetPage() {
             </h2>
 
             {sections?.human?.emoji ? (
-              <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+              <div
+                className="mx-auto mt-6 w-fit text-3xl text-sky-400"
+                aria-hidden="true"
+              >
                 {sections.human.emoji}
               </div>
             ) : null}
@@ -132,7 +139,10 @@ export default async function CabinetPage() {
             </h2>
 
             {sections?.ai?.emoji ? (
-              <div className="mx-auto mt-6 w-fit text-3xl text-sky-400" aria-hidden="true">
+              <div
+                className="mx-auto mt-6 w-fit text-3xl text-sky-400"
+                aria-hidden="true"
+              >
                 {sections.ai.emoji}
               </div>
             ) : null}
@@ -144,20 +154,10 @@ export default async function CabinetPage() {
         </Container>
       </Section>
 
-      {/* CTA FINAL (commun) */}
-      <Section className="py-24">
-        <Container>
-          {!cta ? (
-            <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                CTA final manquant dans le CMS
-              </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/85 sm:text-base">
-                Renseigne <span className="text-sky-400">finalCta</span> pour la page{" "}
-                <span className="text-sky-400">cabinet</span> dans Sanity.
-              </p>
-            </div>
-          ) : (
+      {/* CTA FINAL (commun) — finalCta uniquement */}
+      {cta ? (
+        <Section className="py-24">
+          <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
               <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                 <RichTextInline value={cta?.titleRich} />
@@ -186,9 +186,9 @@ export default async function CabinetPage() {
                 </Button>
               </div>
             </div>
-          )}
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      ) : null}
     </div>
   );
 }
