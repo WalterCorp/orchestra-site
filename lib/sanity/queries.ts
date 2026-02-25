@@ -1,4 +1,4 @@
-// lib/sanity/queries.ts
+// orchestra-site/lib/sanity/queries.ts
 
 import { sanityClient } from "./client";
 
@@ -169,6 +169,13 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
         labelRich,
         cards[]{ icon, titleLines }
       }
+    },
+
+    faqSections{
+      titleRich,
+      introRich,
+      items[]{ question, answerRich },
+      conviction{ badgeEmoji, textRich }
     }
   }
 `;
