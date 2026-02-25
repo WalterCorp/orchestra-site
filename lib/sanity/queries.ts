@@ -176,6 +176,20 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       introRich,
       items[]{ question, answerRich },
       conviction{ badgeEmoji, textRich }
+    },
+
+    // ✅ CONTACT
+    contactSections{
+      form{
+        titleRich,
+        textRich
+      },
+      reassurance{
+        titleRich,
+        cards[]{ title },
+        linkLabel,
+        linkHref
+      }
     }
   }
 `;
