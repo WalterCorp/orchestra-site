@@ -1,4 +1,5 @@
 // lib/sanity/queries.ts
+
 import { sanityClient } from "./client";
 
 export const PAGE_BY_SLUG_QUERY = /* groq */ `
@@ -128,6 +129,44 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
       clientBenefits{
         titleRich,
         introRich,
+        cards[]{ icon, titleLines }
+      }
+    },
+
+    expertisesSections{
+      approach{
+        titleRich,
+        contentRich
+      },
+
+      domains{
+        titleRich,
+        introRich,
+        cards[]{
+          icon,
+          titleLines,
+          topRich,
+          labelRich,
+          bottomRich,
+          outroRich
+        },
+        changeBand{
+          title,
+          textRich
+        }
+      },
+
+      orchestraSupport{
+        titleRich,
+        introRich,
+        labelRich,
+        cards[]{ icon, titleLines },
+        outroRich
+      },
+
+      audiences{
+        titleRich,
+        labelRich,
         cards[]{ icon, titleLines }
       }
     }
