@@ -1,12 +1,14 @@
+// components/ui/BigCard.tsx
+
 import React from "react";
 
 type BigCardProps = {
   icon?: React.ReactNode;
   titleLines: string[];
-  top?: React.ReactNode;     // bloc haut (rich)
-  label?: React.ReactNode;   // label (rich)
-  bottom?: React.ReactNode;  // bloc bas (rich) -> optionnel
-  outro?: React.ReactNode;   // outro (rich) -> optionnel
+  top?: React.ReactNode;    // bloc haut (rich)
+  label?: React.ReactNode;  // label (rich)
+  bottom?: React.ReactNode; // bloc bas (rich) — optionnel
+  outro?: React.ReactNode;  // outro (rich) — optionnel
   className?: string;
 };
 
@@ -19,6 +21,8 @@ export function BigCard({
   outro,
   className = "",
 }: BigCardProps) {
+  const safeTitleLines = Array.isArray(titleLines) ? titleLines.filter(Boolean) : [];
+
   return (
     <div
       className={[
@@ -26,22 +30,24 @@ export function BigCard({
         className,
       ].join(" ")}
     >
-      {/* Icône */}
+      {/* ✅ text-[var(--color-brand)] au lieu de text-sky-400 hardcodé */}
       {icon ? (
-        <div className="w-fit text-3xl text-sky-400">{icon}</div>
+        <div className="w-fit text-3xl text-[var(--color-brand)]">{icon}</div>
       ) : null}
 
-      {/* Titre multi-lignes */}
-      <div className="mt-4 text-lg font-semibold leading-7">
-        {Array.isArray(titleLines)
-          ? titleLines.filter(Boolean).map((l, idx) => (
-              <div key={`${l}-${idx}`}>{l}</div>
-            ))
-          : null}
-      </div>
+      {/* Titre multi-lignes — strict : pas de wrapper vide */}
+      {safeTitleLines.length > 0 ? (
+        <div className={(icon ? "mt-4 " : "") + "text-lg font-semibold leading-7"}>
+          {safeTitleLines.map((l, idx) => (
+            <div key={`${l}-${idx}`}>{l}</div>
+          ))}
+        </div>
+      ) : null}
 
       {/* Bloc haut */}
-      {top ? <div className="mt-4 text-sm leading-7 text-white/85">{top}</div> : null}
+      {top ? (
+        <div className="mt-4 text-sm leading-7 text-white/85">{top}</div>
+      ) : null}
 
       {/* Label */}
       {label ? (

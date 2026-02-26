@@ -1,3 +1,5 @@
+// components/ui/Card.tsx
+
 import React from "react";
 
 type CardVariant = "sm" | "md";
@@ -50,7 +52,12 @@ export function Card({
 
   return (
     <div className={`${base} ${variants[variant]} ${className}`.trim()}>
-      {icon && <div className="mx-auto w-fit text-3xl text-sky-400">{icon}</div>}
+      {/* ✅ text-[var(--color-brand)] au lieu de text-sky-400 hardcodé */}
+      {icon && (
+        <div className="mx-auto w-fit text-3xl text-[var(--color-brand)]">
+          {icon}
+        </div>
+      )}
 
       {title && (
         <div className={icon ? "mt-4" : ""}>
