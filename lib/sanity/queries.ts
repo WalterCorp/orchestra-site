@@ -15,6 +15,14 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
     _updatedAt,
 
     hero{
+      // Fond du hero — ajouté suite à page.ts (backgroundMode/backgroundImage/overlayIntensity)
+      backgroundMode,
+      backgroundImage{
+        alt,
+        asset->{ url, metadata{ dimensions } }
+      },
+      overlayIntensity,
+
       badgeEmoji,
       badgeText,
       titleRich,
