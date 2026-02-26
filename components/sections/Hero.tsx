@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 /**
  * Hero — Section de tête réutilisable
@@ -10,8 +11,46 @@ import React from "react";
  * Principes :
  * - Le Hero ne contient aucune logique métier
  * - Le contenu (titre, texte, CTA) est injecté via des props
- * - Le rendu visuel doit rester strictement identique lors du refactor
+ * - Le fond (uni ou image) est piloté par Sanity via backgroundMode
+ *
+ * CONTRAT backgroundMode :
+ * - "solid" (défaut) : fond uni — couleur du site, pas d'image
+ * - "image"          : image plein fond + overlay sombre pour lisibilité
+ *
+ * CONTRAT overlayIntensity :
+ * - "40" = 40% noir (image très visible)
+ * - "70" = 70% noir (équilibré, défaut)
+ * - "90" = 90% noir (texte prioritaire)
+ * Valeurs définies dans page.ts — synchronisées avec overlayOpacityMap ci-dessous
  */
+
+// Table de correspondance overlayIntensity (string Sanity) → classe Tailwind
+// CONTRAT : synchronisée avec les valeurs de page.ts overlayIntensity
+const overlayOpacityMap: Record<string, string> = {
+  "40": "bg-black/40",
+  "70": "bg-black/70",
+  "90": "bg-black/90",
+};
+
+// ✅ Type CMS-friendly — Sanity peut renvoyer des champs même si backgroundMode = "solid"
+// Mode solid : backgroundImage et overlayIntensity acceptés null (pas never)
+// Mode image : backgroundImage optionnel — GROQ renvoie null si pas d'image uploadée
+// Les props sont passées explicitement depuis les pages (pas de spread ...hero brut)
+type HeroBackground =
+  | {
+      backgroundMode?: "solid" | undefined;
+      backgroundImage?: null;
+      overlayIntensity?: null;
+    }
+  | {
+      backgroundMode: "image";
+      backgroundImage?: {
+        url?: string;
+        alt?: string;
+        metadata?: { dimensions?: { width: number; height: number } };
+      } | null;
+      overlayIntensity?: "40" | "70" | "90" | null;
+    };
 
 type HeroProps = {
   /** Badge optionnel affiché au-dessus du titre */
@@ -31,13 +70,13 @@ type HeroProps = {
 
   /**
    * Active une hauteur minimale plein écran.
-   * Utilisé principalement sur la page d’accueil.
+   * Utilisé principalement sur la page d'accueil.
    */
   fullHeight?: boolean;
 
   /** Classes additionnelles sur la section */
   className?: string;
-};
+} & HeroBackground;
 
 export function Hero({
   badge,
@@ -47,12 +86,49 @@ export function Hero({
   secondaryCta,
   fullHeight = false,
   className = "",
+  ...bg
 }: HeroProps) {
+  const isImage = bg.backgroundMode === "image";
+
+  // Récupère l'image et l'intensité si mode image
+  const backgroundImage = isImage
+    ? (bg as Extract<HeroBackground, { backgroundMode: "image" }>).backgroundImage
+    : null;
+
+  const overlayIntensity = isImage
+    ? ((bg as Extract<HeroBackground, { backgroundMode: "image" }>).overlayIntensity ?? "70")
+    : "70";
+
+  const overlayClass = overlayOpacityMap[String(overlayIntensity)] ?? "bg-black/70";
+
   return (
     <section className={`relative overflow-hidden ${className}`}>
+
+      {/* =========================================================
+          FOND IMAGE — visible uniquement si backgroundMode = "image"
+          Image positionnée en absolute, couvre toute la section
+          ========================================================= */}
+      {isImage && backgroundImage?.url ? (
+        <>
+          <Image
+            src={backgroundImage.url}
+            alt={backgroundImage.alt ?? ""}
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+          {/* Overlay sombre pour lisibilité du texte */}
+          <div className={`absolute inset-0 ${overlayClass}`} aria-hidden="true" />
+        </>
+      ) : null}
+
+      {/* =========================================================
+          CONTENU — positionné au-dessus du fond (z-10)
+          ========================================================= */}
       <div
         className={[
-          "relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20",
+          "relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 py-14 text-center sm:px-10 lg:py-20",
           fullHeight ? "min-h-[calc(100vh-88px)]" : "",
         ].join(" ")}
       >
