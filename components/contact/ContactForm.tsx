@@ -22,7 +22,6 @@ export function ContactForm() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
 
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -33,54 +32,55 @@ export function ContactForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // Champs (alignés avec l’API)
+    // Payload aligné avec le contrat /api/contact (server-side)
     const payload = {
       full_name: String(formData.get("name") || ""),
       email: String(formData.get("email") || ""),
       company: String(formData.get("organization") || ""),
-      subject: "", // optionnel, réservé si on l’ajoute au form plus tard
+      subject: "",
       message: String(formData.get("message") || ""),
-
-      // Honeypot (sera ajouté au DOM en hidden)
+      // Honeypot — vérifié côté serveur dans /api/contact
       website: String(formData.get("website") || ""),
     };
 
     try {
-      const N8N_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
-
-      if (!N8N_WEBHOOK_URL) {
-        throw new Error("Missing NEXT_PUBLIC_N8N_WEBHOOK_URL");
-      }
-
-      const res = await fetch(N8N_WEBHOOK_URL, {
+      // ✅ CORRECTION #1 : appel sur la route server-side /api/contact
+      // (suppression de l'appel direct au webhook n8n via NEXT_PUBLIC_*)
+      // Avantages :
+      //   - validation email + message côté serveur
+      //   - honeypot anti-spam activé
+      //   - logs RGPD-safe
+      //   - URL webhook n8n non exposée dans le bundle client
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
 
       const json = (await res.json()) as ApiErrorResponse | ApiSuccessResponse;
 
       if (!res.ok || json.ok === false) {
-      setState("error");
+        setState("error");
 
-      const nextErrors =
-        "errors" in json && json.errors
-          ? json.errors
-          : { global: "Une erreur est survenue. Réessayez." };
+        const nextErrors =
+          "errors" in json && json.errors
+            ? json.errors
+            : { global: "Une erreur est survenue. Réessayez." };
 
-      setErrors(nextErrors);
+        setErrors(nextErrors);
 
-      // Focus sur le premier champ en erreur (meilleure UX)
-      if (nextErrors.email) emailRef.current?.focus();
-      else if (nextErrors.message) messageRef.current?.focus();
+        // Focus sur le premier champ en erreur (meilleure UX)
+        if (nextErrors.email) emailRef.current?.focus();
+        else if (nextErrors.message) messageRef.current?.focus();
 
-      return;
-    }
+        return;
+      }
 
       setState("success");
       setSuccessMessage(
-        "Message reçu. Un membre de l’équipe ORCHESTRA reviendra vers vous."
+        "message" in json && json.message
+          ? json.message
+          : "Message reçu. Un membre de l'équipe ORCHESTRA reviendra vers vous."
       );
 
       // Reset du form après succès
@@ -116,14 +116,13 @@ export function ContactForm() {
 
       {/* Succès */}
       {state === "success" ? (
-         <p
+        <p
           role="status"
           aria-live="polite"
           className="rounded-xl bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200 ring-1 ring-emerald-500/20"
         >
           {successMessage}
         </p>
-
       ) : null}
 
       <div>
@@ -195,7 +194,7 @@ export function ContactForm() {
       </div>
 
       <p className="text-center text-xs text-white/50">
-        En envoyant ce message, vous acceptez d’être recontacté par ORCHESTRA.
+        En envoyant ce message, vous acceptez d&apos;être recontacté par ORCHESTRA.
       </p>
     </form>
   );
