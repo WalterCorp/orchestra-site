@@ -1,57 +1,36 @@
-// app/page.tsx
-
-// Section globale — gestion des blocs de page et des fonds alternés
+import { notFound } from "next/navigation";
 import { Section } from "@/components/layout/Section";
-
-// Container global — référence de largeur et de padding pour toutes les pages
 import { Container } from "@/components/layout/Container";
-
-// Button global — centralisation des styles CTA (primary / secondary)
 import { Button } from "@/components/ui/Button";
-
-// Card globale — centralisation des styles de cartes (piliers, contenus, etc.)
 import { Card } from "@/components/ui/Card";
-
-// Hero — section réutilisable
 import { Hero } from "@/components/sections/Hero";
-
-// Sanity
 import { RichText, RichTextInline } from "@/components/sanity/RichText";
 import { getPageBySlug } from "@/lib/sanity/queries";
 
-// On force le rendu dynamique (MVP) pour refléter les updates Sanity sans surprises.
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const data = await getPageBySlug("accueil");
 
-  // Safety : si la page n’existe pas encore dans Sanity
-  if (!data) {
-    return (
-      <main className="p-10 space-y-4">
-        <h1 className="text-2xl font-bold">Home page missing in CMS</h1>
-        <p className="text-gray-600">No Sanity document found for slug: accueil</p>
-      </main>
-    );
-  }
+  // ✅ CORRECTION #2 : notFound() — 404 réel si document absent dans Sanity
+  if (!data) notFound();
 
   const hero = data.hero;
   const homeSections = data.homeSections;
-
-  // ✅ CTA final commun uniquement (legacy supprimé côté schema)
   const cta = data.finalCta;
 
   // --------------------------------------------------
-  // HERO — contenu injecté (ReactNode) pour garder
-  // une liberté totale de mise en forme sans régression
+  // HERO — rendu conditionnel sur chaque champ optionnel
+  // ✅ CORRECTION #3 : pas de ?? hardcodé
   // --------------------------------------------------
 
-  const heroBadge = (
-    <>
-      <span aria-hidden="true">{hero?.badgeEmoji}</span>
-      <span>{hero?.badgeText}</span>
-    </>
-  );
+  const heroBadge =
+    hero?.badgeEmoji || hero?.badgeText ? (
+      <>
+        {hero.badgeEmoji ? <span aria-hidden="true">{hero.badgeEmoji}</span> : null}
+        {hero.badgeText ? <span>{hero.badgeText}</span> : null}
+      </>
+    ) : null;
 
   const heroTitle = (
     <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
@@ -59,40 +38,31 @@ export default async function HomePage() {
     </h1>
   );
 
-  const heroDescription = (
+  const heroDescription = hero?.descriptionRich ? (
     <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
-      <RichTextInline value={hero?.descriptionRich} />
+      <RichTextInline value={hero.descriptionRich} />
     </div>
-  );
+  ) : null;
 
-  const heroPrimaryCta = (
-    <Button
-      href={hero?.primaryCtaHref ?? "/methode-orchestra"}
-      variant="primary"
-      className="h-14 px-10"
-    >
-      {hero?.primaryCtaLabel ?? "Découvrir la méthode ORCHESTRA"}
-    </Button>
-  );
+  const heroPrimaryCta =
+    hero?.primaryCtaHref && hero?.primaryCtaLabel ? (
+      <Button href={hero.primaryCtaHref} variant="primary" className="h-14 px-10">
+        {hero.primaryCtaLabel}
+      </Button>
+    ) : null;
 
-  const heroSecondaryCta = (
-    <Button
-      href={hero?.secondaryCtaHref ?? "/contact"}
-      variant="secondary"
-      className="h-14 px-10 gap-2"
-    >
-      {hero?.secondaryCtaLabel ?? (
-        <>
-          Nous contacter <span aria-hidden="true">›</span>
-        </>
-      )}
-    </Button>
-  );
+  const heroSecondaryCta =
+    hero?.secondaryCtaHref && hero?.secondaryCtaLabel ? (
+      <Button href={hero.secondaryCtaHref} variant="secondary" className="h-14 px-10 gap-2">
+        {hero.secondaryCtaLabel}
+      </Button>
+    ) : null;
 
   return (
     <div className="bg-[#0b1020] text-white">
       {/* =========================================================
           HERO — Piloté par Sanity
+          ✅ Props background passées explicitement (pas de spread brut)
       ========================================================== */}
       <Hero
         badge={heroBadge}
@@ -101,6 +71,17 @@ export default async function HomePage() {
         primaryCta={heroPrimaryCta}
         secondaryCta={heroSecondaryCta}
         fullHeight
+        backgroundMode={hero?.backgroundMode}
+        backgroundImage={
+          hero?.backgroundImage?.asset?.url
+            ? {
+                url: hero.backgroundImage.asset.url,
+                alt: hero.backgroundImage.alt,
+                metadata: hero.backgroundImage.asset.metadata,
+              }
+            : null
+        }
+        overlayIntensity={hero?.overlayIntensity}
       />
 
       {/* =========================================================
@@ -134,29 +115,32 @@ export default async function HomePage() {
               <RichText value={homeSections?.orchestraCore?.content} />
             </div>
 
-            {/* Grille 4 piliers — pilotée par Sanity (structure stable) */}
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {(homeSections?.orchestraCore?.pillars ?? []).map(
-                (pillar: any, idx: number) => (
-                  <Card
-                    key={`${pillar.icon}-${pillar.line1}-${idx}`}
-                    icon={pillar.icon}
-                    title={
-                      <>
-                        <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
-                        <div className="text-lg font-semibold">{pillar.line2}</div>
-                      </>
-                    }
-                  />
-                )
-              )}
-            </div>
+            {(homeSections?.orchestraCore?.pillars ?? []).length > 0 ? (
+              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {(homeSections.orchestraCore.pillars ?? []).map(
+                  (pillar: any, idx: number) => (
+                    <Card
+                      key={`${pillar.icon}-${pillar.line1}-${idx}`}
+                      icon={pillar.icon}
+                      title={
+                        <>
+                          <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
+                          {pillar.line2 ? (
+                            <div className="text-lg font-semibold">{pillar.line2}</div>
+                          ) : null}
+                        </>
+                      }
+                    />
+                  )
+                )}
+              </div>
+            ) : null}
           </div>
         </Container>
       </section>
 
       {/* =========================================================
-          LA PLACE DE L’HUMAIN — Piloté par Sanity (fond alterné)
+          LA PLACE DE L'HUMAIN — Piloté par Sanity (fond alterné)
       ========================================================== */}
       <Section variant="darker" className="py-24">
         <Container>
@@ -169,19 +153,20 @@ export default async function HomePage() {
               <RichTextInline value={homeSections?.humanPlace?.intro} />
             </div>
 
-            {/* 3 cartes — pilotées par Sanity (structure stable) */}
-            <div className="mt-14 grid gap-6 lg:grid-cols-3">
-              {(homeSections?.humanPlace?.cards ?? []).map((card: any, idx: number) => (
-                <Card
-                  key={`${card.icon}-${card.title}-${idx}`}
-                  variant="md"
-                  icon={card.icon}
-                  title={<h3 className="mt-4 text-xl font-semibold">{card.title}</h3>}
-                >
-                  <p className="mt-4 text-base leading-7 text-white/85">{card.text}</p>
-                </Card>
-              ))}
-            </div>
+            {(homeSections?.humanPlace?.cards ?? []).length > 0 ? (
+              <div className="mt-14 grid gap-6 lg:grid-cols-3">
+                {(homeSections.humanPlace.cards ?? []).map((card: any, idx: number) => (
+                  <Card
+                    key={`${card.icon}-${card.title}-${idx}`}
+                    variant="md"
+                    icon={card.icon}
+                    title={<h3 className="mt-4 text-xl font-semibold">{card.title}</h3>}
+                  >
+                    <p className="mt-4 text-base leading-7 text-white/85">{card.text}</p>
+                  </Card>
+                ))}
+              </div>
+            ) : null}
 
             <div className="mx-auto mt-14 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
               <RichTextInline value={homeSections?.humanPlace?.outro} />
@@ -191,34 +176,32 @@ export default async function HomePage() {
       </Section>
 
       {/* =========================================================
-          CTA FINAL — Commun (finalCta)
-          (Si finalCta est vide, on n’affiche rien — local OK)
+          CTA FINAL — conditionnel (si absent dans Sanity → rien)
       ========================================================== */}
       {cta ? (
         <section className="py-24">
           <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
               <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                <RichTextInline value={cta?.titleRich} />
+                <RichTextInline value={cta.titleRich} />
               </h2>
 
               <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-                <RichTextInline value={cta?.textRich} />
+                <RichTextInline value={cta.textRich} />
               </div>
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button href={cta?.primaryHref ?? "/contact"} variant="primary" className="h-12 px-7">
-                  {cta?.primaryLabel ?? "Nous contacter"}
-                </Button>
+                {cta.primaryHref && cta.primaryLabel ? (
+                  <Button href={cta.primaryHref} variant="primary" className="h-12 px-7">
+                    {cta.primaryLabel}
+                  </Button>
+                ) : null}
 
-                <Button
-                  href={cta?.secondaryHref ?? "/methode-orchestra"}
-                  variant="secondary"
-                  className="h-12 px-7 gap-2"
-                >
-                  {cta?.secondaryLabel ?? "Découvrir la méthode ORCHESTRA"}
-                  <span aria-hidden="true">›</span>
-                </Button>
+                {cta.secondaryHref && cta.secondaryLabel ? (
+                  <Button href={cta.secondaryHref} variant="secondary" className="h-12 px-7 gap-2">
+                    {cta.secondaryLabel}
+                  </Button>
+                ) : null}
               </div>
             </div>
           </Container>

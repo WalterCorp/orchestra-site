@@ -1,16 +1,12 @@
-// app/methode-orchestra/page.tsx
-
+import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Hero } from "@/components/sections/Hero";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-
-// Sanity
 import { RichText, RichTextInline } from "@/components/sanity/RichText";
 import { getPageBySlug } from "@/lib/sanity/queries";
 
-// MVP: refléter les updates CMS sans cache surprise
 export const dynamic = "force-dynamic";
 
 function TitleLines({ lines }: { lines?: string[] }) {
@@ -29,75 +25,51 @@ function TitleLines({ lines }: { lines?: string[] }) {
 export default async function MethodeOrchestraPage() {
   const data = await getPageBySlug("methode-orchestra");
 
-  if (!data) {
-    return (
-      <main className="p-10 space-y-4">
-        <h1 className="text-2xl font-bold">Methode page missing in CMS</h1>
-        <p className="text-gray-600">
-          No Sanity document found for slug: methode-orchestra
-        </p>
-      </main>
-    );
-  }
+  // ✅ CORRECTION #2 : notFound() — 404 réel si document absent dans Sanity
+  if (!data) notFound();
 
   const hero = data.hero;
   const methode = data.methodeSections;
-
-  // ✅ STANDARD GLOBAL : CTA final = finalCta uniquement (plus de fallback legacy)
   const cta = data.finalCta;
 
   // --------------------------------------------------
-  // HERO — pattern identique à Accueil
-  // + label ORCHESTRA spécifique (comme la page statique)
+  // HERO — rendu conditionnel sur chaque champ optionnel
+  // ✅ CORRECTION #3 : pas de ?? hardcodé
   // --------------------------------------------------
 
-  const heroBadge = (
-    <>
-      <span aria-hidden="true">{hero?.badgeEmoji ?? "🤖"}</span>
-      <span>{hero?.badgeText ?? "Conseil augmenté par l'IA"}</span>
-    </>
-  );
+  const heroBadge =
+    hero?.badgeEmoji || hero?.badgeText ? (
+      <>
+        {hero.badgeEmoji ? <span aria-hidden="true">{hero.badgeEmoji}</span> : null}
+        {hero.badgeText ? <span>{hero.badgeText}</span> : null}
+      </>
+    ) : null;
 
   const heroTitle = (
-    <>
-      {/* Label ORCHESTRA — spécifique (laissé volontairement vide si non piloté CMS) */}
-      <div className="mt-7 text-4xl font-semibold tracking-tight text-sky-400 sm:text-5xl" />
-
-      <h1 className="mx-auto mt-6 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl">
-        <RichTextInline value={hero?.titleRich} />
-      </h1>
-    </>
+    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+      <RichTextInline value={hero?.titleRich} />
+    </h1>
   );
 
-  const heroDescription = (
+  const heroDescription = hero?.descriptionRich ? (
     <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
-      <RichTextInline value={hero?.descriptionRich} />
+      <RichTextInline value={hero.descriptionRich} />
     </div>
-  );
+  ) : null;
 
-  const heroPrimaryCta = (
-    <Button
-      href={hero?.primaryCtaHref ?? "/fonctionnement"}
-      variant="primary"
-      className="h-14 px-10"
-    >
-      {hero?.primaryCtaLabel ?? "Comment nous travaillons"}
-    </Button>
-  );
+  const heroPrimaryCta =
+    hero?.primaryCtaHref && hero?.primaryCtaLabel ? (
+      <Button href={hero.primaryCtaHref} variant="primary" className="h-14 px-10">
+        {hero.primaryCtaLabel}
+      </Button>
+    ) : null;
 
-  const heroSecondaryCta = (
-    <Button
-      href={hero?.secondaryCtaHref ?? "/contact"}
-      variant="secondary"
-      className="h-14 px-10 gap-2"
-    >
-      {hero?.secondaryCtaLabel ?? (
-        <>
-          Nous contacter <span aria-hidden="true">›</span>
-        </>
-      )}
-    </Button>
-  );
+  const heroSecondaryCta =
+    hero?.secondaryCtaHref && hero?.secondaryCtaLabel ? (
+      <Button href={hero.secondaryCtaHref} variant="secondary" className="h-14 px-10 gap-2">
+        {hero.secondaryCtaLabel}
+      </Button>
+    ) : null;
 
   return (
     <div className="bg-[#0b1020] text-white">
@@ -108,6 +80,17 @@ export default async function MethodeOrchestraPage() {
         primaryCta={heroPrimaryCta}
         secondaryCta={heroSecondaryCta}
         fullHeight
+        backgroundMode={hero?.backgroundMode}
+        backgroundImage={
+          hero?.backgroundImage?.asset?.url
+            ? {
+                url: hero.backgroundImage.asset.url,
+                alt: hero.backgroundImage.alt,
+                metadata: hero.backgroundImage.asset.metadata,
+              }
+            : null
+        }
+        overlayIntensity={hero?.overlayIntensity}
       />
 
       {/* =========================================================
@@ -120,12 +103,12 @@ export default async function MethodeOrchestraPage() {
               <RichTextInline value={methode?.intro?.titleRich} />
             </h2>
 
-            <div
-              className="mx-auto mt-6 w-fit text-3xl text-sky-400"
-              aria-hidden="true"
-            >
-              {methode?.intro?.emoji ?? "🧩"}
-            </div>
+            {/* ✅ text-[var(--color-brand)] + conditionnel */}
+            {methode?.intro?.emoji ? (
+              <div className="mx-auto mt-6 w-fit text-3xl text-[var(--color-brand)]" aria-hidden="true">
+                {methode.intro.emoji}
+              </div>
+            ) : null}
 
             <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               <RichText value={methode?.intro?.contentRich} />
@@ -148,20 +131,25 @@ export default async function MethodeOrchestraPage() {
               <RichTextInline value={methode?.why?.introRich} />
             </div>
 
-            <p className="mt-8 font-semibold text-sky-400">
-              {methode?.why?.label ?? "ORCHESTRA permet de :"}
-            </p>
+            {/* ✅ label conditionnel + brand color */}
+            {methode?.why?.label ? (
+              <p className="mt-8 font-semibold text-[var(--color-brand)]">
+                {methode.why.label}
+              </p>
+            ) : null}
 
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {(methode?.why?.pillars ?? []).map((pillar: any, idx: number) => (
-                <Card
-                  key={`${pillar.icon}-${idx}`}
-                  icon={pillar.icon}
-                  title={<TitleLines lines={pillar.titleLines} />}
-                  className="p-8"
-                />
-              ))}
-            </div>
+            {(methode?.why?.pillars ?? []).length > 0 ? (
+              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {(methode.why.pillars ?? []).map((pillar: any, idx: number) => (
+                  <Card
+                    key={`${pillar.icon}-${idx}`}
+                    icon={pillar.icon}
+                    title={<TitleLines lines={pillar.titleLines} />}
+                    className="p-8"
+                  />
+                ))}
+              </div>
+            ) : null}
 
             <div className="mx-auto mt-12 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
               <RichTextInline value={methode?.why?.outroRich} />
@@ -184,59 +172,53 @@ export default async function MethodeOrchestraPage() {
               <RichTextInline value={methode?.core?.introRich} />
             </div>
 
-            <p className="mt-10 font-semibold text-white">
-              {methode?.core?.label ?? "Exemples de composants :"}
-            </p>
+            {methode?.core?.label ? (
+              <p className="mt-10 font-semibold text-white">{methode.core.label}</p>
+            ) : null}
 
-            {/* Bulles — layout 3 + 2 (même structure visuelle que la statique) */}
             <div className="mx-auto mt-14 max-w-6xl space-y-6">
-              {/* Ligne 1 : 3 bulles */}
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {(methode?.core?.bubbles?.line1 ?? []).map(
-                  (b: any, idx: number) => (
+              {/* Ligne 1 */}
+              {(methode?.core?.bubbles?.line1 ?? []).length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {(methode.core.bubbles.line1 ?? []).map((b: any, idx: number) => (
                     <div
                       key={`${b.icon}-${b.title}-${idx}`}
                       className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10"
                     >
-                      <div className="mx-auto w-fit text-3xl text-sky-400">
-                        {b.icon}
-                      </div>
-                      <div className="mt-5 text-lg font-semibold">{b.title}</div>
+                      {/* ✅ text-[var(--color-brand)] */}
+                      {b.icon ? (
+                        <div className="mx-auto w-fit text-3xl text-[var(--color-brand)]">{b.icon}</div>
+                      ) : null}
+                      {b.title ? <div className="mt-5 text-lg font-semibold">{b.title}</div> : null}
                       {b.text ? (
-                        <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">
-                          {b.text}
-                        </p>
+                        <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">{b.text}</p>
                       ) : null}
                     </div>
-                  )
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : null}
 
-              {/* Ligne 2 : 2 bulles */}
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:justify-items-center">
-                <div className="hidden lg:block" />
-
-                {(methode?.core?.bubbles?.line2 ?? []).map(
-                  (b: any, idx: number) => (
+              {/* Ligne 2 */}
+              {(methode?.core?.bubbles?.line2 ?? []).length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:justify-items-center">
+                  <div className="hidden lg:block" />
+                  {(methode.core.bubbles.line2 ?? []).map((b: any, idx: number) => (
                     <div
                       key={`${b.icon}-${b.title}-${idx}`}
                       className="flex aspect-square flex-col items-center justify-center rounded-full bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 lg:col-span-2"
                     >
-                      <div className="mx-auto w-fit text-3xl text-sky-400">
-                        {b.icon}
-                      </div>
-                      <div className="mt-5 text-lg font-semibold">{b.title}</div>
+                      {b.icon ? (
+                        <div className="mx-auto w-fit text-3xl text-[var(--color-brand)]">{b.icon}</div>
+                      ) : null}
+                      {b.title ? <div className="mt-5 text-lg font-semibold">{b.title}</div> : null}
                       {b.text ? (
-                        <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">
-                          {b.text}
-                        </p>
+                        <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/80">{b.text}</p>
                       ) : null}
                     </div>
-                  )
-                )}
-
-                <div className="hidden lg:block" />
-              </div>
+                  ))}
+                  <div className="hidden lg:block" />
+                </div>
+              ) : null}
             </div>
 
             <div className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
@@ -260,20 +242,22 @@ export default async function MethodeOrchestraPage() {
               <RichTextInline value={methode?.human?.introRich} />
             </div>
 
-            <p className="mt-10 font-semibold text-white">
-              {methode?.human?.label ?? "Les experts humains sont là pour :"}
-            </p>
+            {methode?.human?.label ? (
+              <p className="mt-10 font-semibold text-white">{methode.human.label}</p>
+            ) : null}
 
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {(methode?.human?.cards ?? []).map((card: any, idx: number) => (
-                <Card
-                  key={`${card.icon}-${idx}`}
-                  icon={card.icon}
-                  title={<TitleLines lines={card.titleLines} />}
-                  className="p-8"
-                />
-              ))}
-            </div>
+            {(methode?.human?.cards ?? []).length > 0 ? (
+              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {(methode.human.cards ?? []).map((card: any, idx: number) => (
+                  <Card
+                    key={`${card.icon}-${idx}`}
+                    icon={card.icon}
+                    title={<TitleLines lines={card.titleLines} />}
+                    className="p-8"
+                  />
+                ))}
+              </div>
+            ) : null}
 
             <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
               <RichTextInline value={methode?.human?.outroRich} />
@@ -296,16 +280,18 @@ export default async function MethodeOrchestraPage() {
               <RichTextInline value={methode?.workflow?.introRich} />
             </div>
 
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {(methode?.workflow?.steps ?? []).map((step: any, idx: number) => (
-                <Card
-                  key={`${step.icon}-${idx}`}
-                  icon={step.icon}
-                  title={<TitleLines lines={step.titleLines} />}
-                  className="p-8"
-                />
-              ))}
-            </div>
+            {(methode?.workflow?.steps ?? []).length > 0 ? (
+              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {(methode.workflow.steps ?? []).map((step: any, idx: number) => (
+                  <Card
+                    key={`${step.icon}-${idx}`}
+                    icon={step.icon}
+                    title={<TitleLines lines={step.titleLines} />}
+                    className="p-8"
+                  />
+                ))}
+              </div>
+            ) : null}
 
             <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
               <RichTextInline value={methode?.workflow?.outroRich} />
@@ -328,53 +314,49 @@ export default async function MethodeOrchestraPage() {
               <RichTextInline value={methode?.benefits?.introRich} />
             </div>
 
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {(methode?.benefits?.cards ?? []).map((card: any, idx: number) => (
-                <Card
-                  key={`${card.icon}-${idx}`}
-                  icon={card.icon}
-                  title={<TitleLines lines={card.titleLines} />}
-                  className="p-8"
-                />
-              ))}
-            </div>
+            {(methode?.benefits?.cards ?? []).length > 0 ? (
+              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {(methode.benefits.cards ?? []).map((card: any, idx: number) => (
+                  <Card
+                    key={`${card.icon}-${idx}`}
+                    icon={card.icon}
+                    title={<TitleLines lines={card.titleLines} />}
+                    className="p-8"
+                  />
+                ))}
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
 
       {/* =========================================================
-          CTA FINAL — commun (finalCta uniquement)
-          Standard global : si finalCta est vide → on n’affiche rien
+          CTA FINAL — conditionnel
       ========================================================== */}
       {cta ? (
         <Section variant="darker" className="py-24">
           <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
               <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                <RichTextInline value={cta?.titleRich} />
+                <RichTextInline value={cta.titleRich} />
               </h2>
 
               <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-                <RichTextInline value={cta?.textRich} />
+                <RichTextInline value={cta.textRich} />
               </div>
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button
-                  href={cta?.primaryHref ?? "/contact"}
-                  variant="primary"
-                  className="h-12 px-7"
-                >
-                  {cta?.primaryLabel ?? "Nous contacter"}
-                </Button>
+                {cta.primaryHref && cta.primaryLabel ? (
+                  <Button href={cta.primaryHref} variant="primary" className="h-12 px-7">
+                    {cta.primaryLabel}
+                  </Button>
+                ) : null}
 
-                <Button
-                  href={cta?.secondaryHref ?? "/fonctionnement"}
-                  variant="secondary"
-                  className="h-12 px-7 gap-2"
-                >
-                  {cta?.secondaryLabel ?? "Comment nous travaillons"}
-                  <span aria-hidden="true">›</span>
-                </Button>
+                {cta.secondaryHref && cta.secondaryLabel ? (
+                  <Button href={cta.secondaryHref} variant="secondary" className="h-12 px-7 gap-2">
+                    {cta.secondaryLabel}
+                  </Button>
+                ) : null}
               </div>
             </div>
           </Container>

@@ -1,4 +1,4 @@
-// app/cabinet/page.tsx
+import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Hero } from "@/components/sections/Hero";
@@ -11,29 +11,25 @@ export const dynamic = "force-dynamic";
 export default async function CabinetPage() {
   const data = await getPageBySlug("cabinet");
 
-  // Minimal safety (if CMS returns nothing, show a clear message)
-  if (!data) {
-    return (
-      <main className="p-10 space-y-4">
-        <h1 className="text-2xl font-bold">Cabinet page missing in CMS</h1>
-        <p className="text-gray-600">No Sanity document found for slug: cabinet</p>
-      </main>
-    );
-  }
+  // ✅ CORRECTION #2 : notFound() — 404 réel si document absent dans Sanity
+  if (!data) notFound();
 
   const hero = data.hero;
   const sections = data.cabinetSections;
-
-  // ✅ STANDARD GLOBAL : CTA final commun (finalCta uniquement)
-  // Si finalCta est vide → on n’affiche rien (prod clean)
   const cta = data.finalCta;
 
-  const heroBadge = (
-    <>
-      <span aria-hidden="true">{hero?.badgeEmoji}</span>
-      <span>{hero?.badgeText}</span>
-    </>
-  );
+  // --------------------------------------------------
+  // HERO — rendu conditionnel sur chaque champ optionnel
+  // ✅ CORRECTION #3 : pas de ?? hardcodé
+  // --------------------------------------------------
+
+  const heroBadge =
+    hero?.badgeEmoji || hero?.badgeText ? (
+      <>
+        {hero.badgeEmoji ? <span aria-hidden="true">{hero.badgeEmoji}</span> : null}
+        {hero.badgeText ? <span>{hero.badgeText}</span> : null}
+      </>
+    ) : null;
 
   const heroTitle = (
     <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
@@ -41,35 +37,25 @@ export default async function CabinetPage() {
     </h1>
   );
 
-  const heroDescription = (
+  const heroDescription = hero?.descriptionRich ? (
     <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
-      <RichTextInline value={hero?.descriptionRich} />
+      <RichTextInline value={hero.descriptionRich} />
     </div>
-  );
+  ) : null;
 
-  const heroPrimaryCta = (
-    <Button
-      href={hero?.primaryCtaHref ?? "/methode-orchestra"}
-      variant="primary"
-      className="h-14 px-10"
-    >
-      {hero?.primaryCtaLabel ?? "Découvrir la méthode ORCHESTRA"}
-    </Button>
-  );
+  const heroPrimaryCta =
+    hero?.primaryCtaHref && hero?.primaryCtaLabel ? (
+      <Button href={hero.primaryCtaHref} variant="primary" className="h-14 px-10">
+        {hero.primaryCtaLabel}
+      </Button>
+    ) : null;
 
-  const heroSecondaryCta = (
-    <Button
-      href={hero?.secondaryCtaHref ?? "/contact"}
-      variant="secondary"
-      className="h-14 px-10 gap-2"
-    >
-      {hero?.secondaryCtaLabel ?? (
-        <>
-          Nous contacter <span aria-hidden="true">›</span>
-        </>
-      )}
-    </Button>
-  );
+  const heroSecondaryCta =
+    hero?.secondaryCtaHref && hero?.secondaryCtaLabel ? (
+      <Button href={hero.secondaryCtaHref} variant="secondary" className="h-14 px-10 gap-2">
+        {hero.secondaryCtaLabel}
+      </Button>
+    ) : null;
 
   return (
     <div className="bg-[#0b1020] text-white">
@@ -80,6 +66,17 @@ export default async function CabinetPage() {
         primaryCta={heroPrimaryCta}
         secondaryCta={heroSecondaryCta}
         fullHeight
+        backgroundMode={hero?.backgroundMode}
+        backgroundImage={
+          hero?.backgroundImage?.asset?.url
+            ? {
+                url: hero.backgroundImage.asset.url,
+                alt: hero.backgroundImage.alt,
+                metadata: hero.backgroundImage.asset.metadata,
+              }
+            : null
+        }
+        overlayIntensity={hero?.overlayIntensity}
       />
 
       {/* Vision */}
@@ -90,11 +87,9 @@ export default async function CabinetPage() {
               <RichTextInline value={sections?.vision?.titleRich} />
             </h2>
 
+            {/* ✅ text-[var(--color-brand)] au lieu de text-sky-400 hardcodé */}
             {sections?.vision?.emoji ? (
-              <div
-                className="mx-auto mt-6 w-fit text-3xl text-sky-400"
-                aria-hidden="true"
-              >
+              <div className="mx-auto mt-6 w-fit text-3xl text-[var(--color-brand)]" aria-hidden="true">
                 {sections.vision.emoji}
               </div>
             ) : null}
@@ -115,10 +110,7 @@ export default async function CabinetPage() {
             </h2>
 
             {sections?.human?.emoji ? (
-              <div
-                className="mx-auto mt-6 w-fit text-3xl text-sky-400"
-                aria-hidden="true"
-              >
+              <div className="mx-auto mt-6 w-fit text-3xl text-[var(--color-brand)]" aria-hidden="true">
                 {sections.human.emoji}
               </div>
             ) : null}
@@ -139,10 +131,7 @@ export default async function CabinetPage() {
             </h2>
 
             {sections?.ai?.emoji ? (
-              <div
-                className="mx-auto mt-6 w-fit text-3xl text-sky-400"
-                aria-hidden="true"
-              >
+              <div className="mx-auto mt-6 w-fit text-3xl text-[var(--color-brand)]" aria-hidden="true">
                 {sections.ai.emoji}
               </div>
             ) : null}
@@ -154,36 +143,31 @@ export default async function CabinetPage() {
         </Container>
       </Section>
 
-      {/* CTA FINAL (commun) — finalCta uniquement */}
+      {/* CTA FINAL — conditionnel */}
       {cta ? (
         <Section className="py-24">
           <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
               <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                <RichTextInline value={cta?.titleRich} />
+                <RichTextInline value={cta.titleRich} />
               </h2>
 
               <div className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-                <RichTextInline value={cta?.textRich} />
+                <RichTextInline value={cta.textRich} />
               </div>
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button
-                  href={cta?.primaryHref ?? "/contact"}
-                  variant="primary"
-                  className="h-12 px-7"
-                >
-                  {cta?.primaryLabel ?? "Nous contacter"}
-                </Button>
+                {cta.primaryHref && cta.primaryLabel ? (
+                  <Button href={cta.primaryHref} variant="primary" className="h-12 px-7">
+                    {cta.primaryLabel}
+                  </Button>
+                ) : null}
 
-                <Button
-                  href={cta?.secondaryHref ?? "/methode-orchestra"}
-                  variant="secondary"
-                  className="h-12 px-7 gap-2"
-                >
-                  {cta?.secondaryLabel ?? "Découvrir la méthode ORCHESTRA"}
-                  <span aria-hidden="true">›</span>
-                </Button>
+                {cta.secondaryHref && cta.secondaryLabel ? (
+                  <Button href={cta.secondaryHref} variant="secondary" className="h-12 px-7 gap-2">
+                    {cta.secondaryLabel}
+                  </Button>
+                ) : null}
               </div>
             </div>
           </Container>
