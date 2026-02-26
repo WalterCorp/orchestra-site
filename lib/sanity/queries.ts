@@ -1,5 +1,6 @@
 // orchestra-site/lib/sanity/queries.ts
 
+import { cache } from "react";
 import { sanityClient } from "./client";
 
 export const PAGE_BY_SLUG_QUERY = /* groq */ `
@@ -194,17 +195,53 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
   }
 `;
 
-export async function getPageBySlug(slug: string) {
+export const getPageBySlug = cache(async (slug: string) => {
   return sanityClient.fetch(PAGE_BY_SLUG_QUERY, { slug });
-}
+});
 
 export const GLOBAL_SETTINGS_QUERY = /* groq */ `
   *[_type == "globalSettings"][0]{
+
+    // =========================================================
+    // IDENTITÉ VISUELLE
+    // ✅ Ajout brand — brandColor, brandFont, brandLogo
+    // brandLogo projeté avec asset->{url} pour next/image
+    // =========================================================
+    brand{
+      brandColor,
+      brandFont,
+      brandLogo{
+        alt,
+        height,
+        asset->{ url, metadata{ dimensions } }
+      }
+    },
+
+    // =========================================================
+    // SEO GLOBAL
+    // ✅ Ajout seo — metaTitle, metaDescription, ogImage
+    // ogImage projeté avec asset->{url} pour generateMetadata()
+    // =========================================================
+    seo{
+      metaTitle,
+      metaDescription,
+      ogImage{
+        asset->{ url, metadata{ dimensions } }
+      }
+    },
+
+    // =========================================================
+    // HEADER — inchangé
+    // =========================================================
     header{
       brandLabel,
       mobileTagline,
       navItems[]{ label, href, isCta, openInNewTab }
     },
+
+    // =========================================================
+    // FOOTER — inchangé
+    // =========================================================
     footer{
       brandDescription,
       navTitle,
@@ -220,6 +257,9 @@ export const GLOBAL_SETTINGS_QUERY = /* groq */ `
   }
 `;
 
-export async function getGlobalSettings() {
+// ✅ cache() — évite le double appel réseau entre generateMetadata()
+// et RootLayout() dans layout.tsx. React partage le résultat dans
+// le même render tree sans requête Sanity supplémentaire.
+export const getGlobalSettings = cache(async () => {
   return sanityClient.fetch(GLOBAL_SETTINGS_QUERY);
-}
+});
