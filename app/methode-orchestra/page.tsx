@@ -1,3 +1,5 @@
+// app/methode-orchestra/page.tsx
+
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -11,6 +13,7 @@ export const dynamic = "force-dynamic";
 
 function TitleLines({ lines }: { lines?: string[] }) {
   const safe = Array.isArray(lines) ? lines.filter(Boolean) : [];
+  if (safe.length === 0) return null;
   return (
     <>
       {safe.map((line, idx) => (
@@ -45,11 +48,11 @@ export default async function MethodeOrchestraPage() {
       </>
     ) : null;
 
-  const heroTitle = (
+  const heroTitle = hero?.titleRich ? (
     <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-      <RichTextInline value={hero?.titleRich} />
+      <RichTextInline value={hero.titleRich} />
     </h1>
-  );
+  ) : null;
 
   const heroDescription = hero?.descriptionRich ? (
     <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
@@ -79,7 +82,6 @@ export default async function MethodeOrchestraPage() {
         description={heroDescription}
         primaryCta={heroPrimaryCta}
         secondaryCta={heroSecondaryCta}
-        fullHeight
         backgroundMode={hero?.backgroundMode}
         backgroundImage={
           hero?.backgroundImage?.asset?.url
@@ -99,9 +101,11 @@ export default async function MethodeOrchestraPage() {
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={methode?.intro?.titleRich} />
-            </h2>
+            {methode?.intro?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={methode.intro.titleRich} />
+              </h2>
+            ) : null}
 
             {/* ✅ text-[var(--color-brand)] + conditionnel */}
             {methode?.intro?.emoji ? (
@@ -110,9 +114,11 @@ export default async function MethodeOrchestraPage() {
               </div>
             ) : null}
 
-            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichText value={methode?.intro?.contentRich} />
-            </div>
+            {methode?.intro?.contentRich ? (
+              <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.intro.contentRich} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -123,13 +129,17 @@ export default async function MethodeOrchestraPage() {
       <Section className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={methode?.why?.titleRich} />
-            </h2>
+            {methode?.why?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={methode.why.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.why?.introRich} />
-            </div>
+            {methode?.why?.introRich ? (
+              <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.why.introRich} />
+              </div>
+            ) : null}
 
             {/* ✅ label conditionnel + brand color */}
             {methode?.why?.label ? (
@@ -145,15 +155,17 @@ export default async function MethodeOrchestraPage() {
                     key={`${pillar.icon}-${idx}`}
                     icon={pillar.icon}
                     title={<TitleLines lines={pillar.titleLines} />}
-                    className="p-8"
+                    variant="md"
                   />
                 ))}
               </div>
             ) : null}
 
-            <div className="mx-auto mt-12 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.why?.outroRich} />
-            </div>
+            {methode?.why?.outroRich ? (
+              <div className="mx-auto mt-12 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.why.outroRich} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -164,13 +176,17 @@ export default async function MethodeOrchestraPage() {
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={methode?.core?.titleRich} />
-            </h2>
+            {methode?.core?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={methode.core.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.core?.introRich} />
-            </div>
+            {methode?.core?.introRich ? (
+              <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.core.introRich} />
+              </div>
+            ) : null}
 
             {methode?.core?.label ? (
               <p className="mt-10 font-semibold text-white">{methode.core.label}</p>
@@ -221,9 +237,11 @@ export default async function MethodeOrchestraPage() {
               ) : null}
             </div>
 
-            <div className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.core?.outroRich} />
-            </div>
+            {methode?.core?.outroRich ? (
+              <div className="mx-auto mt-14 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.core.outroRich} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -234,13 +252,17 @@ export default async function MethodeOrchestraPage() {
       <Section className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={methode?.human?.titleRich} />
-            </h2>
+            {methode?.human?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={methode.human.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-4 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.human?.introRich} />
-            </div>
+            {methode?.human?.introRich ? (
+              <div className="mx-auto mt-4 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.human.introRich} />
+              </div>
+            ) : null}
 
             {methode?.human?.label ? (
               <p className="mt-10 font-semibold text-white">{methode.human.label}</p>
@@ -253,15 +275,17 @@ export default async function MethodeOrchestraPage() {
                     key={`${card.icon}-${idx}`}
                     icon={card.icon}
                     title={<TitleLines lines={card.titleLines} />}
-                    className="p-8"
+                    variant="md"
                   />
                 ))}
               </div>
             ) : null}
 
-            <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.human?.outroRich} />
-            </div>
+            {methode?.human?.outroRich ? (
+              <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.human.outroRich} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -272,13 +296,17 @@ export default async function MethodeOrchestraPage() {
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={methode?.workflow?.titleRich} />
-            </h2>
+            {methode?.workflow?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={methode.workflow.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.workflow?.introRich} />
-            </div>
+            {methode?.workflow?.introRich ? (
+              <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.workflow.introRich} />
+              </div>
+            ) : null}
 
             {(methode?.workflow?.steps ?? []).length > 0 ? (
               <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -287,15 +315,17 @@ export default async function MethodeOrchestraPage() {
                     key={`${step.icon}-${idx}`}
                     icon={step.icon}
                     title={<TitleLines lines={step.titleLines} />}
-                    className="p-8"
+                    variant="md"
                   />
                 ))}
               </div>
             ) : null}
 
-            <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.workflow?.outroRich} />
-            </div>
+            {methode?.workflow?.outroRich ? (
+              <div className="mx-auto mt-12 max-w-5xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.workflow.outroRich} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -306,13 +336,17 @@ export default async function MethodeOrchestraPage() {
       <Section className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={methode?.benefits?.titleRich} />
-            </h2>
+            {methode?.benefits?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={methode.benefits.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={methode?.benefits?.introRich} />
-            </div>
+            {methode?.benefits?.introRich ? (
+              <div className="mx-auto mt-10 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={methode.benefits.introRich} />
+              </div>
+            ) : null}
 
             {(methode?.benefits?.cards ?? []).length > 0 ? (
               <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -321,7 +355,7 @@ export default async function MethodeOrchestraPage() {
                     key={`${card.icon}-${idx}`}
                     icon={card.icon}
                     title={<TitleLines lines={card.titleLines} />}
-                    className="p-8"
+                    variant="md"
                   />
                 ))}
               </div>
@@ -337,13 +371,17 @@ export default async function MethodeOrchestraPage() {
         <Section variant="darker" className="py-24">
           <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                <RichTextInline value={cta.titleRich} />
-              </h2>
+              {cta.titleRich ? (
+                <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  <RichTextInline value={cta.titleRich} />
+                </h2>
+              ) : null}
 
-              <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-                <RichTextInline value={cta.textRich} />
-              </div>
+              {cta.textRich ? (
+                <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+                  <RichText value={cta.textRich} />
+                </div>
+              ) : null}
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 {cta.primaryHref && cta.primaryLabel ? (

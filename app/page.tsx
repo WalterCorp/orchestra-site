@@ -1,3 +1,5 @@
+// app/page.tsx
+
 import { notFound } from "next/navigation";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
@@ -32,11 +34,11 @@ export default async function HomePage() {
       </>
     ) : null;
 
-  const heroTitle = (
+  const heroTitle = hero?.titleRich ? (
     <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
-      <RichTextInline value={hero?.titleRich} />
+      <RichTextInline value={hero.titleRich} />
     </h1>
-  );
+  ) : null;
 
   const heroDescription = hero?.descriptionRich ? (
     <div className="mx-auto mt-8 max-w-4xl text-center text-sm leading-8 text-white/80 sm:text-base sm:leading-8">
@@ -90,13 +92,17 @@ export default async function HomePage() {
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={homeSections?.approach?.titleRich} />
-            </h2>
+            {homeSections?.approach?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={homeSections.approach.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-10 max-w-4xl">
-              <RichText value={homeSections?.approach?.content} />
-            </div>
+            {homeSections?.approach?.content ? (
+              <div className="mx-auto mt-10 max-w-4xl">
+                <RichText value={homeSections.approach.content} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -104,16 +110,20 @@ export default async function HomePage() {
       {/* =========================================================
           ORCHESTRA — Noyau (piloté par Sanity)
       ========================================================== */}
-      <section className="py-24">
+      <Section className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={homeSections?.orchestraCore?.titleRich} />
-            </h2>
+            {homeSections?.orchestraCore?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={homeSections.orchestraCore.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-10 max-w-4xl">
-              <RichText value={homeSections?.orchestraCore?.content} />
-            </div>
+            {homeSections?.orchestraCore?.content ? (
+              <div className="mx-auto mt-10 max-w-4xl">
+                <RichText value={homeSections.orchestraCore.content} />
+              </div>
+            ) : null}
 
             {(homeSections?.orchestraCore?.pillars ?? []).length > 0 ? (
               <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -137,7 +147,7 @@ export default async function HomePage() {
             ) : null}
           </div>
         </Container>
-      </section>
+      </Section>
 
       {/* =========================================================
           LA PLACE DE L'HUMAIN — Piloté par Sanity (fond alterné)
@@ -145,13 +155,17 @@ export default async function HomePage() {
       <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
-              <RichTextInline value={homeSections?.humanPlace?.titleRich} />
-            </h2>
+            {homeSections?.humanPlace?.titleRich ? (
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                <RichTextInline value={homeSections.humanPlace.titleRich} />
+              </h2>
+            ) : null}
 
-            <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={homeSections?.humanPlace?.intro} />
-            </div>
+            {homeSections?.humanPlace?.intro ? (
+              <div className="mx-auto mt-8 max-w-4xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={homeSections.humanPlace.intro} />
+              </div>
+            ) : null}
 
             {(homeSections?.humanPlace?.cards ?? []).length > 0 ? (
               <div className="mt-14 grid gap-6 lg:grid-cols-3">
@@ -168,9 +182,11 @@ export default async function HomePage() {
               </div>
             ) : null}
 
-            <div className="mx-auto mt-14 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
-              <RichTextInline value={homeSections?.humanPlace?.outro} />
-            </div>
+            {homeSections?.humanPlace?.outro ? (
+              <div className="mx-auto mt-14 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
+                <RichText value={homeSections.humanPlace.outro} />
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
@@ -179,16 +195,20 @@ export default async function HomePage() {
           CTA FINAL — conditionnel (si absent dans Sanity → rien)
       ========================================================== */}
       {cta ? (
-        <section className="py-24">
+        <Section className="py-24">
           <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
-              <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                <RichTextInline value={cta.titleRich} />
-              </h2>
+              {cta.titleRich ? (
+                <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  <RichTextInline value={cta.titleRich} />
+                </h2>
+              ) : null}
 
-              <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
-                <RichTextInline value={cta.textRich} />
-              </div>
+              {cta.textRich ? (
+                <div className="mx-auto mt-6 max-w-4xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">
+                  <RichText value={cta.textRich} />
+                </div>
+              ) : null}
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 {cta.primaryHref && cta.primaryLabel ? (
@@ -205,7 +225,7 @@ export default async function HomePage() {
               </div>
             </div>
           </Container>
-        </section>
+        </Section>
       ) : null}
     </div>
   );
