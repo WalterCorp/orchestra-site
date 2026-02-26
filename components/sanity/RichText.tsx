@@ -3,15 +3,23 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
 /**
  * Custom marks
+ *
+ * ✅ highlight : utilise --color-brand au lieu de text-sky-400 hardcodé
+ * La couleur est pilotée par globalSettings.brand.brandColor dans Sanity.
+ * S'adapte automatiquement à chaque client sans modifier ce fichier.
  */
 const marks: PortableTextComponents["marks"] = {
-  highlight: ({ children }) => <span className="text-sky-400">{children}</span>,
+  highlight: ({ children }) => (
+    <span className="text-[var(--color-brand)]">{children}</span>
+  ),
 };
 
 /**
  * BODY renderer (sections / blocs de page)
  * - Enter (nouveau block) => nouveau <p>
  * - Shift+Enter (hardBreak) => <br />
+ * - ✅ H2 / H3 supportés pour les sections contentRich
+ *   (autorisés dans le schéma Sanity page.ts)
  */
 const bodyComponents: PortableTextComponents = {
   marks,
@@ -19,6 +27,18 @@ const bodyComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
       <p className="text-base leading-8 text-white/85 sm:text-lg">{children}</p>
+    ),
+    // ✅ Ajout H2 / H3 — utilisés dans les sections contentRich
+    // Non disponibles dans titleRich / descriptionRich (restreints dans le schéma)
+    h2: ({ children }) => (
+      <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-xl font-semibold tracking-tight text-white">
+        {children}
+      </h3>
     ),
   },
 };
@@ -28,6 +48,7 @@ const bodyComponents: PortableTextComponents = {
  * - Supporte Enter => nouvelle ligne (blocks)
  * - Supporte Shift+Enter => <br />
  * - Empêche la génération de <h1>/<h2>... en inline
+ *   (tous les styles de titres sont rendus comme span)
  */
 const inlineComponents: PortableTextComponents = {
   marks,
@@ -45,7 +66,7 @@ const inlineComponents: PortableTextComponents = {
 
 /**
  * SMALL renderer (cards / contenus denses)
- * Objectif : retrouver la typo V1 dans les cartes
+ * - Listes à puces et numérotées supportées
  */
 const smallComponents: PortableTextComponents = {
   marks,
@@ -72,7 +93,6 @@ const smallComponents: PortableTextComponents = {
 export function RichText({ value }: { value: unknown }) {
   if (!Array.isArray(value) || value.length === 0) return null;
 
-  // ✅ contrôle global de l'écart entre paragraphes (Enter)
   return (
     <div className="space-y-3">
       <PortableText value={value as any} components={bodyComponents} />
