@@ -1,3 +1,5 @@
+// components/sections/Hero.tsx
+
 import React from "react";
 import Image from "next/image";
 
@@ -52,8 +54,11 @@ type HeroProps = {
   /** Badge optionnel affiché au-dessus du titre */
   badge?: React.ReactNode;
 
-  /** Titre principal (souvent un <h1>) */
-  title: React.ReactNode;
+  /**
+   * Titre principal (souvent un <h1>)
+   * ✅ Peut être null/undefined car le front fait du rendu conditionnel
+   */
+  title?: React.ReactNode;
 
   /** Texte descriptif sous le titre */
   description?: React.ReactNode;
@@ -90,14 +95,17 @@ export function Hero({
   const isImage = backgroundMode === "image";
   const isVideo = backgroundMode === "video";
 
+  // Overlay : seulement utile si image/vidéo
+  const resolvedOverlayIntensity =
+    isImage || isVideo ? overlayIntensity ?? "70" : "70";
+
   const overlayClass =
-    overlayOpacityMap[String(overlayIntensity)] ?? "bg-black/70";
+    overlayOpacityMap[String(resolvedOverlayIntensity)] ?? "bg-black/70";
 
   return (
     <section className={`relative overflow-hidden ${className}`}>
       {/* =========================================================
           FOND IMAGE — visible uniquement si backgroundMode = "image"
-          Image positionnée en absolute, couvre toute la section
           ========================================================= */}
       {isImage && backgroundImage?.url ? (
         <>
@@ -109,15 +117,15 @@ export function Hero({
             priority
             sizes="100vw"
           />
-          {/* Overlay sombre pour lisibilité du texte */}
-          <div className={`absolute inset-0 ${overlayClass}`} aria-hidden="true" />
+          <div
+            className={`absolute inset-0 ${overlayClass}`}
+            aria-hidden="true"
+          />
         </>
       ) : null}
 
       {/* =========================================================
           FOND VIDÉO — visible uniquement si backgroundMode = "video"
-          autoPlay muted loop playsInline = best practice vidéo hero
-          La vidéo est servie via le CDN Sanity (asset->{ url })
           ========================================================= */}
       {isVideo && backgroundVideo?.url ? (
         <>
@@ -130,13 +138,15 @@ export function Hero({
             className="absolute inset-0 h-full w-full object-cover object-center"
             aria-hidden="true"
           />
-          {/* Overlay sombre — même système que le mode image */}
-          <div className={`absolute inset-0 ${overlayClass}`} aria-hidden="true" />
+          <div
+            className={`absolute inset-0 ${overlayClass}`}
+            aria-hidden="true"
+          />
         </>
       ) : null}
 
       {/* =========================================================
-          CONTENU — positionné au-dessus du fond (z-10)
+          CONTENU — au-dessus du fond
           ========================================================= */}
       <div
         className={[
@@ -151,8 +161,8 @@ export function Hero({
           </div>
         ) : null}
 
-        {/* Titre */}
-        <div className={badge ? "mt-10" : ""}>{title}</div>
+        {/* Titre (si null → rien) */}
+        {title ? <div className={badge ? "mt-10" : ""}>{title}</div> : null}
 
         {/* Description */}
         {description ? (
