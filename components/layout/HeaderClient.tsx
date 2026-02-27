@@ -32,10 +32,8 @@ export default function HeaderClient({
     return { links: linkItems, cta: ctaItem };
   }, [navItems]);
 
-  // Ferme le menu quand on change de page
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+  // ✅ Le menu se ferme via onClick sur chaque lien (voir plus bas)
+  // Pas d'useEffect sur pathname — évite setState synchrone dans un effet
 
   // Empêche le scroll arrière-plan quand le menu est ouvert
   useEffect(() => {
@@ -143,6 +141,7 @@ export default function HeaderClient({
                       href={item.href}
                       target={target}
                       rel={rel}
+                      onClick={() => setMobileOpen(false)}
                       className={
                         isActive
                           ? "rounded-lg bg-white/5 px-3 py-3 font-semibold text-white ring-1 ring-white/10"
