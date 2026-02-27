@@ -1,4 +1,5 @@
 // components/sanity/RichText.tsx
+
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
 /**
@@ -7,11 +8,37 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
  * ✅ highlight : utilise --color-brand au lieu de text-sky-400 hardcodé
  * La couleur est pilotée par globalSettings.brand.brandColor dans Sanity.
  * S'adapte automatiquement à chaque client sans modifier ce fichier.
+ *
+ * ✅ link : annotation PortableText (définie inline dans le schéma page.ts)
+ * - href: string (required)
+ * - blank: boolean (optionnel) => ouvre dans un nouvel onglet
  */
 const marks: PortableTextComponents["marks"] = {
   highlight: ({ children }) => (
     <span className="text-[var(--color-brand)]">{children}</span>
   ),
+
+  link: ({ children, value }) => {
+    const href = (value as any)?.href;
+    const blank = Boolean((value as any)?.blank);
+
+    // Safety: si la valeur est invalide, on rend juste le texte
+    if (typeof href !== "string" || href.trim().length === 0) return <>{children}</>;
+
+    // (Optionnel) rel safe en target _blank
+    const rel = blank ? "noopener noreferrer" : undefined;
+
+    return (
+      <a
+        href={href}
+        target={blank ? "_blank" : undefined}
+        rel={rel}
+        className="text-[var(--color-brand)] underline underline-offset-4 transition-opacity hover:opacity-80"
+      >
+        {children}
+      </a>
+    );
+  },
 };
 
 /**
@@ -39,6 +66,18 @@ const bodyComponents: PortableTextComponents = {
       <h3 className="text-xl font-semibold tracking-tight text-white">
         {children}
       </h3>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="list-disc space-y-2 pl-6 text-base leading-8 text-white/85 sm:text-lg">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal space-y-2 pl-6 text-base leading-8 text-white/85 sm:text-lg">
+        {children}
+      </ol>
     ),
   },
 };
