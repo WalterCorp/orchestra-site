@@ -37,7 +37,7 @@ export default async function FaqPage() {
     ) : null;
 
   const heroTitle = hero?.titleRich ? (
-    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-3xl font-semibold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl lg:mt-12">
       <RichTextInline value={hero.titleRich} />
     </h1>
   ) : null;
@@ -80,6 +80,11 @@ export default async function FaqPage() {
               }
             : null
         }
+        backgroundVideo={
+          hero?.backgroundVideo?.asset?.url
+            ? { url: hero.backgroundVideo.asset.url }
+            : null
+        }
         overlayIntensity={hero?.overlayIntensity}
       />
 
@@ -90,7 +95,7 @@ export default async function FaqPage() {
         <Container>
           <div className="text-center">
             {faq?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={faq.titleRich} />
               </h2>
             ) : null}

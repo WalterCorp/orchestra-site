@@ -50,7 +50,7 @@ export default async function FonctionnementPage() {
     ) : null;
 
   const heroTitle = hero?.titleRich ? (
-    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.12] tracking-tight sm:text-6xl lg:mt-12">
+    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-3xl font-semibold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl lg:mt-12">
       <RichTextInline value={hero.titleRich} />
     </h1>
   ) : null;
@@ -93,6 +93,11 @@ export default async function FonctionnementPage() {
               }
             : null
         }
+        backgroundVideo={
+          hero?.backgroundVideo?.asset?.url
+            ? { url: hero.backgroundVideo.asset.url }
+            : null
+        }
         overlayIntensity={hero?.overlayIntensity}
       />
 
@@ -103,7 +108,7 @@ export default async function FonctionnementPage() {
         <Container>
           <div className="text-center">
             {f?.principles?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={f.principles.titleRich} />
               </h2>
             ) : null}
@@ -142,7 +147,7 @@ export default async function FonctionnementPage() {
         <Container className="max-w-[74rem]">
           <div className="text-center">
             {f?.process?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={f.process.titleRich} />
               </h2>
             ) : null}
@@ -180,7 +185,7 @@ export default async function FonctionnementPage() {
         <Container>
           <div className="text-center">
             {f?.orchestraPlace?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={f.orchestraPlace.titleRich} />
               </h2>
             ) : null}
@@ -219,7 +224,7 @@ export default async function FonctionnementPage() {
         <Container>
           <div className="text-center">
             {f?.clientBenefits?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={f.clientBenefits.titleRich} />
               </h2>
             ) : null}

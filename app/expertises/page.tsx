@@ -50,7 +50,7 @@ export default async function ExpertisesPage() {
     ) : null;
 
   const heroTitle = hero?.titleRich ? (
-    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.12] tracking-tight sm:text-6xl lg:mt-12">
+    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-3xl font-semibold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl lg:mt-12">
       <RichTextInline value={hero.titleRich} />
     </h1>
   ) : null;
@@ -93,6 +93,11 @@ export default async function ExpertisesPage() {
               }
             : null
         }
+        backgroundVideo={
+          hero?.backgroundVideo?.asset?.url
+            ? { url: hero.backgroundVideo.asset.url }
+            : null
+        }
         overlayIntensity={hero?.overlayIntensity}
       />
 
@@ -103,7 +108,7 @@ export default async function ExpertisesPage() {
         <Container>
           <div className="text-center">
             {e?.approach?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={e.approach.titleRich} />
               </h2>
             ) : null}
@@ -124,7 +129,7 @@ export default async function ExpertisesPage() {
         <Container className="max-w-[74rem]">
           <div className="text-center">
             {e?.domains?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={e.domains.titleRich} />
               </h2>
             ) : null}
@@ -180,7 +185,7 @@ export default async function ExpertisesPage() {
         <Container>
           <div className="text-center">
             {e?.orchestraSupport?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={e.orchestraSupport.titleRich} />
               </h2>
             ) : null}
@@ -225,7 +230,7 @@ export default async function ExpertisesPage() {
         <Container>
           <div className="text-center">
             {e?.audiences?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={e.audiences.titleRich} />
               </h2>
             ) : null}

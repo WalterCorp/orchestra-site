@@ -14,8 +14,15 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const data = await getPageBySlug("accueil");
 
-  // ✅ notFound() — 404 réel si document absent dans Sanity
+  // ✅ CORRECTION #2 : notFound() — 404 réel si document absent dans Sanity
   if (!data) notFound();
+
+  // 🔍 DEBUG TEMPORAIRE — à supprimer après diagnostic
+  console.log("[DEBUG hero]", {
+    backgroundMode: data?.hero?.backgroundMode,
+    backgroundVideo: data?.hero?.backgroundVideo,
+    backgroundImage: data?.hero?.backgroundImage?.asset?.url ?? null,
+  });
 
   const hero = data.hero;
   const homeSections = data.homeSections;
@@ -23,7 +30,7 @@ export default async function HomePage() {
 
   // --------------------------------------------------
   // HERO — rendu conditionnel sur chaque champ optionnel
-  // ✅ pas de ?? hardcodé
+  // ✅ CORRECTION #3 : pas de ?? hardcodé
   // --------------------------------------------------
 
   const heroBadge =
@@ -35,7 +42,7 @@ export default async function HomePage() {
     ) : null;
 
   const heroTitle = hero?.titleRich ? (
-    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+    <h1 className="mx-auto mt-10 max-w-[900px] text-center text-3xl font-semibold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl lg:mt-12">
       <RichTextInline value={hero.titleRich} />
     </h1>
   ) : null;
@@ -84,7 +91,9 @@ export default async function HomePage() {
             : null
         }
         backgroundVideo={
-          hero?.backgroundVideo?.asset?.url ? { url: hero.backgroundVideo.asset.url } : null
+          hero?.backgroundVideo?.asset?.url
+            ? { url: hero.backgroundVideo.asset.url }
+            : null
         }
         overlayIntensity={hero?.overlayIntensity}
       />
@@ -96,7 +105,7 @@ export default async function HomePage() {
         <Container>
           <div className="text-center">
             {homeSections?.approach?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={homeSections.approach.titleRich} />
               </h2>
             ) : null}
@@ -117,7 +126,7 @@ export default async function HomePage() {
         <Container>
           <div className="text-center">
             {homeSections?.orchestraCore?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={homeSections.orchestraCore.titleRich} />
               </h2>
             ) : null}
@@ -130,18 +139,22 @@ export default async function HomePage() {
 
             {(homeSections?.orchestraCore?.pillars ?? []).length > 0 ? (
               <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {(homeSections.orchestraCore.pillars ?? []).map((pillar: any, idx: number) => (
-                  <Card
-                    key={`${pillar.icon}-${pillar.line1}-${idx}`}
-                    icon={pillar.icon}
-                    title={
-                      <>
-                        <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
-                        {pillar.line2 ? <div className="text-lg font-semibold">{pillar.line2}</div> : null}
-                      </>
-                    }
-                  />
-                ))}
+                {(homeSections.orchestraCore.pillars ?? []).map(
+                  (pillar: any, idx: number) => (
+                    <Card
+                      key={`${pillar.icon}-${pillar.line1}-${idx}`}
+                      icon={pillar.icon}
+                      title={
+                        <>
+                          <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
+                          {pillar.line2 ? (
+                            <div className="text-lg font-semibold">{pillar.line2}</div>
+                          ) : null}
+                        </>
+                      }
+                    />
+                  )
+                )}
               </div>
             ) : null}
           </div>
@@ -155,7 +168,7 @@ export default async function HomePage() {
         <Container>
           <div className="text-center">
             {homeSections?.humanPlace?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={homeSections.humanPlace.titleRich} />
               </h2>
             ) : null}

@@ -49,7 +49,7 @@ export default async function MethodeOrchestraPage() {
     ) : null;
 
   const heroTitle = hero?.titleRich ? (
-    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-5xl font-semibold leading-[1.15] tracking-tight sm:text-6xl lg:mt-12">
+    <h1 className="mx-auto mt-10 max-w-[1100px] text-center text-3xl font-semibold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl lg:mt-12">
       <RichTextInline value={hero.titleRich} />
     </h1>
   ) : null;
@@ -92,6 +92,11 @@ export default async function MethodeOrchestraPage() {
               }
             : null
         }
+        backgroundVideo={
+          hero?.backgroundVideo?.asset?.url
+            ? { url: hero.backgroundVideo.asset.url }
+            : null
+        }
         overlayIntensity={hero?.overlayIntensity}
       />
 
@@ -102,7 +107,7 @@ export default async function MethodeOrchestraPage() {
         <Container>
           <div className="text-center">
             {methode?.intro?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={methode.intro.titleRich} />
               </h2>
             ) : null}
@@ -130,7 +135,7 @@ export default async function MethodeOrchestraPage() {
         <Container>
           <div className="text-center">
             {methode?.why?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={methode.why.titleRich} />
               </h2>
             ) : null}
@@ -177,7 +182,7 @@ export default async function MethodeOrchestraPage() {
         <Container>
           <div className="text-center">
             {methode?.core?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={methode.core.titleRich} />
               </h2>
             ) : null}
@@ -253,7 +258,7 @@ export default async function MethodeOrchestraPage() {
         <Container>
           <div className="text-center">
             {methode?.human?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={methode.human.titleRich} />
               </h2>
             ) : null}
@@ -297,7 +302,7 @@ export default async function MethodeOrchestraPage() {
         <Container>
           <div className="text-center">
             {methode?.workflow?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={methode.workflow.titleRich} />
               </h2>
             ) : null}
@@ -337,7 +342,7 @@ export default async function MethodeOrchestraPage() {
         <Container>
           <div className="text-center">
             {methode?.benefits?.titleRich ? (
-              <h2 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl lg:text-6xl">
                 <RichTextInline value={methode.benefits.titleRich} />
               </h2>
             ) : null}
