@@ -27,8 +27,6 @@ import Image from "next/image";
  * Valeurs définies dans page.ts — synchronisées avec overlayOpacityMap ci-dessous
  */
 
-// Table de correspondance overlayIntensity (string Sanity) → classe Tailwind
-// CONTRAT : synchronisée avec les valeurs de page.ts overlayIntensity
 const overlayOpacityMap: Record<string, string> = {
   "40": "bg-black/40",
   "70": "bg-black/70",
@@ -36,9 +34,6 @@ const overlayOpacityMap: Record<string, string> = {
 };
 
 // ✅ Type CMS-friendly (permissif)
-// Sanity peut renvoyer des champs même si backgroundMode = "solid".
-// On accepte donc backgroundImage/backgroundVideo/overlayIntensity en optionnel,
-// et on conditionne l'affichage uniquement via backgroundMode + présence d'asset.
 type HeroBackground = {
   backgroundMode?: "solid" | "image" | "video";
   backgroundImage?: {
@@ -161,7 +156,7 @@ export function Hero({
           </div>
         ) : null}
 
-        {/* Titre (si null → rien) */}
+        {/* Titre */}
         {title ? <div className={badge ? "mt-10" : ""}>{title}</div> : null}
 
         {/* Description */}
