@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const data = await getPageBySlug("accueil");
 
-  // ✅ CORRECTION #2 : notFound() — 404 réel si document absent dans Sanity
+  // ✅ notFound() — 404 réel si document absent dans Sanity
   if (!data) notFound();
 
   const hero = data.hero;
@@ -23,7 +23,7 @@ export default async function HomePage() {
 
   // --------------------------------------------------
   // HERO — rendu conditionnel sur chaque champ optionnel
-  // ✅ CORRECTION #3 : pas de ?? hardcodé
+  // ✅ pas de ?? hardcodé
   // --------------------------------------------------
 
   const heroBadge =
@@ -83,6 +83,9 @@ export default async function HomePage() {
               }
             : null
         }
+        backgroundVideo={
+          hero?.backgroundVideo?.asset?.url ? { url: hero.backgroundVideo.asset.url } : null
+        }
         overlayIntensity={hero?.overlayIntensity}
       />
 
@@ -127,22 +130,18 @@ export default async function HomePage() {
 
             {(homeSections?.orchestraCore?.pillars ?? []).length > 0 ? (
               <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {(homeSections.orchestraCore.pillars ?? []).map(
-                  (pillar: any, idx: number) => (
-                    <Card
-                      key={`${pillar.icon}-${pillar.line1}-${idx}`}
-                      icon={pillar.icon}
-                      title={
-                        <>
-                          <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
-                          {pillar.line2 ? (
-                            <div className="text-lg font-semibold">{pillar.line2}</div>
-                          ) : null}
-                        </>
-                      }
-                    />
-                  )
-                )}
+                {(homeSections.orchestraCore.pillars ?? []).map((pillar: any, idx: number) => (
+                  <Card
+                    key={`${pillar.icon}-${pillar.line1}-${idx}`}
+                    icon={pillar.icon}
+                    title={
+                      <>
+                        <div className="mt-4 text-lg font-semibold">{pillar.line1}</div>
+                        {pillar.line2 ? <div className="text-lg font-semibold">{pillar.line2}</div> : null}
+                      </>
+                    }
+                  />
+                ))}
               </div>
             ) : null}
           </div>

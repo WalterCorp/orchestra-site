@@ -86,7 +86,7 @@ export default async function FaqPage() {
       {/* =========================================================
           QUESTIONS / RÉPONSES
       ========================================================== */}
-      <Section className="py-24">
+      <Section variant="darker" className="py-24">
         <Container>
           <div className="text-center">
             {faq?.titleRich ? (
@@ -149,7 +149,7 @@ export default async function FaqPage() {
           CTA FINAL — conditionnel
       ========================================================== */}
       {cta ? (
-        <Section variant="darker" className="py-24">
+        <Section className="py-24">
           <Container>
             <div className="rounded-3xl bg-[#0f1a2b] p-10 text-center ring-1 ring-white/10 sm:p-14">
               {cta.titleRich ? (

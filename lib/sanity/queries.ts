@@ -21,6 +21,10 @@ export const PAGE_BY_SLUG_QUERY = /* groq */ `
         alt,
         asset->{ url, metadata{ dimensions } }
       },
+      // ✅ Vidéo de fond — asset->{ url } pour le tag <video src={...}>
+      backgroundVideo{
+        asset->{ url }
+      },
       overlayIntensity,
 
       badgeEmoji,
