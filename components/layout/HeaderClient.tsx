@@ -154,13 +154,15 @@ export default function HeaderClient({
                 })}
 
                 {cta ? (
-                  <Button
-                    href={cta.href}
-                    variant="primary"
-                    className="mt-2 h-12 px-7"
-                  >
-                    {cta.label}
-                  </Button>
+                  <div onClick={() => setMobileOpen(false)}>
+                    <Button
+                      href={cta.href}
+                      variant="primary"
+                      className="mt-2 h-12 w-full px-7"
+                    >
+                      {cta.label}
+                    </Button>
+                  </div>
                 ) : null}
               </div>
 
