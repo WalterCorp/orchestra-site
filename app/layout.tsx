@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { getGlobalSettings } from "@/lib/sanity/queries";
+import { ChatWidgetClient } from "@/components/ai/ChatWidgetClient";
 
 // =========================================================
 // CACHE — évite le double appel Sanity entre generateMetadata()
@@ -53,11 +54,11 @@ const sora = Sora({
 // Table de correspondance brandFont (Sanity) → variable CSS font
 // CONTRAT : doit rester synchronisée avec globalSettings.ts
 const fontMap: Record<string, string> = {
-  "inter":   "var(--font-inter)",
-  "poppins": "var(--font-poppins)",
-  "manrope": "var(--font-manrope)",
+  inter: "var(--font-inter)",
+  poppins: "var(--font-poppins)",
+  manrope: "var(--font-manrope)",
   "dm-sans": "var(--font-dm-sans)",
-  "sora":    "var(--font-sora)",
+  sora: "var(--font-sora)",
 };
 
 // =========================================================
@@ -146,6 +147,11 @@ export default async function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+
+        {/* Chatbot IA — Widget global (Phase 5)
+            - Client component (usePathname) encapsulé dans ChatWidgetClient
+            - Aucun secret côté client, appels via /api/assistant */}
+        <ChatWidgetClient />
       </body>
     </html>
   );
