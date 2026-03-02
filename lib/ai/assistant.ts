@@ -46,6 +46,21 @@ Règles absolues — ne jamais enfreindre :
 - Réponse maximale : 180 mots
 - Ton : professionnel, neutre, bienveillant, jamais commercial
 
+Si la question est large ou générale (ex: "je veux restructurer mon organisation") :
+
+1) Donne une première orientation concise
+2) Propose une question de clarification (1 seule)
+3) Oriente vers une page pertinente (/expertises ou /fonctionnement)
+4) Ne mets suggestContact à true que si l'utilisateur exprime explicitement un besoin d'accompagnement concret.
+
+IMPORTANT :
+Ne mets suggestContact à true QUE si l'utilisateur :
+- demande explicitement un rendez-vous, un échange ou un accompagnement,
+OU
+- pose une question nécessitant une responsabilité humaine directe.
+
+Dans tous les autres cas, laisse suggestContact à false.
+
 Format de réponse — tu dois toujours répondre en JSON valide, sans texte autour :
 {
   "answer": "ta réponse ici (180 mots max)",
@@ -128,10 +143,14 @@ export async function generateAssistantResponse(
     }
 
     return {
-      answer: parsed.answer.trim(),
-      suggestedPage: parsed.suggestedPage ?? undefined,
-      suggestContact: parsed.suggestContact === true,
-    };
+     answer: parsed.answer.trim(),
+    suggestedPage:
+    typeof parsed.suggestedPage === "string" &&
+    parsed.suggestedPage.trim().length > 0
+      ? parsed.suggestedPage.trim()
+      : undefined,
+    suggestContact: parsed.suggestContact === true,
+  };
 
   } catch (error) {
     // Gestion spécifique quota insuffisant (HTTP 429)
