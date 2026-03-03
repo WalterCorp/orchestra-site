@@ -387,6 +387,7 @@ export function ChatWidget({
               {lastSuggestedPage && (
                 <Link
                   href={lastSuggestedPage}
+                  onClick={minimize}
                   className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 hover:bg-white/10 hover:text-white"
                 >
                   Voir la page {lastSuggestedPage}
@@ -396,6 +397,7 @@ export function ChatWidget({
               {lastSuggestContact && (
                 <Link
                   href="/contact"
+                  onClick={minimize}
                   className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs text-white hover:bg-white/15"
                 >
                   Parler à un humain
