@@ -68,6 +68,11 @@ export function ChatWidget({
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const panelRef = React.useRef<HTMLDivElement | null>(null);
+  const messagesRef = React.useRef<AssistantMessage[]>(messages);
+
+  React.useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   const positionClasses =
     position === "bottom-left"
@@ -145,7 +150,7 @@ export function ChatWidget({
       // IMPORTANT : conversation envoyée = messages AVANT la réponse assistant
       // Ici, on reconstruit avec la question déjà ajoutée.
       const nextMessages: AssistantMessage[] = [
-        ...messages,
+        ...messagesRef.current,
         { role: "user", content: question },
       ];
 
@@ -413,8 +418,14 @@ export function ChatWidget({
               maxLength={500}
               aria-label="Votre question"
             />
+            
             <button
               type="submit"
+              onTouchEnd={(e) => {
+                if (isLoading || sanitizeUserText(input).length === 0) return;
+                e.preventDefault();
+                void askAssistant(input);
+              }}
               disabled={isLoading || sanitizeUserText(input).length === 0}
               className="inline-flex shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-sm text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
               aria-label="Envoyer"
