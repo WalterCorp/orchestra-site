@@ -17,13 +17,6 @@ export default async function HomePage() {
   // ✅ CORRECTION #2 : notFound() — 404 réel si document absent dans Sanity
   if (!data) notFound();
 
-  // 🔍 DEBUG TEMPORAIRE — à supprimer après diagnostic
-  console.log("[DEBUG hero]", {
-    backgroundMode: data?.hero?.backgroundMode,
-    backgroundVideo: data?.hero?.backgroundVideo,
-    backgroundImage: data?.hero?.backgroundImage?.asset?.url ?? null,
-  });
-
   const hero = data.hero;
   const homeSections = data.homeSections;
   const cta = data.finalCta;
