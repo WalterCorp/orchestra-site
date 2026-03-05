@@ -1,176 +1,125 @@
-# ORCHESTRA — Site vitrine & automatisation IA
+# ORCHESTRA — Site vitrine CMS-first & IA gouvernée
 
-ORCHESTRA est un projet démonstrateur modélisant un cabinet de conseil fictif.  
-Il sert de base réplicable pour des sites vitrines professionnels intégrant une couche d’automatisation (n8n) et d’assistance IA (OpenAI), avec un flux de traitement validé en production.
+Site vitrine démonstrateur Diligency Vision — architecture headless CMS-first avec chatbot IA gouverné et pipeline d'automatisation des leads en production.
 
----
-
-## 🎯 Objectifs
-
-- Construire un site vitrine moderne, structuré et maintenable
-- Mettre en place un **flux applicatif complet** de collecte et traitement de leads
-- Sécuriser la couche serveur (validation, erreurs, anti-spam)
-- Industrialiser la gestion des leads via **n8n + Google Sheets**
-- Ajouter une couche IA **gouvernée** : contrat strict, fallback, validation humaine
+🔗 [Voir le site en production](https://orchestra-site.vercel.app)
 
 ---
 
-## ⚙️ Stack Technique
+## 🏗️ Architecture
 
-- **Front** : Next.js (App Router), React, TypeScript, Tailwind CSS
-- **Back** : API Routes Next.js (`/api/*`)
-- **Automatisation** : n8n (webhooks, logique conditionnelle, mapping)
-- **IA** : OpenAI API (réponse structurée + contrat JSON strict)
-- **Stockage** : Google Sheets (suivi des leads)
-- **CI/CD** : GitHub + Vercel (production)
+Ce projet repose sur quatre couches indépendantes et découplées. Chaque couche peut évoluer ou être remplacée sans impacter les autres — ce découplage est le fondement de la réplicabilité du modèle Diligency.
 
----
+| Couche | Technologie | Rôle |
+|--------|-------------|------|
+| Frontend | Next.js App Router · TypeScript · Tailwind CSS | Rendu, routing, SEO, composants UI |
+| CMS | Sanity v5 | Source de vérité pour tous les contenus |
+| IA | OpenAI gpt-4o-mini | Chatbot contextuel gouverné + pré-réponse contact |
+| Automatisation | n8n | Réception leads → qualification → email → Google Sheets |
 
-## ✅ Fonctionnalités opérationnelles
-
-### 1) Formulaire “Contact Pro”
-- Saisie : nom, email, organisation, message
-- UX : états (loading/success/error), focus sur champs en erreur
-- Anti-spam : **honeypot** (champ invisible)
-- Payload normalisé envoyé au webhook n8n (production)
-
-### 2) Automatisation n8n (production)
-- Réception via **Webhook n8n**
-- Routage conditionnel :
-  - chemin “complet” si email/message OK
-  - chemin “incomplet” si informations manquantes
-- Préparation / enrichissement des champs (Edit Fields)
-- Appel HTTP vers l’API interne d’analyse (`/api/contact-reply`)
-- Merge des données Lead + IA
-- Envoi email “Nouveau lead ORCHESTRA”
-- Append dans Google Sheets (tracking)
-
-### 3) Module IA (assisté et gouverné)
-- Génération structurée :
-  - `summary` (résumé du besoin)
-  - `intent` (catégorie / intention)
-  - `draft` (brouillon de réponse email)
-  - `next_steps[]` (actions recommandées)
-  - `disclaimer` (validation humaine obligatoire)
-- Contrat **JSON strict** imposé au modèle
-- Fallback automatique (mock) en cas d’indisponibilité/quota
+**Principe cardinal : UI ≠ API ≠ Logique IA ≠ CMS**
 
 ---
 
-## 🔐 Sécurité & Robustesse
+## ⚙️ Stack technique
 
-### Séparation des responsabilités
-- **API HTTP** : validation, erreurs, orchestration du flux
-- **Logique IA** : isolée dans `lib/ai` (testable et remplaçable)
-
-### Gestion des erreurs
-- Gestion explicite des erreurs externes (quota, timeouts, indisponibilité)
-- Mode dégradé automatique (fallback) pour préserver le flux
-- Messages utilisateurs clairs côté front (UX)
-
-### Variables d’environnement
-- Secrets uniquement côté serveur (ex: `OPENAI_API_KEY`)
-- Variables publiques strictement nécessaires (ex: `NEXT_PUBLIC_*`)
-- Aucune clé secrète committée (audit via `git grep`)
+- **Frontend** : Next.js 14 App Router · TypeScript · Tailwind CSS
+- **CMS** : Sanity v5 — Studio : [orchestra-cms.sanity.studio](https://orchestra-cms.sanity.studio)
+- **CMS repo** : [DiligencyVision/orchestra-cms](https://github.com/DiligencyVision/orchestra-cms)
+- **IA** : OpenAI gpt-4o-mini (température 0.3 · max_tokens 350 · JSON strict)
+- **Automatisation** : n8n — instance Diligency Vision
+- **Déploiement** : Vercel (CI/CD automatique sur push `main`)
 
 ---
 
-## 🌍 Déploiement (Vercel)
+## ✅ Fonctionnalités
 
-- Déploiement **automatique** à chaque push sur `main`
-- Branche `main` = production
-- Configuration via variables d’environnement Vercel
-- Bonnes pratiques :
-  - éviter le “redeploy manuel” sauf incident
-  - préférer “push → build → deploy” (traçabilité)
+### Site CMS-first — 7 pages pilotées par Sanity
+- Accueil · Cabinet · Méthode · Fonctionnement · Expertises · FAQ · Contact
+- Type unique `page` — architecture réplicable client
+- `globalSettings` : Header, Footer, brand, SEO global
+- Hero configurable depuis Sanity (solid / image / vidéo)
+- SEO dynamique via `generateMetadata()`
 
-**Note importante (retour d’expérience)**  
-Sur Vercel Hobby + repo privé en organisation, les déploiements automatiques peuvent être bloqués.  
-Passage du repo en public (ou upgrade Pro) peut être nécessaire pour réactiver l’automatisation Git → Vercel.
+### Chatbot IA gouverné
+- Bulle flottante — contexte de page injecté automatiquement
+- Gouvernance stricte : pas de prix, pas de promesse, pas d'engagement contractuel
+- Historique limité à 6 messages · fallback automatique si OpenAI indisponible
+- Knowledge extract v1.1 — mis à jour manuellement (`lib/ai/knowledgeExtract.ts`)
 
----
-
-## 📊 Flux Applicatif (end-to-end)
-
-1. Utilisateur soumet le formulaire (front)
-2. Le front POST vers le webhook **n8n (production)**
-3. n8n valide / route (complet vs incomplet)
-4. n8n appelle `/api/contact-reply` pour obtenir l’analyse IA structurée
-5. n8n merge Lead + IA
-6. n8n :
-   - envoie un email notification
-   - append une ligne dans Google Sheets
-
-✅ Flux validé en conditions réelles.
+### Pipeline Contact Pro (n8n)
+- Formulaire sécurisé (honeypot + validation serveur)
+- Webhook n8n → normalisation → qualification → pré-réponse IA → email → Google Sheets
+- Environnement 100% entreprise (Gmail Diligency + Google Sheets Diligency)
+- Workflow versionné : v2.1.1
 
 ---
 
-## 🧱 Architecture (simplifiée)
+## 🔐 Sécurité
 
+- `OPENAI_API_KEY` et `CONTACT_WEBHOOK_URL` strictement côté serveur
+- Aucune clé secrète committée
+- Logs RGPD-safe — aucune donnée personnelle loggée
+- Validation Content-Type et longueur des inputs côté API
+
+---
+
+## 🌍 Déploiement
+
+Push sur `main` → déploiement automatique Vercel.
+
+Variables d'environnement à déclarer sur Vercel (Settings → Environment Variables) :
+
+| Variable | Visibilité | Rôle |
+|----------|-----------|------|
+| `CONTACT_WEBHOOK_URL` | Serveur uniquement | URL webhook n8n Contact Pro |
+| `OPENAI_API_KEY` | Serveur uniquement | Clé API OpenAI |
+| `OPENAI_MODEL` | Serveur uniquement | Modèle OpenAI (gpt-4o-mini) |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Client + Serveur | ID projet Sanity |
+| `NEXT_PUBLIC_SANITY_DATASET` | Client + Serveur | Dataset Sanity (production) |
+| `NEXT_PUBLIC_SANITY_API_VERSION` | Client + Serveur | Version API Sanity |
+
+---
+
+## 🚀 Installation locale
+```bash
+git clone https://github.com/DiligencyVision/orchestra-site.git
+cd orchestra-site
+npm install
+# Créer .env.local avec les variables ci-dessus
+npm run dev
+```
+→ http://localhost:3000
+
+---
+
+## 📁 Structure du projet
 ```
 app/
   api/
-    contact-reply/
+    assistant/        # Endpoint chatbot IA
+    contact/          # Endpoint formulaire contact
+  [slug]/             # Pages dynamiques pilotées par Sanity
 components/
-  contact/
-    ContactForm.tsx
+  ai/                 # ChatWidget, ChatWidgetClient
+  layout/             # Header, Footer
 lib/
-  ai/
-    contactReply.ts
-public/
+  ai/                 # assistant.ts, knowledgeExtract.ts
+  sanity/             # client.ts, queries.ts
 ```
 
 ---
 
-## ⚙️ Configuration
+## 🧠 Retours d'expérience
 
-### Variables d’environnement
-
-**Côté Vercel (Project Settings → Environment Variables)** :
-- `OPENAI_API_KEY` (server-only)
-- `OPENAI_MODEL` (optionnel)
-- `NEXT_PUBLIC_N8N_WEBHOOK_URL` (public)
-
-⚠️ `NEXT_PUBLIC_N8N_WEBHOOK_URL` doit pointer vers le webhook **production** n8n.
-
-### Lancer en local
-
-```bash
-npm install
-npm run dev
-```
-
-→ http://localhost:3000
-
-### Build / Run prod local
-
-```bash
-npm run build
-npm run start
-```
+- Toujours aligner schéma Sanity → requête GROQ → typage TypeScript → composant
+- Ne jamais exposer une URL webhook ou clé API via `NEXT_PUBLIC_*`
+- Utiliser `JSON.stringify()` pour les injections dynamiques dans n8n
+- Prévoir un fallback pour chaque champ CMS optionnel
+- Un module IA doit toujours avoir un mode dégradé
 
 ---
 
-## 🧪 Tests & validation
+## 📄 Licence
 
-- Tests via navigateur (formulaire)
-- Tests via `curl` sur webhook n8n
-- Vérification des exécutions n8n (payload, branches, mapping)
-- Validation email (contenu + champs)
-- Validation Google Sheets (colonnes lead + colonnes IA)
-- Debug multi-systèmes : Vercel / GitHub / n8n / Sheets
-
----
-
-## 🧠 Retours d’expérience clés
-
-- Un module IA doit prévoir un **mode dégradé** (API externe = instable)
-- Séparer **couche HTTP** et **logique IA** simplifie debugging et maintenance
-- Attention aux erreurs “silencieuses” de mapping (n8n → sheets)
-- Éviter d’écrire des valeurs qui commencent par `=` dans Google Sheets (risque d’interprétation formule)
-
----
-
-## 👤 Auteur
-
-Walter Jean Charles
+Usage interne — Diligency Vision — 2026
